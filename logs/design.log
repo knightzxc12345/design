@@ -1,0 +1,345 @@
+19-09-2025 16:17:28.960 [35m[background-preinit][0;39m [34mINFO [0;39m o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 8.0.0.Final
+19-09-2025 16:17:29.020 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarting - Starting DesignApplication using Java 17.0.7 with PID 37136 (D:\Project\design\target\classes started by timli2 in D:\Project\design)
+19-09-2025 16:17:29.021 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+19-09-2025 16:17:29.084 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-09-2025 16:17:29.085 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-09-2025 16:17:30.071 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-09-2025 16:17:30.109 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 23 ms. Found 0 JPA repository interfaces.
+19-09-2025 16:17:31.625 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+19-09-2025 16:17:31.641 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8080"]
+19-09-2025 16:17:31.643 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+19-09-2025 16:17:31.643 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.8]
+19-09-2025 16:17:31.780 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring embedded WebApplicationContext
+19-09-2025 16:17:31.781 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 2695 ms
+19-09-2025 16:17:32.061 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-09-2025 16:17:32.126 [35m[restartedMain][0;39m [34mINFO [0;39m org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.1.7.Final
+19-09-2025 16:17:32.518 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+19-09-2025 16:17:32.775 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@25daa381
+19-09-2025 16:17:32.779 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+19-09-2025 16:17:32.815 [35m[restartedMain][0;39m [34mINFO [0;39m SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+19-09-2025 16:17:33.098 [35m[restartedMain][0;39m [1;31mERROR[0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Failed to initialize JPA EntityManagerFactory: Unable to create index (uuid, is_deleted) on table 'quotation' since the column 'is_deleted' was not found (specify the correct column name, which depends on the naming strategy, and may not be the same as the entity property name)
+19-09-2025 16:17:33.099 [35m[restartedMain][0;39m [31mWARN [0;39m o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext.refresh - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create index (uuid, is_deleted) on table 'quotation' since the column 'is_deleted' was not found (specify the correct column name, which depends on the naming strategy, and may not be the same as the entity property name)
+19-09-2025 16:17:33.101 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+19-09-2025 16:17:33.110 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+19-09-2025 16:17:33.113 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Stopping service [Tomcat]
+19-09-2025 16:17:33.125 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.a.l.ConditionEvaluationReportLogger.logMessage - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+19-09-2025 16:17:33.145 [35m[restartedMain][0;39m [1;31mERROR[0;39m o.s.boot.SpringApplication.reportFailure - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Unable to create index (uuid, is_deleted) on table 'quotation' since the column 'is_deleted' was not found (specify the correct column name, which depends on the naming strategy, and may not be the same as the entity property name)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1770)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1156)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:931)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:732)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:434)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:310)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1304)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1293)
+	at com.design.DesignApplication.main(DesignApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: org.hibernate.AnnotationException: Unable to create index (uuid, is_deleted) on table 'quotation' since the column 'is_deleted' was not found (specify the correct column name, which depends on the naming strategy, and may not be the same as the entity property name)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.buildUniqueKeyFromColumnNames(InFlightMetadataCollectorImpl.java:2187)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processJPAIndexHolders(InFlightMetadataCollectorImpl.java:2200)
+	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processSecondPasses(InFlightMetadataCollectorImpl.java:1746)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:300)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:1348)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:1419)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:66)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:376)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:409)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:396)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:352)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1816)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1766)
+	... 21 common frames omitted
+19-09-2025 16:19:44.974 [35m[background-preinit][0;39m [34mINFO [0;39m o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 8.0.0.Final
+19-09-2025 16:19:45.026 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarting - Starting DesignApplication using Java 17.0.7 with PID 27444 (D:\Project\design\target\classes started by timli2 in D:\Project\design)
+19-09-2025 16:19:45.028 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+19-09-2025 16:19:45.087 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-09-2025 16:19:45.087 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-09-2025 16:19:45.994 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-09-2025 16:19:46.028 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 22 ms. Found 0 JPA repository interfaces.
+19-09-2025 16:19:47.315 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+19-09-2025 16:19:47.330 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8080"]
+19-09-2025 16:19:47.331 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+19-09-2025 16:19:47.332 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.8]
+19-09-2025 16:19:47.448 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring embedded WebApplicationContext
+19-09-2025 16:19:47.448 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 2360 ms
+19-09-2025 16:19:47.701 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-09-2025 16:19:47.756 [35m[restartedMain][0;39m [34mINFO [0;39m org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.1.7.Final
+19-09-2025 16:19:48.096 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+19-09-2025 16:19:48.316 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@9de7592
+19-09-2025 16:19:48.319 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+19-09-2025 16:19:48.357 [35m[restartedMain][0;39m [34mINFO [0;39m SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+19-09-2025 16:19:50.862 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19-09-2025 16:19:50.873 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:19:50.892 [35m[restartedMain][0;39m [31mWARN [0;39m o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext.refresh - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'springDocConfig': Injection of autowired dependencies failed
+19-09-2025 16:19:50.893 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:19:50.900 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+19-09-2025 16:19:50.909 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+19-09-2025 16:19:50.912 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Stopping service [Tomcat]
+19-09-2025 16:19:50.930 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.a.l.ConditionEvaluationReportLogger.logMessage - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+19-09-2025 16:19:50.958 [35m[restartedMain][0;39m [1;31mERROR[0;39m o.s.boot.SpringApplication.reportFailure - Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'springDocConfig': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:488)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1416)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:597)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:520)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:973)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:941)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:732)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:434)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:310)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1304)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1293)
+	at com.design.DesignApplication.main(DesignApplication.java:12)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'server.client.url' in value "${server.client.url}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:180)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:239)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:191)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:920)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1358)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1337)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:710)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:693)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:133)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:482)
+	... 22 common frames omitted
+19-09-2025 16:22:07.992 [35m[background-preinit][0;39m [34mINFO [0;39m o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 8.0.0.Final
+19-09-2025 16:22:08.050 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarting - Starting DesignApplication using Java 17.0.7 with PID 31412 (D:\Project\design\target\classes started by timli2 in D:\Project\design)
+19-09-2025 16:22:08.052 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+19-09-2025 16:22:08.116 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-09-2025 16:22:08.116 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-09-2025 16:22:09.381 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-09-2025 16:22:09.427 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 28 ms. Found 0 JPA repository interfaces.
+19-09-2025 16:22:11.926 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8080 (http)
+19-09-2025 16:22:11.950 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8080"]
+19-09-2025 16:22:11.951 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+19-09-2025 16:22:11.951 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.8]
+19-09-2025 16:22:12.226 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring embedded WebApplicationContext
+19-09-2025 16:22:12.227 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 4110 ms
+19-09-2025 16:22:12.927 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-09-2025 16:22:13.049 [35m[restartedMain][0;39m [34mINFO [0;39m org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.1.7.Final
+19-09-2025 16:22:14.191 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+19-09-2025 16:22:14.592 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4bd32b5c
+19-09-2025 16:22:14.594 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+19-09-2025 16:22:14.634 [35m[restartedMain][0;39m [34mINFO [0;39m SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+19-09-2025 16:22:16.462 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19-09-2025 16:22:16.485 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:22:20.173 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.a.OptionalLiveReloadServer.startServer - LiveReload server is running on port 35729
+19-09-2025 16:22:20.202 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-8080"]
+19-09-2025 16:22:20.263 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8080 (http) with context path '/design'
+19-09-2025 16:22:20.296 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarted - Started DesignApplication in 13.027 seconds (process running for 13.662)
+19-09-2025 16:24:57.260 [35m[http-nio-8080-exec-3][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+19-09-2025 16:24:57.261 [35m[http-nio-8080-exec-3][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+19-09-2025 16:24:57.263 [35m[http-nio-8080-exec-3][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 2 ms
+19-09-2025 16:25:53.800 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:25:53.806 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+19-09-2025 16:25:53.816 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+19-09-2025 16:26:01.246 [35m[background-preinit][0;39m [34mINFO [0;39m o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 8.0.0.Final
+19-09-2025 16:26:01.340 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarting - Starting DesignApplication using Java 17.0.7 with PID 35152 (D:\Project\design\target\classes started by timli2 in D:\Project\design)
+19-09-2025 16:26:01.341 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+19-09-2025 16:26:01.411 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-09-2025 16:26:01.412 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-09-2025 16:26:02.298 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-09-2025 16:26:02.330 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 21 ms. Found 0 JPA repository interfaces.
+19-09-2025 16:26:03.612 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8787 (http)
+19-09-2025 16:26:03.626 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:26:03.627 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+19-09-2025 16:26:03.628 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.8]
+19-09-2025 16:26:03.746 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring embedded WebApplicationContext
+19-09-2025 16:26:03.747 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 2334 ms
+19-09-2025 16:26:03.993 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-09-2025 16:26:04.054 [35m[restartedMain][0;39m [34mINFO [0;39m org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.1.7.Final
+19-09-2025 16:26:04.434 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+19-09-2025 16:26:04.686 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6f4961d3
+19-09-2025 16:26:04.689 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+19-09-2025 16:26:04.731 [35m[restartedMain][0;39m [34mINFO [0;39m SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+19-09-2025 16:26:05.958 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19-09-2025 16:26:05.968 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:26:07.452 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.a.OptionalLiveReloadServer.startServer - LiveReload server is running on port 35729
+19-09-2025 16:26:07.467 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:26:07.499 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8787 (http) with context path '/design'
+19-09-2025 16:26:07.513 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarted - Started DesignApplication in 7.303 seconds (process running for 12.676)
+19-09-2025 16:26:25.072 [35m[http-nio-8787-exec-8][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+19-09-2025 16:26:25.073 [35m[http-nio-8787-exec-8][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+19-09-2025 16:26:25.075 [35m[http-nio-8787-exec-8][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 2 ms
+19-09-2025 16:27:38.686 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:27:38.691 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+19-09-2025 16:27:38.699 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+19-09-2025 16:27:41.222 [35m[background-preinit][0;39m [34mINFO [0;39m o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 8.0.0.Final
+19-09-2025 16:27:41.281 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarting - Starting DesignApplication using Java 17.0.7 with PID 28288 (D:\Project\design\target\classes started by timli2 in D:\Project\design)
+19-09-2025 16:27:41.283 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+19-09-2025 16:27:41.342 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-09-2025 16:27:41.342 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-09-2025 16:27:42.240 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-09-2025 16:27:42.276 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 25 ms. Found 0 JPA repository interfaces.
+19-09-2025 16:27:43.549 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8787 (http)
+19-09-2025 16:27:43.564 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:27:43.565 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+19-09-2025 16:27:43.566 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.8]
+19-09-2025 16:27:43.687 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring embedded WebApplicationContext
+19-09-2025 16:27:43.688 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 2344 ms
+19-09-2025 16:27:43.964 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-09-2025 16:27:44.052 [35m[restartedMain][0;39m [34mINFO [0;39m org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.1.7.Final
+19-09-2025 16:27:44.432 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+19-09-2025 16:27:44.629 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4bd32b5c
+19-09-2025 16:27:44.631 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+19-09-2025 16:27:44.676 [35m[restartedMain][0;39m [34mINFO [0;39m SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+19-09-2025 16:27:45.908 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19-09-2025 16:27:45.916 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:27:47.179 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.a.OptionalLiveReloadServer.startServer - LiveReload server is running on port 35729
+19-09-2025 16:27:47.193 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:27:47.228 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8787 (http) with context path '/design'
+19-09-2025 16:27:47.243 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarted - Started DesignApplication in 6.731 seconds (process running for 7.376)
+19-09-2025 16:27:56.130 [35m[http-nio-8787-exec-1][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+19-09-2025 16:27:56.130 [35m[http-nio-8787-exec-1][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+19-09-2025 16:27:56.131 [35m[http-nio-8787-exec-1][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+19-09-2025 16:31:18.004 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:31:18.007 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+19-09-2025 16:31:18.014 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+19-09-2025 16:31:25.085 [35m[background-preinit][0;39m [34mINFO [0;39m o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 8.0.0.Final
+19-09-2025 16:31:25.147 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarting - Starting DesignApplication using Java 17.0.7 with PID 26120 (D:\Project\design\target\classes started by timli2 in D:\Project\design)
+19-09-2025 16:31:25.150 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+19-09-2025 16:31:25.211 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-09-2025 16:31:25.213 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-09-2025 16:31:26.130 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-09-2025 16:31:26.179 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 30 ms. Found 0 JPA repository interfaces.
+19-09-2025 16:31:27.530 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8787 (http)
+19-09-2025 16:31:27.543 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:31:27.544 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+19-09-2025 16:31:27.545 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.8]
+19-09-2025 16:31:27.651 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring embedded WebApplicationContext
+19-09-2025 16:31:27.652 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 2437 ms
+19-09-2025 16:31:27.898 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-09-2025 16:31:27.954 [35m[restartedMain][0;39m [34mINFO [0;39m org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.1.7.Final
+19-09-2025 16:31:28.291 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+19-09-2025 16:31:28.502 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3797f867
+19-09-2025 16:31:28.505 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+19-09-2025 16:31:28.540 [35m[restartedMain][0;39m [34mINFO [0;39m SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+19-09-2025 16:31:29.679 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19-09-2025 16:31:29.688 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:31:31.276 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.a.OptionalLiveReloadServer.startServer - LiveReload server is running on port 35729
+19-09-2025 16:31:31.294 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:31:31.330 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8787 (http) with context path '/design'
+19-09-2025 16:31:31.344 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarted - Started DesignApplication in 6.856 seconds (process running for 11.697)
+19-09-2025 16:31:44.856 [35m[http-nio-8787-exec-1][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+19-09-2025 16:31:44.857 [35m[http-nio-8787-exec-1][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+19-09-2025 16:31:44.859 [35m[http-nio-8787-exec-1][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 2 ms
+19-09-2025 16:31:57.744 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:31:57.749 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+19-09-2025 16:31:57.759 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+19-09-2025 16:32:00.195 [35m[background-preinit][0;39m [34mINFO [0;39m o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 8.0.0.Final
+19-09-2025 16:32:00.252 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarting - Starting DesignApplication using Java 17.0.7 with PID 3296 (D:\Project\design\target\classes started by timli2 in D:\Project\design)
+19-09-2025 16:32:00.254 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+19-09-2025 16:32:00.338 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-09-2025 16:32:00.339 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-09-2025 16:32:01.607 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-09-2025 16:32:01.648 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 28 ms. Found 0 JPA repository interfaces.
+19-09-2025 16:32:02.841 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8787 (http)
+19-09-2025 16:32:02.853 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:32:02.855 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+19-09-2025 16:32:02.856 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.8]
+19-09-2025 16:32:02.964 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring embedded WebApplicationContext
+19-09-2025 16:32:02.964 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 2624 ms
+19-09-2025 16:32:03.217 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-09-2025 16:32:03.279 [35m[restartedMain][0;39m [34mINFO [0;39m org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.1.7.Final
+19-09-2025 16:32:03.636 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+19-09-2025 16:32:03.836 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@558c00c7
+19-09-2025 16:32:03.838 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+19-09-2025 16:32:03.875 [35m[restartedMain][0;39m [34mINFO [0;39m SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+19-09-2025 16:32:05.034 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19-09-2025 16:32:05.046 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:32:06.693 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.a.OptionalLiveReloadServer.startServer - LiveReload server is running on port 35729
+19-09-2025 16:32:06.711 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:32:06.751 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8787 (http) with context path '/design'
+19-09-2025 16:32:06.767 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarted - Started DesignApplication in 7.265 seconds (process running for 8.003)
+19-09-2025 16:32:10.230 [35m[http-nio-8787-exec-3][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+19-09-2025 16:32:10.231 [35m[http-nio-8787-exec-3][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+19-09-2025 16:32:10.232 [35m[http-nio-8787-exec-3][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 1 ms
+19-09-2025 16:33:53.711 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:33:53.718 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+19-09-2025 16:33:53.727 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+19-09-2025 16:33:57.212 [35m[background-preinit][0;39m [34mINFO [0;39m o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 8.0.0.Final
+19-09-2025 16:33:57.263 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarting - Starting DesignApplication using Java 17.0.7 with PID 26020 (D:\Project\design\target\classes started by timli2 in D:\Project\design)
+19-09-2025 16:33:57.264 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+19-09-2025 16:33:57.322 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-09-2025 16:33:57.323 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-09-2025 16:33:58.201 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-09-2025 16:33:58.230 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 19 ms. Found 0 JPA repository interfaces.
+19-09-2025 16:33:59.540 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8787 (http)
+19-09-2025 16:33:59.559 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:33:59.560 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+19-09-2025 16:33:59.560 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.8]
+19-09-2025 16:33:59.682 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring embedded WebApplicationContext
+19-09-2025 16:33:59.683 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 2359 ms
+19-09-2025 16:33:59.966 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-09-2025 16:34:00.038 [35m[restartedMain][0;39m [34mINFO [0;39m org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.1.7.Final
+19-09-2025 16:34:00.576 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+19-09-2025 16:34:01.009 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4068b961
+19-09-2025 16:34:01.017 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+19-09-2025 16:34:01.086 [35m[restartedMain][0;39m [34mINFO [0;39m SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+19-09-2025 16:34:02.627 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19-09-2025 16:34:02.637 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:34:04.088 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.a.OptionalLiveReloadServer.startServer - LiveReload server is running on port 35729
+19-09-2025 16:34:04.108 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:34:04.159 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8787 (http) with context path '/design'
+19-09-2025 16:34:04.176 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarted - Started DesignApplication in 7.606 seconds (process running for 8.258)
+19-09-2025 16:34:58.760 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.destroy - Closing JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:34:58.763 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown initiated...
+19-09-2025 16:34:58.771 [35m[SpringApplicationShutdownHook][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.close - HikariPool-1 - Shutdown completed.
+19-09-2025 16:35:02.888 [35m[background-preinit][0;39m [34mINFO [0;39m o.h.validator.internal.util.Version.<clinit> - HV000001: Hibernate Validator 8.0.0.Final
+19-09-2025 16:35:02.944 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarting - Starting DesignApplication using Java 17.0.7 with PID 19044 (D:\Project\design\target\classes started by timli2 in D:\Project\design)
+19-09-2025 16:35:02.946 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStartupProfileInfo - No active profile set, falling back to 1 default profile: "default"
+19-09-2025 16:35:03.005 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+19-09-2025 16:35:03.005 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor.logTo - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+19-09-2025 16:35:03.893 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+19-09-2025 16:35:03.926 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.d.r.c.RepositoryConfigurationDelegate.registerRepositoriesIn - Finished Spring Data repository scanning in 20 ms. Found 0 JPA repository interfaces.
+19-09-2025 16:35:05.110 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.initialize - Tomcat initialized with port(s): 8787 (http)
+19-09-2025 16:35:05.121 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Initializing ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:35:05.122 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardService.log - Starting service [Tomcat]
+19-09-2025 16:35:05.123 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.catalina.core.StandardEngine.log - Starting Servlet engine: [Apache Tomcat/10.1.8]
+19-09-2025 16:35:05.216 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring embedded WebApplicationContext
+19-09-2025 16:35:05.217 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.s.c.ServletWebServerApplicationContext.prepareWebApplicationContext - Root WebApplicationContext: initialization completed in 2210 ms
+19-09-2025 16:35:05.467 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.jpa.internal.util.LogHelper.logPersistenceUnitInformation - HHH000204: Processing PersistenceUnitInfo [name: default]
+19-09-2025 16:35:05.529 [35m[restartedMain][0;39m [34mINFO [0;39m org.hibernate.Version.logVersion - HHH000412: Hibernate ORM core version 6.1.7.Final
+19-09-2025 16:35:05.873 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Starting...
+19-09-2025 16:35:06.067 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.pool.HikariPool.checkFailFast - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@9de7592
+19-09-2025 16:35:06.069 [35m[restartedMain][0;39m [34mINFO [0;39m com.zaxxer.hikari.HikariDataSource.getConnection - HikariPool-1 - Start completed.
+19-09-2025 16:35:06.102 [35m[restartedMain][0;39m [34mINFO [0;39m SQL dialect.logSelectedDialect - HHH000400: Using dialect: org.hibernate.dialect.MySQLDialect
+19-09-2025 16:35:07.199 [35m[restartedMain][0;39m [34mINFO [0;39m o.h.e.t.j.p.i.JtaPlatformInitiator.initiateService - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+19-09-2025 16:35:07.210 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.o.j.LocalContainerEntityManagerFactoryBean.buildNativeEntityManagerFactory - Initialized JPA EntityManagerFactory for persistence unit 'default'
+19-09-2025 16:35:08.643 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.d.a.OptionalLiveReloadServer.startServer - LiveReload server is running on port 35729
+19-09-2025 16:35:08.662 [35m[restartedMain][0;39m [34mINFO [0;39m o.a.coyote.http11.Http11NioProtocol.log - Starting ProtocolHandler ["http-nio-8787"]
+19-09-2025 16:35:08.698 [35m[restartedMain][0;39m [34mINFO [0;39m o.s.b.w.e.tomcat.TomcatWebServer.start - Tomcat started on port(s): 8787 (http) with context path '/design'
+19-09-2025 16:35:08.712 [35m[restartedMain][0;39m [34mINFO [0;39m com.design.DesignApplication.logStarted - Started DesignApplication in 6.464 seconds (process running for 7.068)
+19-09-2025 16:35:34.002 [35m[http-nio-8787-exec-2][0;39m [34mINFO [0;39m o.a.c.c.C.[.[localhost].[/design].log - Initializing Spring DispatcherServlet 'dispatcherServlet'
+19-09-2025 16:35:34.003 [35m[http-nio-8787-exec-2][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Initializing Servlet 'dispatcherServlet'
+19-09-2025 16:35:34.005 [35m[http-nio-8787-exec-2][0;39m [34mINFO [0;39m o.s.web.servlet.DispatcherServlet.initServletBean - Completed initialization in 2 ms

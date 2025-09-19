@@ -1,19 +1,19 @@
 package com.design.base.api;
 
-public enum StatusCode implements CodeMessage {
+public enum UtilCode implements CodeMessage {
 
-    SUCCESS("S0001", "新增成功"),
+    INSTANT_ERROR("UTL0001", "日期轉換錯誤"),
 
-    FAILED("S0002", "新增失敗"),
+    JSON_ERROR("UTL0002", "Json轉換錯誤"),
 
-    SYSTEM_ERROR("S0004", "系統錯誤")
+    NATIVE_ERROR("UTL0003", "Native錯誤"),
 
     ;
 
     private final String code;
     private final String message;
 
-    StatusCode(String code, String message) {
+    UtilCode(String code, String message) {
         this.code = code;
         this.message = message;
     }
@@ -21,5 +21,6 @@ public enum StatusCode implements CodeMessage {
     public String getCode() { return code; }
 
     public String getMessage() { return message; }
+
 
 }

@@ -12,8 +12,8 @@ import java.util.List;
 @ToString(callSuper = true)
 @Data
 @Table(name = "quotation", indexes = {
-        @Index(name = "quotation_find", columnList = "uuid, is_deleted"),
-        @Index(name = "quotation_find_all", columnList = "pk, is_deleted")
+        @Index(name = "quotation_find", columnList = "uuid"),
+        @Index(name = "quotation_find_all", columnList = "pk")
 })
 @Entity
 public class QuotationEntity extends BaseEntity {

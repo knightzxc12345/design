@@ -1,6 +1,5 @@
 package com.design.entity;
 
-import com.design.entity.enums.ItemCategory;
 import com.design.entity.enums.ItemStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -38,15 +37,6 @@ public class ItemEntity extends BaseEntity {
     )
     @NotBlank
     private String code;
-
-    // 分類
-    @Column(
-            name = "category",
-            nullable = false
-    )
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private ItemCategory category;
 
     // 尺寸
     @Column(

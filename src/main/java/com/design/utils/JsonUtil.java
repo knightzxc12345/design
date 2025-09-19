@@ -1,5 +1,7 @@
 package com.design.utils;
 
+import com.design.base.api.ApiResponse;
+import com.design.base.api.UtilCode;
 import com.design.handler.BusinessException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -29,7 +31,7 @@ public class JsonUtil {
             return mapper.readValue(json, javaType);
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException(new BusinessException(SystemEnum.S00002));
+            throw new BusinessException(new ApiResponse<>(UtilCode.JSON_ERROR));
         }
     }
 
@@ -42,7 +44,7 @@ public class JsonUtil {
             return mapper.writeValueAsString(t);
         }catch (Exception ex){
             ex.printStackTrace();
-            throw new RuntimeException(new BusinessException(SystemEnum.S00003));
+            throw new BusinessException(new ApiResponse<>(UtilCode.JSON_ERROR));
         }
     }
 

@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 @ToString(callSuper = true)
 @Data
 @Table(name = "quotation_item", indexes = {
-        @Index(name = "quotation_item_find", columnList = "uuid, is_deleted"),
-        @Index(name = "quotation_item_find_all", columnList = "pk, is_deleted")
+        @Index(name = "quotation_item_find", columnList = "uuid"),
+        @Index(name = "quotation_item_find_all", columnList = "pk")
 })
 @Entity
 public class QuotationItemEntity extends BaseEntity {

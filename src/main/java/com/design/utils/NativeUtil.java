@@ -1,5 +1,7 @@
 package com.design.utils;
 
+import com.design.base.api.ApiResponse;
+import com.design.base.api.UtilCode;
 import com.design.handler.BusinessException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
@@ -27,7 +29,7 @@ public class NativeUtil {
             return resultList;
         }catch (Exception ex){
             ex.printStackTrace();
-            throw new BusinessException(SystemEnum.S00004);
+            throw new BusinessException(new ApiResponse<>(UtilCode.NATIVE_ERROR));
         }
     }
 

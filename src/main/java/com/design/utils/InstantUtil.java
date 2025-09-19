@@ -1,7 +1,10 @@
 package com.design.utils;
 
-import com.design.handler.BusinessException;
+
+import com.design.base.api.ApiResponse;
+import com.design.base.api.UtilCode;
 import com.design.base.common.Common;
+import com.design.handler.BusinessException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.*;
@@ -27,7 +30,7 @@ public class InstantUtil {
             LocalDateTime localDateTime = LocalDateTime.parse(time, Common.DATE_FORMAT_1.withZone(ZoneOffset.UTC));
             return localDateTime.atZone(Common.zoneId).toInstant();
         } catch (DateTimeParseException e) {
-            throw new BusinessException(AuthEnum.A00006);
+            throw new BusinessException(new ApiResponse<>(UtilCode.INSTANT_ERROR));
         }
     }
 
@@ -39,7 +42,7 @@ public class InstantUtil {
             ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(time, Common.zoneId);
             return dateTimeFormatter.format(zonedDateTime);
         } catch (DateTimeParseException e) {
-            throw new BusinessException(AuthEnum.A00006);
+            throw new BusinessException(new ApiResponse<>(UtilCode.INSTANT_ERROR));
         }
     }
 
@@ -54,7 +57,7 @@ public class InstantUtil {
             }
             return to(time);
         } catch (DateTimeParseException e) {
-            throw new BusinessException(AuthEnum.A00006);
+            throw new BusinessException(new ApiResponse<>(UtilCode.INSTANT_ERROR));
         }
     }
 

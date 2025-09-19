@@ -1,6 +1,6 @@
 package com.design.handler;
 
-import com.design.base.api.enums.ApiResponse;
+import com.design.base.api.ApiResponse;
 import com.design.base.api.StatusCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

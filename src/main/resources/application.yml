@@ -27,11 +27,9 @@ spring:
       max-request-size: 1000MB
 
 server:
+  port: 8787
   servlet:
     context-path: /design
-  client:
-    url: http://localhost:8080
-  init: false
 
 logging:
   level:
@@ -43,7 +41,7 @@ logging:
               SLF4JQueryLoggingListener: debug
 
 springdoc:
-  api-docs:
-    enabled: true
-  swagger-ui:
-    path: /swagger-ui.html
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  writer-with-order-by-keys: true
+  swagger-ui.tagsSorter: alpha

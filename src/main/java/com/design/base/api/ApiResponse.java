@@ -1,6 +1,5 @@
-package com.design.base.api.enums;
+package com.design.base.api;
 
-import com.design.base.api.StatusCode;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -8,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ApiResponse<T> {
+public class ApiResponse<T, C extends CodeMessage> {
 
     @Schema(description = "代碼", example = "A00000")
     private String code;
@@ -19,12 +18,12 @@ public class ApiResponse<T> {
     @Schema(description = "資料")
     private T data;
 
-    public ApiResponse(@NotNull StatusCode status){
+    public ApiResponse(C status){
         this.code = status.getCode();
         this.message = status.getMessage();
     }
 
-    public ApiResponse(@NotNull StatusCode status, T data){
+    public ApiResponse(C status, T data){
         this.code = status.getCode();
         this.message = status.getMessage();
         this.data = data;
@@ -33,6 +32,12 @@ public class ApiResponse<T> {
     public ApiResponse(@NotNull String code, @NotNull String message){
         this.code = code;
         this.message = message;
+    }
+
+    public ApiResponse(@NotNull String code, @NotNull String message, T data){
+        this.code = code;
+        this.message = message;
+        this.data = data;
     }
 
 }
