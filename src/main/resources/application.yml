@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: xkBase
+  datasource:
+    url: jdbc:mysql://localhost:3306/design?useSSL=false&serverTimezone=UTC
+    username: root
+    password: 1qaz@WSX
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari: #Hibernate 提示数据库版本和隔离级别未定义。虽然不影响功能，但建议明确配置：
+      minimum-idle: 5         # 最小空闲连接数
+      maximum-pool-size: 10   # 最大连接池大小
+      connection-test-query: SELECT 1  # 测试连接的 SQL
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          time_zone: Asia/Taipei
+  servlet:
+    multipart:
+      max-file-size: 150MB
+      max-request-size: 1000MB
+
+server:
+  servlet:
+    context-path: /design
+  client:
+    url: http://localhost:8080
+  init: false
+
+logging:
+  level:
+    net:
+      ttddyy:
+        dsproxy:
+          listener:
+            logging:
+              SLF4JQueryLoggingListener: debug
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
