@@ -6,8 +6,6 @@ public enum SupplierStatus {
 
     INACTIVE("停用"),
 
-    PROSPECT("潛在客戶")
-
     ;
 
     private final String label;

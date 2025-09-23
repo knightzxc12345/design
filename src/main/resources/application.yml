@@ -26,6 +26,9 @@ spring:
       max-file-size: 150MB
       max-request-size: 1000MB
 
+jwt:
+  secret: VeDw59VfDM6YvJCbo1zMCGplBZNxIFYrBTXD3wPBa96J1SkhTIzKNIGHTibyhYv56akicDWEDu2plVNogTn1UNgj7T8louHBzLebDnFF0F7V4d0FoIQ72H9L
+
 server:
   port: 8787
   servlet:

@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ApiResponse<T, C extends CodeMessage> {
+public class CustomResponse<T, C extends CodeMessage> {
 
     @Schema(description = "代碼", example = "A00000")
     private String code;
@@ -18,23 +18,23 @@ public class ApiResponse<T, C extends CodeMessage> {
     @Schema(description = "資料")
     private T data;
 
-    public ApiResponse(C status){
+    public CustomResponse(C status){
         this.code = status.getCode();
         this.message = status.getMessage();
     }
 
-    public ApiResponse(C status, T data){
+    public CustomResponse(C status, T data){
         this.code = status.getCode();
         this.message = status.getMessage();
         this.data = data;
     }
 
-    public ApiResponse(@NotNull String code, @NotNull String message){
+    public CustomResponse(@NotNull String code, @NotNull String message){
         this.code = code;
         this.message = message;
     }
 
-    public ApiResponse(@NotNull String code, @NotNull String message, T data){
+    public CustomResponse(@NotNull String code, @NotNull String message, T data){
         this.code = code;
         this.message = message;
         this.data = data;

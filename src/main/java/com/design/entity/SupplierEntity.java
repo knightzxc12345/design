@@ -114,4 +114,11 @@ public class SupplierEntity extends BaseEntity {
     )
     private Instant deletedTime;
 
+    // 刪除人員
+    @Column(
+            name = "deleted_user",
+            length = 36
+    )
+    private String deletedUser;
+
 }

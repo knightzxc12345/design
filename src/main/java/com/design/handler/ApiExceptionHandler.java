@@ -1,7 +1,7 @@
 package com.design.handler;
 
-import com.design.base.api.ApiResponse;
-import com.design.base.api.StatusCode;
+import com.design.base.api.CustomResponse;
+import com.design.base.api.SystemCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +40,7 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(
-                        new ApiResponse<>(StatusCode.SYSTEM_ERROR)
+                        new CustomResponse<>(SystemCode.SYSTEM_ERROR)
                 );
     }
 
@@ -61,7 +61,7 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(
-                        new ApiResponse<>(StatusCode.SYSTEM_ERROR)
+                        new CustomResponse<>(SystemCode.SYSTEM_ERROR)
                 );
     }
 
@@ -82,7 +82,7 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(
-                        new ApiResponse<>(StatusCode.SYSTEM_ERROR)
+                        new CustomResponse<>(SystemCode.SYSTEM_ERROR)
                 );
     }
 
@@ -103,7 +103,7 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(
-                        new ApiResponse<>(StatusCode.SYSTEM_ERROR)
+                        new CustomResponse<>(SystemCode.SYSTEM_ERROR)
                 );
     }
 
@@ -124,7 +124,7 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(
-                        new ApiResponse(StatusCode.SYSTEM_ERROR)
+                        new CustomResponse(SystemCode.SYSTEM_ERROR)
                 );
     }
 
@@ -145,7 +145,7 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(
-                        new ApiResponse<>(StatusCode.SYSTEM_ERROR)
+                        new CustomResponse<>(SystemCode.SYSTEM_ERROR)
                 );
     }
 
@@ -166,7 +166,7 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .badRequest()
                 .body(
-                        new ApiResponse(StatusCode.SYSTEM_ERROR)
+                        new CustomResponse(SystemCode.SYSTEM_ERROR)
                 );
     }
 
@@ -178,14 +178,14 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusinessException(BusinessException ex) {
-        StatusCode statusCode = (StatusCode) ex.getStatus();
+        SystemCode statusCode = (SystemCode) ex.getStatus();
         log.error("error Code : {}", statusCode.getCode());
         log.error("error Message : {}", statusCode.getMessage());
         log.error("error", ex);
         return ResponseEntity
                 .badRequest()
                 .body(
-                        new ApiResponse<>((StatusCode) ex.getStatus())
+                        new CustomResponse<>((SystemCode) ex.getStatus())
                 );
     }
 
@@ -202,7 +202,7 @@ public class ApiExceptionHandler {
         return ResponseEntity
                 .unprocessableEntity()
                 .body(
-                        new ApiResponse<>(ex.getCode(), ex.getMessage())
+                        new CustomResponse<>(ex.getCode(), ex.getMessage())
                 );
     }
 

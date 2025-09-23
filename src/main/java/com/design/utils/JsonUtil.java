@@ -1,6 +1,6 @@
 package com.design.utils;
 
-import com.design.base.api.ApiResponse;
+import com.design.base.api.CustomResponse;
 import com.design.base.api.UtilCode;
 import com.design.handler.BusinessException;
 import com.fasterxml.jackson.databind.JavaType;
@@ -31,7 +31,7 @@ public class JsonUtil {
             return mapper.readValue(json, javaType);
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new BusinessException(new ApiResponse<>(UtilCode.JSON_ERROR));
+            throw new BusinessException(new CustomResponse<>(UtilCode.JSON_ERROR));
         }
     }
 
@@ -44,7 +44,7 @@ public class JsonUtil {
             return mapper.writeValueAsString(t);
         }catch (Exception ex){
             ex.printStackTrace();
-            throw new BusinessException(new ApiResponse<>(UtilCode.JSON_ERROR));
+            throw new BusinessException(new CustomResponse<>(UtilCode.JSON_ERROR));
         }
     }
 

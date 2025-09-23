@@ -9,7 +9,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
@@ -36,7 +35,7 @@ public class BaseEntity {
             length = 36
     )
     @NotNull
-    private UUID uuid;
+    private String uuid;
 
     // 創建時間
     @CreatedDate
@@ -56,7 +55,7 @@ public class BaseEntity {
             length = 36
     )
     @NotNull
-    private UUID createUser;
+    private String createUser;
 
     // 編輯時間
     @LastModifiedDate
@@ -70,6 +69,6 @@ public class BaseEntity {
             name = "modified_user",
             length = 36
     )
-    private UUID modifiedUser;
+    private String modifiedUser;
 
 }

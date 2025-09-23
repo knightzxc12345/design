@@ -1,6 +1,6 @@
 package com.design.utils;
 
-import com.design.base.api.ApiResponse;
+import com.design.base.api.CustomResponse;
 import com.design.base.api.UtilCode;
 import com.design.handler.BusinessException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -29,7 +29,7 @@ public class NativeUtil {
             return resultList;
         }catch (Exception ex){
             ex.printStackTrace();
-            throw new BusinessException(new ApiResponse<>(UtilCode.NATIVE_ERROR));
+            throw new BusinessException(new CustomResponse<>(UtilCode.NATIVE_ERROR));
         }
     }
 

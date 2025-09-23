@@ -20,4 +20,10 @@ public class Common {
 
     public final static long MINUTES = 60;
 
+    public final static String ENCODING = "utf-8";
+
+    public final static String CONTENT_TYPE = "application/json;charset=utf-8";
+
+    public final static String SYSTEM_UUID = "23da4d7d-2f53-4fd0-abfd-9549357939eb";
+
 }
