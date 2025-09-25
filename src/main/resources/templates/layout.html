@@ -7,6 +7,7 @@
     <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/common.js}"></script>
     <style>
         /* Header */
         header {
@@ -67,9 +68,14 @@
         /* Main 區塊 */
         main {
             flex-grow: 1;
-            padding: 20px;
+            padding: 10px;
             height: calc(100vh - 64px);
             overflow-y: auto; /* 滾動 */
+        }
+
+        main .table {
+            margin: 0;
+            width: 100%;
         }
     </style>
 </head>
@@ -77,6 +83,17 @@
 <header>
     <h4 class="mb-0">詠安設計</h4>
 </header>
+
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+    <div id="liveToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toastBody">
+                操作成功！
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
 
 <div class="content-wrapper">
     <nav class="menu">

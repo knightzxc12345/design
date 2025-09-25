@@ -1,32 +1,38 @@
-package com.design.service;
+package com.design.service.impl;
 
+import com.design.entity.UserEntity;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Getter
 public class CustomUserDetails implements UserDetails {
 
     private final String uuid;
+
     private final String username;
 
-    public CustomUserDetails(String uuid, String username) {
-        this.uuid = uuid;
-        this.username = username;
-    }
+    private final String password;
 
-    public String getUuid() {
-        return uuid;
+    private final Collection<? extends GrantedAuthority> authorities;
+
+    public CustomUserDetails(UserEntity userEntity) {
+        this.uuid = userEntity.getUuid();
+        this.username = userEntity.getUsername();
+        this.password = userEntity.getPassword();
+        this.authorities = null;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override

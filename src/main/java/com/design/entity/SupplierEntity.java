@@ -34,11 +34,10 @@ public class SupplierEntity extends BaseEntity {
     // 統一編號
     @Column(
             name = "vat_number",
-            nullable = false,
+            nullable = true,
             length = 8
     )
-    @Pattern(regexp = BaseRegex.VAT_NUMBER)
-    @NotBlank
+    @Pattern(regexp = BaseRegex.EMPTY + BaseRegex.VAT_NUMBER)
     private String vatNumber;
 
     // 電話

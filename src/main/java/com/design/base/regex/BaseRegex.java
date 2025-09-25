@@ -2,6 +2,8 @@ package com.design.base.regex;
 
 public interface BaseRegex {
 
+    String EMPTY = "^$|";
+
     String BANNER_DATE_FORMAT = "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$";
 
     String VEHICLE_PRICE_DATE_FORMAT = "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$";

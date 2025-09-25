@@ -16,7 +16,7 @@ public record SupplierEditRequest(
         String name,
 
         @Schema(description = "統一編號", example = "12345678")
-        @Pattern(regexp = BaseRegex.VAT_NUMBER, message = "統編格式錯誤")
+        @Pattern(regexp = BaseRegex.EMPTY + BaseRegex.VAT_NUMBER, message = "統編格式錯誤")
         String vatNumber,
 
         @Schema(description = "電話", example = "02-22222222")

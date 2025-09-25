@@ -49,7 +49,7 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
     @Override
     public SupplierPageResponse findByPage(SupplierPageRequest request) {
         Page<SupplierEntity> supplierEntityPage = supplierService.findByPage(
-                request.filter().keyword(),
+                null == request.filter() ? null : request.filter().keyword(),
                 PageRequest.of(request.page(), request.size())
         );
         return formatPage(supplierEntityPage);

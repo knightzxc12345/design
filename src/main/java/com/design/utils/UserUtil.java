@@ -1,6 +1,6 @@
 package com.design.utils;
 
-import com.design.service.CustomUserDetails;
+import com.design.service.impl.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
