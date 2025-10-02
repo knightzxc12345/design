@@ -1,5 +1,6 @@
 HELP.md
 target/
+logs/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -35,6 +36,6 @@ mvnw
 mvnw.cmd
 .mvn/wrapper/maven-wrapper.jar
 .mvn/wrapper/maven-wrapper.properties
-volvo-cv-manager.log
+design.log
 logs/archived/**
-logs/volvo-cv.log
+logs/design.log
