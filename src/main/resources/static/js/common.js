@@ -3,7 +3,7 @@ function showToast(message, type = "success") {
     const toastBody = document.getElementById("toastBody");
     toastBody.innerText = message;
     toastEl.className = `toast align-items-center text-white bg-${type} border-0`;
-    const toast = new bootstrap.Toast(toastEl);
+    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
     toast.show();
 }
 

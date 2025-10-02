@@ -37,7 +37,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public void edit(SupplierEntity supplierEntity) {
-        if (supplierRepository.findByNameAndUuidAndIsDeletedFalse(supplierEntity.getName(), supplierEntity.getUuid()).isPresent()) {
+        if (supplierRepository.findByNameAndUuidNotAndIsDeletedFalse(supplierEntity.getName(), supplierEntity.getUuid()).isPresent()) {
             throw new BusinessException(SupplierCode.DUPLICATE_NAME);
         }
         supplierEntity.setModifiedTime(Instant.now());

@@ -1,7 +1,9 @@
 package com.design.handler;
 
+import com.design.base.api.CodeMessage;
 import com.design.base.api.CustomResponse;
 import com.design.base.api.SystemCode;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +33,7 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+    @ApiResponse(
             responseCode = "A00002",
             description = "不支援的HTTP METHOD"
     )
@@ -52,7 +54,7 @@ public class ApiExceptionHandler {
      * */
     @ExceptionHandler(MissingRequestHeaderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+    @ApiResponse(
             responseCode = "A00003",
             description = "缺少必要的Request Header"
     )
@@ -73,7 +75,7 @@ public class ApiExceptionHandler {
      * */
     @ExceptionHandler(BindException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+    @ApiResponse(
             responseCode = "A00004",
             description = "參數錯誤"
     )
@@ -94,7 +96,7 @@ public class ApiExceptionHandler {
      * */
     @ExceptionHandler(InvalidParamException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+    @ApiResponse(
             responseCode = "A00004",
             description = "參數錯誤"
     )
@@ -115,7 +117,7 @@ public class ApiExceptionHandler {
      * */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+    @ApiResponse(
             responseCode = "A00004",
             description = "參數錯誤"
     )
@@ -136,7 +138,7 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+    @ApiResponse(
             responseCode = "A00005",
             description = "系統錯誤"
     )
@@ -157,7 +159,7 @@ public class ApiExceptionHandler {
      * */
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @io.swagger.v3.oas.annotations.responses.ApiResponse(
+    @ApiResponse(
             responseCode = "A00012",
             description = "請求錯誤"
     )
@@ -178,14 +180,14 @@ public class ApiExceptionHandler {
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<?> handleBusinessException(BusinessException ex) {
-        SystemCode statusCode = (SystemCode) ex.getStatus();
-        log.error("error Code : {}", statusCode.getCode());
-        log.error("error Message : {}", statusCode.getMessage());
+        CodeMessage codeMessage = (CodeMessage) ex.getStatus();
+        log.error("error Code : {}", codeMessage.getCode());
+        log.error("error Message : {}", codeMessage.getMessage());
         log.error("error", ex);
         return ResponseEntity
                 .badRequest()
                 .body(
-                        new CustomResponse<>((SystemCode) ex.getStatus())
+                        new CustomResponse<>((CodeMessage) ex.getStatus())
                 );
     }
 

@@ -16,7 +16,7 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> 
 
     Optional<SupplierEntity> findByNameAndIsDeletedFalse(String name);
 
-    Optional<SupplierEntity> findByNameAndUuidAndIsDeletedFalse(String name, String uuid);
+    Optional<SupplierEntity> findByNameAndUuidNotAndIsDeletedFalse(String name, String uuid);
 
     Optional<SupplierEntity> findByUuidAndIsDeletedFalse(String uuid);
 
@@ -28,6 +28,7 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> 
                 SupplierEntity s
             WHERE
                 1 = 1
+                AND s.isDeleted = false
                 AND
                 (
                     (:keyword IS NULL OR s.name LIKE CONCAT('%', :keyword, '%')) OR
@@ -49,6 +50,7 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> 
                 SupplierEntity s
             WHERE
                 1 = 1
+                AND s.isDeleted = false
                 AND
                 (
                     (:keyword IS NULL OR s.name LIKE CONCAT('%', :keyword, '%')) OR

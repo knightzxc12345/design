@@ -1,18 +1,18 @@
 let currentPage = 0;
 let pageSize = 10;
 const API_BASE = "http://localhost:8787/design/supplier";
+let deleteSupplierUuid = null;
 
 async function loadSuppliers(page = 0) {
     currentPage = page;
     const keywordInput = document.getElementById("keyword");
     const keyword = keywordInput ? keywordInput.value : "";
     const res = await fetch(`${API_BASE}/v1/page?page=${page}&size=${pageSize}&keyword=${keyword}`);
-    const data = await res.json();
-    const result = data.data;
-    if (!result) return;
+    const data = (await res.json()).data;
+    if (!data) return;
 
-    const suppliers = result.responses || [];
-    const pageInfo = result.page;
+    const suppliers = data.responses || [];
+    const pageInfo = data.page;
     const tbody = document.getElementById("supplierTableBody");
     tbody.innerHTML = "";
 
@@ -36,8 +36,8 @@ async function loadSuppliers(page = 0) {
                         <button class="btn btn-sm btn-outline-secondary d-flex align-items-center me-1" onclick="openEditModal('${supplier.uuid}')">
                             <i class="bi bi-pencil me-1"></i> 編輯
                         </button>
-                        <button class="btn btn-sm btn-outline-secondary d-flex align-items-center" onclick="deleteSupplier('${supplier.uuid}')">
-                            <i class="bi bi-trash me-1"></i> 刪除
+                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal('${supplier.uuid}', '${supplier.name}')">
+                            <i class="bi bi-trash"></i> 刪除
                         </button>
                     </div>
                 </td>
@@ -50,24 +50,26 @@ async function loadSuppliers(page = 0) {
 
 async function showDetail(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
-    const d = (await res.json()).result;
-    document.getElementById("supplierDetail").innerHTML = `
-        <p><b>名稱：</b> ${d.name}</p>
-        <p><b>統一編號：</b> ${d.vatNumber}</p>
-        <p><b>電話：</b> ${d.phone || ""}</p>
-        <p><b>傳真：</b> ${d.fax || ""}</p>
-        <p><b>信箱：</b> ${d.email || ""}</p>
-        <p><b>地址：</b> ${d.address || ""}</p>
-        <p><b>聯絡人：</b> ${d.contactName || ""} (${d.contactPhone || ""})</p>
-        <p><b>備註：</b> ${d.remark || ""}</p>
-        <p><b>狀態：</b>
-            <div class="form-check form-switch d-inline">
-                <input class="form-check-input" type="checkbox" ${d.status === 'ACTIVE' ? 'checked' : ''} disabled>
-            </div>
-        </p>
-    `;
-    new bootstrap.Modal(document.getElementById("supplierModal"), { backdrop: 'static', keyboard: false }).show();
+    const data = (await res.json()).data;
+
+    document.getElementById("viewUuid").value = data.uuid || "";
+    document.getElementById("viewName").value = data.name || "";
+    document.getElementById("viewVatNumber").value = data.vatNumber || "";
+    document.getElementById("viewPhone").value = data.phone || "";
+    document.getElementById("viewFax").value = data.fax || "";
+    document.getElementById("viewEmail").value = data.email || "";
+    document.getElementById("viewAddress").value = data.address || "";
+    document.getElementById("viewContactName").value = data.contactName || "";
+    document.getElementById("viewContactPhone").value = data.contactPhone || "";
+    document.getElementById("viewRemark").value = data.remark || "";
+    document.getElementById("viewStatus").checked = (data.status === "ACTIVE");
+
+    new bootstrap.Modal(document.getElementById("viewModal"), {
+        backdrop: "static",
+        keyboard: false
+    }).show();
 }
+
 
 function openCreateModal() {
     clearCreateModal();
@@ -125,19 +127,19 @@ async function saveNewSupplier(e) {
 
 async function openEditModal(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
-    const d = (await res.json()).result;
+    const data = (await res.json()).data;
 
     document.getElementById("editUuid").value = uuid;
-    document.getElementById("editName").value = d.name;
-    document.getElementById("editVatNumber").value = d.vatNumber || "";
-    document.getElementById("editPhone").value = d.phone || "";
-    document.getElementById("editFax").value = d.fax || "";
-    document.getElementById("editEmail").value = d.email || "";
-    document.getElementById("editAddress").value = d.address || "";
-    document.getElementById("editContactName").value = d.contactName || "";
-    document.getElementById("editContactPhone").value = d.contactPhone || "";
-    document.getElementById("editRemark").value = d.remark || "";
-    document.getElementById("editStatus").checked = d.status === "ACTIVE";
+    document.getElementById("editName").value = data.name;
+    document.getElementById("editVatNumber").value = data.vatNumber || "";
+    document.getElementById("editPhone").value = data.phone || "";
+    document.getElementById("editFax").value = data.fax || "";
+    document.getElementById("editEmail").value = data.email || "";
+    document.getElementById("editAddress").value = data.address || "";
+    document.getElementById("editContactName").value = data.contactName || "";
+    document.getElementById("editContactPhone").value = data.contactPhone || "";
+    document.getElementById("editRemark").value = data.remark || "";
+    document.getElementById("editStatus").checked = data.status === "ACTIVE";
 
     new bootstrap.Modal(document.getElementById("editModal"), { backdrop: 'static', keyboard: false }).show();
 }
@@ -191,22 +193,37 @@ async function saveEditSupplier(e) {
     }
 }
 
-async function deleteSupplier(uuid) {
-    if (!confirm("確定要刪除嗎？")) return;
-
-    try {
-        const res = await fetch(`${API_BASE}/v1/${uuid}`, { method: "DELETE" });
-        const data = await res.json();
-        if (data.code === "SYS0001") {
-            loadSuppliers(currentPage);
-            showToast("刪除成功！", "success");
-        } else {
-            showToast("刪除失敗：" + data.message, "danger");
-        }
-    } catch (error) {
-        showToast("刪除失敗：" + error.message, "danger");
-    }
+function openDeleteModal(uuid, supplierName) {
+    deleteSupplierUuid = uuid;
+    document.getElementById('deleteConfirmMessage').innerText = `你確定要刪除「${supplierName}」嗎？`;
+    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    modal.show();
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const confirmBtn = document.getElementById('confirmDeleteBtn');
+    confirmBtn?.addEventListener('click', async function () {
+        if (!deleteSupplierUuid) return;
+
+        try {
+            const res = await fetch(`${API_BASE}/v1/${deleteSupplierUuid}`, { method: "DELETE" });
+            const data = await res.json();
+            if (data.code === "SYS0001") {
+                bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
+                loadSuppliers(currentPage);
+                showToast("刪除成功！", "success");
+            } else {
+                showToast("刪除失敗：" + data.message, "danger");
+            }
+        } catch (error) {
+            showToast("刪除失敗：" + error.message, "danger");
+        } finally {
+            deleteSupplierUuid = null;
+        }
+    });
+
+    loadSuppliers();
+});
 
 function clearSearch() {
     document.getElementById("keyword").value = "";
