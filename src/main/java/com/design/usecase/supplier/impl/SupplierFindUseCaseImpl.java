@@ -49,7 +49,7 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
     @Override
     public SupplierPageResponse findByPage(SupplierPageRequest request) {
         Page<SupplierEntity> supplierEntityPage = supplierService.findByPage(
-                null == request.filter() ? null : request.filter().keyword(),
+                request.keyword(),
                 PageRequest.of(request.page(), request.size())
         );
         return formatPage(supplierEntityPage);
@@ -75,14 +75,14 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
     }
 
     private SupplierPageResponse formatPage(Page<SupplierEntity> supplierEntityPage){
-        List<SupplierFindAllResponse> supplierFindAllResponses = formatList(supplierEntityPage.getContent());
+        List<SupplierFindAllResponse> responses = formatList(supplierEntityPage.getContent());
         return new SupplierPageResponse(
                 new PageResponse(
                         supplierEntityPage.getNumber(),
                         supplierEntityPage.getSize(),
                         supplierEntityPage.getTotalPages()
                 ),
-                supplierFindAllResponses
+                responses
         );
     }
 

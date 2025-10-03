@@ -100,6 +100,9 @@
         <div class="menu-item" th:classappend="${activeMenu == 'supplier'} ? ' active'" th:onclick="|window.location='@{/supplier}'|">
             <i class="bi bi-building"></i> 廠商
         </div>
+        <div class="menu-item" th:classappend="${activeMenu == 'customer'} ? ' active'" th:onclick="|window.location='@{/customer}'|">
+            <i class="bi bi-person-lines-fill"></i> 客戶
+        </div>
         <div class="menu-item" th:classappend="${activeMenu == 'item'} ? ' active'" th:onclick="|window.location='@{/item}'|">
             <i class="bi bi-list-task"></i> 項目
         </div>

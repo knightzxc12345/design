@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>客戶管理</title>
+    <script th:src="@{/js/customer.js}"></script>
+</head>
+<body>
+<section layout:fragment="content">
+    <div style="padding: 20px;">
+        <h3 class="mb-4">客戶管理</h3>
+
+        <div class="d-flex align-items-center mb-3 gap-2">
+            <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入 名稱/統一編號/電話">
+
+            <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="loadCustomers(0)">
+                <i class="bi bi-search me-1"></i> 搜尋
+            </button>
+
+            <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="clearSearch()">
+                <i class="bi bi-x-circle me-1"></i> 清除
+            </button>
+
+            <button class="btn btn-outline-success d-flex align-items-center" style="white-space: nowrap;" onclick="openCreateModal()">
+                <i class="bi bi-plus-lg me-1"></i> 新增
+            </button>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>名稱</th>
+                <th>統一編號</th>
+                <th>信箱</th>
+                <th>聯絡人</th>
+                <th>狀態</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="customerTableBody"></tbody>
+        </table>
+
+        <nav>
+            <ul class="pagination" id="pagination"></ul>
+        </nav>
+    </div>
+
+    <div class="modal fade" id="createModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form class="modal-content" onsubmit="saveNewCustomer(event)">
+                <div class="modal-header">
+                    <h5 class="modal-title">新增客戶</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label>名稱 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="createName" required maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>統一編號</label>
+                        <input type="text" class="form-control" id="createVatNumber" pattern="^[0-9]{8}$" maxlength="8">
+                    </div>
+                    <div class="mb-2">
+                        <label>電話</label>
+                        <input type="text" class="form-control" id="createPhone" maxlength="20">
+                    </div>
+                    <div class="mb-2">
+                        <label>傳真</label>
+                        <input type="text" class="form-control" id="createFax" maxlength="32">
+                    </div>
+                    <div class="mb-2">
+                        <label>信箱</label>
+                        <input type="email" class="form-control" id="createEmail" maxlength="128">
+                    </div>
+                    <div class="mb-2">
+                        <label>地址</label>
+                        <input type="text" class="form-control" id="createAddress">
+                    </div>
+                    <div class="mb-2">
+                        <label>聯絡人名稱</label>
+                        <input type="text" class="form-control" id="createContactName" maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>聯絡人電話</label>
+                        <input type="text" class="form-control" id="createContactPhone" maxlength="32">
+                    </div>
+                    <div class="mb-2">
+                        <label>備註</label>
+                        <textarea class="form-control" id="createRemark" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-outline-success">儲存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form class="modal-content" onsubmit="saveEditCustomer(event)">
+                <div class="modal-header">
+                    <h5 class="modal-title">編輯客戶</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editUuid">
+
+                    <div class="mb-2">
+                        <label>名稱 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editName" required maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>統一編號</label>
+                        <input type="text" class="form-control" id="editVatNumber" pattern="^[0-9]{8}$" maxlength="8">
+                    </div>
+                    <div class="mb-2">
+                        <label>電話</label>
+                        <input type="text" class="form-control" id="editPhone" maxlength="20">
+                    </div>
+                    <div class="mb-2">
+                        <label>傳真</label>
+                        <input type="text" class="form-control" id="editFax" maxlength="32">
+                    </div>
+                    <div class="mb-2">
+                        <label>信箱</label>
+                        <input type="email" class="form-control" id="editEmail" maxlength="128">
+                    </div>
+                    <div class="mb-2">
+                        <label>地址</label>
+                        <input type="text" class="form-control" id="editAddress">
+                    </div>
+                    <div class="mb-2">
+                        <label>聯絡人名稱</label>
+                        <input type="text" class="form-control" id="editContactName" maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>聯絡人電話</label>
+                        <input type="text" class="form-control" id="editContactPhone" maxlength="32">
+                    </div>
+                    <div class="mb-2">
+                        <label>備註</label>
+                        <textarea class="form-control" id="editRemark" rows="2"></textarea>
+                    </div>
+
+                    <div class="mb-2 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="editStatus">
+                        <label class="form-check-label" for="editStatus">啟用</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-outline-success">儲存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="viewModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">客戶明細</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="viewUuid">
+                    <div class="mb-2">
+                        <label>名稱</label>
+                        <input type="text" class="form-control" id="viewName" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>統一編號</label>
+                        <input type="text" class="form-control" id="viewVatNumber" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>電話</label>
+                        <input type="text" class="form-control" id="viewPhone" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>傳真</label>
+                        <input type="text" class="form-control" id="viewFax" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>信箱</label>
+                        <input type="email" class="form-control" id="viewEmail" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>地址</label>
+                        <input type="text" class="form-control" id="viewAddress" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>聯絡人名稱</label>
+                        <input type="text" class="form-control" id="viewContactName" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>聯絡人電話</label>
+                        <input type="text" class="form-control" id="viewContactPhone" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>備註</label>
+                        <textarea class="form-control" id="viewRemark" rows="2" disabled></textarea>
+                    </div>
+                    <div class="mb-2 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="viewStatus" disabled>
+                        <label class="form-check-label">啟用</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">確認刪除</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="deleteConfirmMessage">你確定要刪除這筆資料嗎？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-outline-danger" id="confirmDeleteBtn">刪除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+</body>
+</html>

@@ -1,18 +1,18 @@
-package com.design.controller.supplier;
+package com.design.controller.customer;
 
 import com.design.base.api.CustomResponse;
 import com.design.base.api.SystemCode;
-import com.design.controller.supplier.requst.SupplierCreateRequest;
-import com.design.controller.supplier.requst.SupplierEditRequest;
-import com.design.controller.supplier.requst.SupplierFindRequest;
-import com.design.controller.supplier.requst.SupplierPageRequest;
-import com.design.controller.supplier.response.SupplierFindAllResponse;
-import com.design.controller.supplier.response.SupplierFindResponse;
-import com.design.controller.supplier.response.SupplierPageResponse;
-import com.design.usecase.supplier.SupplierCreateUseCase;
-import com.design.usecase.supplier.SupplierDeleteUseCase;
-import com.design.usecase.supplier.SupplierEditUseCase;
-import com.design.usecase.supplier.SupplierFindUseCase;
+import com.design.controller.customer.request.CustomerCreateRequest;
+import com.design.controller.customer.request.CustomerEditRequest;
+import com.design.controller.customer.request.CustomerFindRequest;
+import com.design.controller.customer.request.CustomerPageRequest;
+import com.design.controller.customer.response.CustomerFindAllResponse;
+import com.design.controller.customer.response.CustomerFindResponse;
+import com.design.controller.customer.response.CustomerPageResponse;
+import com.design.usecase.customer.CustomerCreateUseCase;
+import com.design.usecase.customer.CustomerDeleteUseCase;
+import com.design.usecase.customer.CustomerEditUseCase;
+import com.design.usecase.customer.CustomerFindUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,28 +27,28 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/supplier")
-@Tag(name = "廠商")
+@RequestMapping("/customer")
+@Tag(name = "客戶")
 @RestController
 @RequiredArgsConstructor
 @Validated
-public class SupplierController {
+public class CustomerController {
 
-    private final SupplierCreateUseCase supplierCreateUseCase;
+    private final CustomerCreateUseCase customerCreateUseCase;
 
-    private final SupplierEditUseCase supplierEditUseCase;
+    private final CustomerEditUseCase customerEditUseCase;
 
-    private final SupplierDeleteUseCase supplierDeleteUseCase;
+    private final CustomerDeleteUseCase customerDeleteUseCase;
 
-    private final SupplierFindUseCase supplierFindUseCase;
+    private final CustomerFindUseCase customerFindUseCase;
 
     @Operation(summary = "建立")
     @PostMapping(
             value = "v1"
     )
     public CustomResponse create(
-            @RequestBody @Validated @NotNull SupplierCreateRequest request) {
-        supplierCreateUseCase.create(request);
+            @RequestBody @Validated @NotNull CustomerCreateRequest request) {
+        customerCreateUseCase.create(request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
@@ -58,8 +58,8 @@ public class SupplierController {
     )
     public CustomResponse update(
             @PathVariable("uuid") @NotNull String uuid,
-            @RequestBody @Validated @NotNull SupplierEditRequest request) {
-        supplierEditUseCase.edit(uuid, request);
+            @RequestBody @Validated @NotNull CustomerEditRequest request) {
+        customerEditUseCase.edit(uuid, request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
@@ -69,7 +69,7 @@ public class SupplierController {
     )
     public CustomResponse delete(
             @PathVariable("uuid") @NotNull String uuid) {
-        supplierDeleteUseCase.delete(uuid);
+        customerDeleteUseCase.delete(uuid);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
@@ -78,11 +78,11 @@ public class SupplierController {
             value = "v1/{uuid}"
     )
     @ApiResponse(responseCode = "200", description = "OK", content = {
-            @Content(schema = @Schema(implementation = SupplierFindResponse.class))
+            @Content(schema = @Schema(implementation = CustomerFindResponse.class))
     })
     public CustomResponse findByUuid(
             @PathVariable("uuid") @NotNull String uuid) {
-        SupplierFindResponse response = supplierFindUseCase.findDetail(uuid);
+        CustomerFindResponse response = customerFindUseCase.findDetail(uuid);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 
@@ -92,12 +92,12 @@ public class SupplierController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200 - 清單", description = "OK", content = {
-                    @Content(array = @ArraySchema(schema = @Schema(implementation = SupplierFindAllResponse.class))),
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = CustomerFindAllResponse.class))),
             }),
     })
     public CustomResponse findAll(
-            @Validated SupplierFindRequest request) {
-        List<SupplierFindAllResponse> responses = supplierFindUseCase.findAll(request);
+            @Validated CustomerFindRequest request) {
+        List<CustomerFindAllResponse> responses = customerFindUseCase.findAll(request);
         return new CustomResponse(SystemCode.SUCCESS, responses);
     }
 
@@ -107,12 +107,12 @@ public class SupplierController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200 - 清單", description = "OK", content = {
-                    @Content(array = @ArraySchema(schema = @Schema(implementation = SupplierPageResponse.class))),
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = CustomerPageResponse.class))),
             }),
     })
     public CustomResponse findPage(
-            @Validated SupplierPageRequest request) {
-        SupplierPageResponse response = supplierFindUseCase.findByPage(request);
+            @Validated CustomerPageRequest request) {
+        CustomerPageResponse response = customerFindUseCase.findByPage(request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 

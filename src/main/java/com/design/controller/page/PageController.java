@@ -23,6 +23,12 @@ public class PageController {
         return "supplier";
     }
 
+    @GetMapping("/customer")
+    public String customer(Model model) {
+        model.addAttribute("activeMenu", "customer");
+        return "customer";
+    }
+
     @GetMapping("/item")
     public String item(Model model) {
         model.addAttribute("activeMenu", "item");

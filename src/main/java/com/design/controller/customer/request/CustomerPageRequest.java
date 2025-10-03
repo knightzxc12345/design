@@ -1,10 +1,10 @@
-package com.design.controller.supplier.requst;
+package com.design.controller.customer.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public record SupplierPageRequest(
+public record CustomerPageRequest(
 
         @Schema(description = "關鍵字", example = "test")
         String keyword,

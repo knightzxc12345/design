@@ -67,19 +67,17 @@ public class CustomerEntity extends BaseEntity {
     // 聯絡人
     @Column(
             name = "contact_name",
-            nullable = false,
+            nullable = true,
             length = 64
     )
-    @NotBlank
     private String contactName;
 
     // 聯絡人電話
     @Column(
             name = "contact_phone",
-            nullable = false,
+            nullable = true,
             length = 32
     )
-    @NotBlank
     private String contactPhone;
 
     // 備註

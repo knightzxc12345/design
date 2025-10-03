@@ -7,8 +7,6 @@ import com.design.usecase.supplier.SupplierEditUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class SupplierEditUseCaseImpl implements SupplierEditUseCase {
