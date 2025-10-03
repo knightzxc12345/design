@@ -26,4 +26,6 @@ public class Common {
 
     public final static String SYSTEM_UUID = "23da4d7d-2f53-4fd0-abfd-9549357939eb";
 
+    public final static String IMAGE_PATH = "/images/";
+
 }

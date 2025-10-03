@@ -6,7 +6,9 @@ public enum UtilCode implements CodeMessage {
 
     JSON_ERROR("UTL0002", "Json轉換錯誤"),
 
-    NATIVE_ERROR("UTL0003", "Native錯誤"),
+    NATIVE_ERROR("UTL0003", "SQL轉換錯誤"),
+
+    IMAGE_ERROR("UTL0004", "圖片轉換錯誤"),
 
     ;
 

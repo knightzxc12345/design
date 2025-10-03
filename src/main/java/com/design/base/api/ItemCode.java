@@ -1,17 +1,17 @@
 package com.design.base.api;
 
-public enum CustomerCode implements CodeMessage {
+public enum ItemCode implements CodeMessage {
 
-    NOT_EXISTS("CUS0001", "查無客戶"),
+    NOT_EXISTS("ITE0001", "查無項目"),
 
-    DUPLICATE_NAME("CUS0002", "客戶名稱重複"),
+    DUPLICATE_CODE("ITE0002", "代碼重複"),
 
     ;
 
     private final String code;
     private final String message;
 
-    CustomerCode(String code, String message) {
+    ItemCode(String code, String message) {
         this.code = code;
         this.message = message;
     }

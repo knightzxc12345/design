@@ -48,3 +48,6 @@ springdoc:
   default-produces-media-type: application/json
   writer-with-order-by-keys: true
   swagger-ui.tagsSorter: alpha
+
+file:
+  upload-dir: D:/Project/uploads/

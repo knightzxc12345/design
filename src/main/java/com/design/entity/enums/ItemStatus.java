@@ -2,9 +2,9 @@ package com.design.entity.enums;
 
 public enum ItemStatus {
 
-    ENABLE("啟用"),
+    ACTIVE("啟用"),
 
-    DISABLE("停用")
+    INACTIVE("停用")
 
     ;
 
