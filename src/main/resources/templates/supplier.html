@@ -3,13 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>廠商管理</title>
+    <title>供應商管理</title>
     <script th:src="@{/js/supplier.js}"></script>
 </head>
 <body>
 <section layout:fragment="content">
     <div style="padding: 20px;">
-        <h3 class="mb-4">廠商管理</h3>
+        <h3 class="mb-4">供應商管理</h3>
 
         <div class="d-flex align-items-center mb-3 gap-2">
             <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入 名稱/統一編號/電話">
@@ -50,7 +50,7 @@
         <div class="modal-dialog">
             <form class="modal-content" onsubmit="saveNewSupplier(event)">
                 <div class="modal-header">
-                    <h5 class="modal-title">新增廠商</h5>
+                    <h5 class="modal-title">新增供應商</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -103,7 +103,7 @@
         <div class="modal-dialog">
             <form class="modal-content" onsubmit="saveEditSupplier(event)">
                 <div class="modal-header">
-                    <h5 class="modal-title">編輯廠商</h5>
+                    <h5 class="modal-title">編輯供應商</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
@@ -163,7 +163,7 @@
         <div class="modal-dialog">
             <form class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">廠商明細</h5>
+                    <h5 class="modal-title">供應商明細</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">

@@ -1,3 +1,5 @@
+const DOMAIN = "http://localhost:8787/design";
+
 function showToast(message, type = "success") {
     const toastEl = document.getElementById("liveToast");
     const toastBody = document.getElementById("toastBody");
@@ -65,4 +67,10 @@ function renderPagination(containerId, pageInfo, currentPage, onPageClick) {
     nav.appendChild(ul);
     wrapper.appendChild(nav);
     pagination.appendChild(wrapper);
+}
+
+async function loadSuppliersData() {
+    const res = await fetch(`${DOMAIN}/supplier/v1`);
+    const json = await res.json();
+    return json.data || [];
 }

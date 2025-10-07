@@ -28,7 +28,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 ItemEntity i
             WHERE
                 1 = 1
-                AND c.isDeleted = false
+                AND i.isDeleted = false
                 AND
                 (
                     (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%')) OR
@@ -49,7 +49,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 ItemEntity i
             WHERE
                 1 = 1
-                AND c.isDeleted = false
+                AND i.isDeleted = false
                 AND
                 (
                     (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%')) OR

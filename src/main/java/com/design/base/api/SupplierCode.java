@@ -2,9 +2,9 @@ package com.design.base.api;
 
 public enum SupplierCode implements CodeMessage {
 
-    NOT_EXISTS("SUP0001", "查無廠商"),
+    NOT_EXISTS("SUP0001", "查無供應商"),
 
-    DUPLICATE_NAME("SUP0002", "廠商名稱重複"),
+    DUPLICATE_NAME("SUP0002", "供應商名稱重複"),
 
     ;
 

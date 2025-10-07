@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequestMapping("/supplier")
-@Tag(name = "廠商")
+@Tag(name = "供應商")
 @RestController
 @RequiredArgsConstructor
 @Validated

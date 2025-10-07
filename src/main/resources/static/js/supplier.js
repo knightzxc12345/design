@@ -1,33 +1,39 @@
+// ==========================
+// 全域設定
+// ==========================
 let currentPage = 0;
 let pageSize = 10;
-const API_BASE = "http://localhost:8787/design/supplier";
+const API_BASE = `${DOMAIN}/supplier`;
 let deleteSupplierUuid = null;
+let suppliers = []; // 全域供應商陣列
 
+// ==========================
+// 搜尋 / 分頁功能
+// ==========================
 async function loadSuppliers(page = 0) {
     currentPage = page;
-    const keywordInput = document.getElementById("keyword");
-    const keyword = keywordInput ? keywordInput.value : "";
+    const keyword = document.getElementById("keyword")?.value || "";
+
     const res = await fetch(`${API_BASE}/v1/page?page=${page}&size=${pageSize}&keyword=${keyword}`);
     const data = (await res.json()).data;
     if (!data) return;
 
-    const suppliers = data.responses || [];
+    const suppliersList = data.responses || [];
     const pageInfo = data.page;
     const tbody = document.getElementById("supplierTableBody");
     tbody.innerHTML = "";
 
-    suppliers.forEach(supplier => {
+    suppliersList.forEach(supplier => {
         const statusLabel = supplier.status === 'ACTIVE' ? '啟用' : '停用';
         const statusClass = supplier.status === 'ACTIVE' ? 'text-bg-success' : 'text-bg-danger';
+
         tbody.innerHTML += `
             <tr>
                 <td>${supplier.name}</td>
                 <td>${supplier.vatNumber}</td>
                 <td>${supplier.email || ""}</td>
                 <td>${supplier.contactName || ""}</td>
-                <td>
-                    <div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div>
-                </td>
+                <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
                 <td>
                     <div class="btn-group" role="group">
                         <button class="btn btn-sm btn-outline-secondary d-flex align-items-center me-1" onclick="showDetail('${supplier.uuid}')">
@@ -48,6 +54,14 @@ async function loadSuppliers(page = 0) {
     renderPagination("pagination", pageInfo, currentPage, loadSuppliers);
 }
 
+function clearSearch() {
+    document.getElementById("keyword").value = "";
+    loadSuppliers(0);
+}
+
+// ==========================
+// 查看功能 (READ)
+// ==========================
 async function showDetail(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
     const data = (await res.json()).data;
@@ -64,28 +78,20 @@ async function showDetail(uuid) {
     document.getElementById("viewRemark").value = data.remark || "";
     document.getElementById("viewStatus").checked = (data.status === "ACTIVE");
 
-    new bootstrap.Modal(document.getElementById("viewModal"), {
-        backdrop: "static",
-        keyboard: false
-    }).show();
+    new bootstrap.Modal(document.getElementById("viewModal"), { backdrop: "static", keyboard: false }).show();
 }
 
-
+// ==========================
+// 新增功能 (CREATE)
+// ==========================
 function openCreateModal() {
     clearCreateModal();
     new bootstrap.Modal(document.getElementById("createModal"), { backdrop: 'static', keyboard: false }).show();
 }
 
 function clearCreateModal() {
-    document.getElementById("createName").value = "";
-    document.getElementById("createVatNumber").value = "";
-    document.getElementById("createPhone").value = "";
-    document.getElementById("createFax").value = "";
-    document.getElementById("createEmail").value = "";
-    document.getElementById("createAddress").value = "";
-    document.getElementById("createContactName").value = "";
-    document.getElementById("createContactPhone").value = "";
-    document.getElementById("createRemark").value = "";
+    const ids = ["createName","createVatNumber","createPhone","createFax","createEmail","createAddress","createContactName","createContactPhone","createRemark"];
+    ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
 }
 
 async function saveNewSupplier(e) {
@@ -109,22 +115,21 @@ async function saveNewSupplier(e) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
-
         const data = await res.json();
-
         if (data.code === "SYS0001") {
             bootstrap.Modal.getInstance(document.getElementById("createModal")).hide();
             clearCreateModal();
             loadSuppliers(currentPage);
             showToast("新增成功！", "success");
-        } else {
-            showToast("新增失敗：" + data.message, "danger");
-        }
+        } else showToast("新增失敗：" + data.message, "danger");
     } catch (error) {
         showToast("新增失敗：" + error.message, "danger");
     }
 }
 
+// ==========================
+// 編輯功能 (UPDATE)
+// ==========================
 async function openEditModal(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
     const data = (await res.json()).data;
@@ -145,22 +150,15 @@ async function openEditModal(uuid) {
 }
 
 function clearEditModal() {
-    document.getElementById("editUuid").value = "";
-    document.getElementById("editName").value = "";
-    document.getElementById("editVatNumber").value = "";
-    document.getElementById("editPhone").value = "";
-    document.getElementById("editFax").value = "";
-    document.getElementById("editEmail").value = "";
-    document.getElementById("editAddress").value = "";
-    document.getElementById("editContactName").value = "";
-    document.getElementById("editContactPhone").value = "";
-    document.getElementById("editRemark").value = "";
+    const ids = ["editUuid","editName","editVatNumber","editPhone","editFax","editEmail","editAddress","editContactName","editContactPhone","editRemark"];
+    ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
     document.getElementById("editStatus").checked = true;
 }
 
 async function saveEditSupplier(e) {
     e.preventDefault();
     const uuid = document.getElementById("editUuid").value;
+
     const payload = {
         name: document.getElementById("editName").value,
         vatNumber: document.getElementById("editVatNumber").value,
@@ -173,6 +171,7 @@ async function saveEditSupplier(e) {
         remark: document.getElementById("editRemark").value,
         status: document.getElementById("editStatus").checked ? "ACTIVE" : "INACTIVE"
     };
+
     try {
         const res = await fetch(`${API_BASE}/v1/${uuid}`, {
             method: "PUT",
@@ -185,51 +184,45 @@ async function saveEditSupplier(e) {
             clearEditModal();
             loadSuppliers(currentPage);
             showToast("修改成功！", "success");
-        } else {
-            showToast("修改失敗：" + data.message, "danger");
-        }
+        } else showToast("修改失敗：" + data.message, "danger");
     } catch (error) {
         showToast("修改失敗：" + error.message, "danger");
     }
 }
 
+// ==========================
+// 刪除功能 (DELETE)
+// ==========================
 function openDeleteModal(uuid, supplierName) {
     deleteSupplierUuid = uuid;
     document.getElementById('deleteConfirmMessage').innerText = `你確定要刪除「${supplierName}」嗎？`;
-    const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
-    modal.show();
+    new bootstrap.Modal(document.getElementById('deleteConfirmModal')).show();
 }
 
+async function confirmDeleteSupplier() {
+    if (!deleteSupplierUuid) return;
+
+    try {
+        const res = await fetch(`${API_BASE}/v1/${deleteSupplierUuid}`, { method: "DELETE" });
+        const data = await res.json();
+        if (data.code === "SYS0001") {
+            bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
+            loadSuppliers(currentPage);
+            showToast("刪除成功！", "success");
+        } else showToast("刪除失敗：" + data.message, "danger");
+    } catch (error) {
+        showToast("刪除失敗：" + error.message, "danger");
+    } finally {
+        deleteSupplierUuid = null;
+    }
+}
+
+// ==========================
+// 初始化
+// ==========================
 document.addEventListener("DOMContentLoaded", () => {
+    loadSuppliers();
+
     const confirmBtn = document.getElementById('confirmDeleteBtn');
-    confirmBtn?.addEventListener('click', async function () {
-        if (!deleteSupplierUuid) return;
-
-        try {
-            const res = await fetch(`${API_BASE}/v1/${deleteSupplierUuid}`, { method: "DELETE" });
-            const data = await res.json();
-            if (data.code === "SYS0001") {
-                bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
-                loadSuppliers(currentPage);
-                showToast("刪除成功！", "success");
-            } else {
-                showToast("刪除失敗：" + data.message, "danger");
-            }
-        } catch (error) {
-            showToast("刪除失敗：" + error.message, "danger");
-        } finally {
-            deleteSupplierUuid = null;
-        }
-    });
-
-    loadSuppliers();
-});
-
-function clearSearch() {
-    document.getElementById("keyword").value = "";
-    loadSuppliers(0);
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    loadSuppliers();
+    confirmBtn?.addEventListener('click', confirmDeleteSupplier);
 });
