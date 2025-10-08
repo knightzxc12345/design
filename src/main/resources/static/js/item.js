@@ -107,6 +107,15 @@ function previewCreateImageFile(event) {
     } else { preview.src = ""; preview.style.display = "none"; }
 }
 
+function populateCreateSupplierSelect() {
+    const select = document.getElementById("createSupplierUuid");
+    if (!select) return;
+    select.innerHTML = "";
+    suppliers.forEach(supplier => {
+        select.innerHTML += `<option value="${supplier.uuid}">${supplier.name}</option>`;
+    });
+}
+
 async function saveNewItem(e) {
     e.preventDefault();
     const formData = new FormData();
@@ -141,7 +150,6 @@ async function saveNewItem(e) {
 async function openEditModal(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
     const data = (await res.json()).data;
-
     document.getElementById("editUuid").value = uuid;
     document.getElementById("editName").value = data.name;
     document.getElementById("editCode").value = data.code;
@@ -175,6 +183,15 @@ function previewEditImageFile(event) {
         reader.onload = e => { preview.src = e.target.result; preview.style.display = "block"; };
         reader.readAsDataURL(file);
     } else { preview.src = ""; preview.style.display = "none"; }
+}
+
+function populateEditSupplierSelect() {
+    const select = document.getElementById("editSupplierUuid");
+    if (!select) return;
+    select.innerHTML = "";
+    suppliers.forEach(supplier => {
+        select.innerHTML += `<option value="${supplier.uuid}">${supplier.name}</option>`;
+    });
 }
 
 async function saveEditItem(e) {
@@ -240,6 +257,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     populateCreateSupplierSelect();
     populateEditSupplierSelect();
     loadItems();
-
     document.getElementById("confirmDeleteBtn")?.addEventListener("click", confirmDelete);
 });
