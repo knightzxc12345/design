@@ -62,6 +62,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public List<ItemEntity> findAllWithUuids(List<String> uuids) {
+        return itemRepository.findByIsDeletedFalseAndUuidIn(uuids);
+    }
+
+    @Override
     public List<ItemEntity> findAll(String keyword) {
         return itemRepository.findAll(
                 keyword

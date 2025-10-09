@@ -20,6 +20,8 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
     Optional<ItemEntity> findByUuidAndIsDeletedFalse(String uuid);
 
+    List<ItemEntity> findByIsDeletedFalseAndUuidIn(List<String> uuids);
+
     @Query(value =
             """
             SELECT

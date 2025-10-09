@@ -16,6 +16,8 @@ public interface ItemService {
 
     ItemEntity findByUuid(String uuid);
 
+    List<ItemEntity> findAllWithUuids(List<String> uuids);
+
     List<ItemEntity> findAll(String keyword);
 
     Page<ItemEntity> findByPage(String keyword, Pageable pageable);

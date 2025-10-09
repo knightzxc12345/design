@@ -23,7 +23,9 @@ public class ItemEditUseCaseImpl implements ItemEditUseCase {
     public void edit(String uuid, ItemEditRequest request, MultipartFile file) {
         ItemEntity itemEntity = itemService.findByUuid(uuid);
         String imageUrl = ImageUtil.uploadImage(file);
-        ImageUtil.deleteImage(itemEntity.getImageUrl());
+        if(null != imageUrl){
+            ImageUtil.deleteImage(itemEntity.getImageUrl());
+        }
         itemEntity = init(itemEntity, request, imageUrl);
         itemService.edit(itemEntity);
     }
@@ -34,7 +36,7 @@ public class ItemEditUseCaseImpl implements ItemEditUseCase {
         itemEntity.setCode(request.code());
         itemEntity.setDimension(request.dimension());
         itemEntity.setDescription(request.description());
-        itemEntity.setImageUrl(imageUrl);
+        itemEntity.setImageUrl(null == imageUrl ? itemEntity.getImageUrl() : imageUrl);
         itemEntity.setUnit(request.unit());
         itemEntity.setPrice(request.price());
         itemEntity.setSupplier(supplierEntity);
