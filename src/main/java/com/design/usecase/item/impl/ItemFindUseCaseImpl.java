@@ -10,6 +10,7 @@ import com.design.entity.ItemEntity;
 import com.design.service.ItemService;
 import com.design.usecase.item.ItemFindUseCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemFindUseCaseImpl implements ItemFindUseCase {
 
+    @Value("${server.servlet.context-path}")
+    private String server;
+
     private final ItemService itemService;
 
     @Override
@@ -31,7 +35,7 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
                 itemEntity.getCode(),
                 itemEntity.getDimension(),
                 itemEntity.getDescription(),
-                itemEntity.getImageUrl(),
+                String.format("%s%s", server, itemEntity.getImageUrl()),
                 itemEntity.getUnit(),
                 itemEntity.getPrice(),
                 itemEntity.getSupplier().getUuid(),
@@ -66,7 +70,7 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
                     itemEntity.getName(),
                     itemEntity.getCode(),
                     itemEntity.getDimension(),
-                    itemEntity.getImageUrl(),
+                    String.format("%s%s", server, itemEntity.getImageUrl()),
                     itemEntity.getUnit(),
                     itemEntity.getSupplier().getName(),
                     itemEntity.getStatus()

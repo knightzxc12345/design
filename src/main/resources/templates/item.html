@@ -12,7 +12,7 @@
         <h3 class="mb-4">品項管理</h3>
 
         <div class="d-flex align-items-center mb-3 gap-2">
-            <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入 名稱/統一編號/電話">
+            <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入 名稱/代號">
 
             <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="loadItems(0)">
                 <i class="bi bi-search me-1"></i> 搜尋
@@ -36,6 +36,7 @@
                 <th>單位</th>
                 <th>供應商</th>
                 <th>狀態</th>
+                <th>圖片</th>
                 <th>操作</th>
             </tr>
             </thead>
@@ -237,6 +238,16 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
                     <button type="button" class="btn btn-outline-danger" id="confirmDeleteBtn">刪除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <img id="imagePreviewModalImg" src="" alt="放大圖片" class="img-fluid rounded">
                 </div>
             </div>
         </div>

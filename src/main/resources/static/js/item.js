@@ -36,6 +36,13 @@ async function loadItems(page = 0) {
                 <td>${item.supplierName || ""}</td>
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
                 <td>
+                    ${
+                        item.imageUrl
+                            ? `<img src="${item.imageUrl}" alt="圖片預覽" class="img-fluid rounded" style="max-height:50px; cursor:pointer;" onclick="openImagePreview('${item.imageUrl}')">`
+                            : ''
+                    }
+                </td>
+                <td>
                     <div class="btn-group" role="group">
                         <button class="btn btn-sm btn-outline-secondary me-1" onclick="showDetail('${item.uuid}')">
                             <i class="bi bi-eye me-1"></i> 查看
@@ -128,7 +135,9 @@ async function saveNewItem(e) {
     formData.append("supplierUuid", document.getElementById("createSupplierUuid").value);
     formData.append("status", "ACTIVE");
     const fileInput = document.getElementById("createImageFile");
-    if (fileInput.files[0]) formData.append("imageFile", fileInput.files[0]);
+    if (fileInput.files[0]) {
+        formData.append("file", fileInput.files[0]);
+    }
 
     try {
         const res = await fetch(`${API_BASE}/v1`, { method: "POST", body: formData });
@@ -207,7 +216,9 @@ async function saveEditItem(e) {
     formData.append("supplierUuid", document.getElementById("editSupplierUuid").value);
     formData.append("status", document.getElementById("editStatus").value);
     const fileInput = document.getElementById("editImageFile");
-    if (fileInput.files[0]) formData.append("imageFile", fileInput.files[0]);
+    if (fileInput.files[0]) {
+        formData.append("file", fileInput.files[0]);
+    }
 
     try {
         const res = await fetch(`${API_BASE}/v1/${uuid}`, { method: "PUT", body: formData });
@@ -247,6 +258,13 @@ async function confirmDelete() {
     } finally {
         deleteItemUuid = null;
     }
+}
+
+function openImagePreview(imageUrl) {
+    const modalImg = document.getElementById("imagePreviewModalImg");
+    modalImg.src = imageUrl;
+    const modal = new bootstrap.Modal(document.getElementById("imagePreviewModal"));
+    modal.show();
 }
 
 // ==========================
