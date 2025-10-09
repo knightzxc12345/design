@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface ProductService {
 
@@ -15,7 +14,7 @@ public interface ProductService {
 
     void delete(ProductEntity productEntity);
 
-    ProductEntity findByUuid(UUID uuid);
+    ProductEntity findByUuid(String uuid);
 
     List<ProductEntity> findAll(String keyword);
 

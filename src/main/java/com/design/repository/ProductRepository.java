@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
@@ -19,7 +18,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     Optional<ProductEntity> findByCodeAndUuidNotAndIsDeletedFalse(String code, String uuid);
 
-    Optional<ProductEntity> findByUuidAndIsDeletedFalse(UUID uuid);
+    Optional<ProductEntity> findByUuidAndIsDeletedFalse(String uuid);
 
     @Query(value =
             """

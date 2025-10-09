@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductEntity findByUuid(UUID uuid) {
+    public ProductEntity findByUuid(String uuid) {
         return productRepository.findByUuidAndIsDeletedFalse(uuid)
                 .orElseThrow(() -> new BusinessException(ProductCode.NOT_EXISTS));
     }
