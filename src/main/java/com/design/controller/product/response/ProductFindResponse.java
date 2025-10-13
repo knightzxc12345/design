@@ -38,9 +38,12 @@ public record ProductFindResponse(
         @NotNull(message = "價格不得為空")
         BigDecimal price,
 
+        @Schema(description = "圖片 URL", example = "https://example.com/image.png")
+        String imageUrl,
+
         @Schema(description = "品項 UUID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
         @NotBlank(message = "品項不得為空")
-        List<String> itemUuids,
+        List<ProductItem> items,
 
         @Schema(description = "產品狀態", example = "ACTIVE")
         @NotNull(message = "笧品不得為空")

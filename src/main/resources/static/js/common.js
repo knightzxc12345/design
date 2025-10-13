@@ -74,3 +74,9 @@ async function loadSuppliersData() {
     const json = await res.json();
     return json.data || [];
 }
+
+async function loadItemsData() {
+    const res = await fetch(`${DOMAIN}/item/v1`);
+    const json = await res.json();
+    return json.data || [];
+}

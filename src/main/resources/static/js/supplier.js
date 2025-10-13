@@ -77,6 +77,7 @@ async function showDetail(uuid) {
     document.getElementById("viewContactPhone").value = data.contactPhone || "";
     document.getElementById("viewRemark").value = data.remark || "";
     document.getElementById("viewStatus").checked = (data.status === "ACTIVE");
+    document.getElementById("viewStatusStr").textContent = (data.status === "ACTIVE" ? "啟用" : "停用");
 
     new bootstrap.Modal(document.getElementById("viewModal"), { backdrop: "static", keyboard: false }).show();
 }

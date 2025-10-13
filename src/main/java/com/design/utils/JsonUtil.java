@@ -3,32 +3,21 @@ package com.design.utils;
 import com.design.base.api.CustomResponse;
 import com.design.base.api.UtilCode;
 import com.design.handler.BusinessException;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.Type;
-import java.util.List;
-
 public class JsonUtil {
 
-    public static <T> T get(String json, Type type) {
+    private static final ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+
+    public static <T> T get(String json, TypeReference<T> typeRef) {
         if (StringUtils.isBlank(json)) {
             return null;
         }
         try {
-            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
-            JsonNode node = mapper.readTree(json);
-            JavaType javaType = mapper.getTypeFactory().constructType(type);
-            if (node.isArray()) {
-                TypeFactory typeFactory = mapper.getTypeFactory();
-                javaType = typeFactory.constructCollectionType(List.class, javaType);
-                return mapper.readValue(json, javaType);
-            }
-            return mapper.readValue(json, javaType);
+            return mapper.readValue(json, typeRef);
         } catch (Exception ex) {
             ex.printStackTrace();
             throw new BusinessException(new CustomResponse<>(UtilCode.JSON_ERROR));
@@ -36,13 +25,10 @@ public class JsonUtil {
     }
 
     public static <T> String set(T t) {
-        try{
-            if(null == t){
-                return null;
-            }
-            ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+        try {
+            if (t == null) return null;
             return mapper.writeValueAsString(t);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             throw new BusinessException(new CustomResponse<>(UtilCode.JSON_ERROR));
         }

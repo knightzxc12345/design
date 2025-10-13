@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,22 +55,20 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
     }
 
     private List<SupplierFindAllResponse> formatList(List<SupplierEntity> supplierEntities){
-        List<SupplierFindAllResponse> responses = new ArrayList<>();
-        if(null == supplierEntities || supplierEntities.isEmpty()){
-            return responses;
+        if(supplierEntities == null || supplierEntities.isEmpty()){
+            return List.of();
         }
-        for(SupplierEntity supplierEntity : supplierEntities){
-            responses.add(new SupplierFindAllResponse(
-                    supplierEntity.getUuid(),
-                    supplierEntity.getName(),
-                    supplierEntity.getVatNumber(),
-                    supplierEntity.getEmail(),
-                    supplierEntity.getContactName(),
-                    supplierEntity.getContactPhone(),
-                    supplierEntity.getStatus()
-            ));
-        }
-        return responses;
+        return supplierEntities.stream()
+                .map(supplierEntity -> new SupplierFindAllResponse(
+                        supplierEntity.getUuid(),
+                        supplierEntity.getName(),
+                        supplierEntity.getVatNumber(),
+                        supplierEntity.getEmail(),
+                        supplierEntity.getContactName(),
+                        supplierEntity.getContactPhone(),
+                        supplierEntity.getStatus()
+                ))
+                .toList();
     }
 
     private SupplierPageResponse formatPage(Page<SupplierEntity> supplierEntityPage){

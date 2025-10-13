@@ -1,7 +1,6 @@
 package com.design.utils;
 
 import com.design.base.api.UtilCode;
-import com.design.base.common.Common;
 import com.design.handler.BusinessException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -26,19 +25,21 @@ public class ImageUtil {
 
     /**
      * 上傳圖片
-     * @param file 前端使用的圖片檔案
+     * @param subDir 子資料夾（例如 Common.IMAGE_USER_PATH）
+     * @param file 上傳的圖片
+     * @return 前端可用的圖片 URL（例如 /images/user/xxxx.png）
      */
-    public static String uploadImage(MultipartFile file) {
+    public static String uploadImage(String subDir, MultipartFile file) {
         if (file == null || file.isEmpty()) {
             return null;
         }
         try {
             String filename = UUID.randomUUID() + "_" + file.getOriginalFilename();
-            Path dirPath = Paths.get(UPLOAD_DIR);
+            Path dirPath = Paths.get(UPLOAD_DIR, subDir);
             Files.createDirectories(dirPath);
             Path filePath = dirPath.resolve(filename);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
-            return Common.IMAGE_PATH + filename;
+            return subDir + filename;
         } catch (IOException e) {
             throw new BusinessException(UtilCode.IMAGE_ERROR);
         }
@@ -46,22 +47,21 @@ public class ImageUtil {
 
     /**
      * 刪除圖片
-     * @param imageUrl 前端使用的圖片 URL，例如 /images/xxxx.png
-     * @return 刪除成功返回 true，檔案不存在返回 false
+     * @param imageUrl 前端圖片 URL（例如 /images/user/xxxx.png）
+     * @return 刪除成功 true；檔案不存在 false
      */
     public static boolean deleteImage(String imageUrl) {
         if (imageUrl == null || imageUrl.isEmpty()) {
             return false;
         }
         try {
-            String filename = imageUrl.replace(Common.IMAGE_PATH, "");
-            Path filePath = Paths.get(UPLOAD_DIR).resolve(filename);
+            String relativePath = imageUrl.replaceFirst("^/+", "");
+            Path filePath = Paths.get(UPLOAD_DIR).resolve(relativePath);
             if (Files.exists(filePath)) {
                 Files.delete(filePath);
                 return true;
-            } else {
-                return false;
             }
+            return false;
         } catch (IOException e) {
             throw new BusinessException(UtilCode.IMAGE_ERROR);
         }

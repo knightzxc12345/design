@@ -23,6 +23,9 @@ public record ItemFindAllResponse(
         @Schema(description = "單位", example = "台")
         String unit,
 
+        @Schema(description = "供應商uuid", example = "7d934fb6-e5b7-45db-a117-feaf75d19a9f")
+        String supplierUuid,
+
         @Schema(description = "供應商名稱", example = "宏碁")
         String supplierName,
 

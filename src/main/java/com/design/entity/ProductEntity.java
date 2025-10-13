@@ -79,13 +79,12 @@ public class ProductEntity extends BaseEntity {
     @NotNull
     private BigDecimal price;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "product_item",
-            joinColumns = @JoinColumn(name = "product_uuid"),
-            inverseJoinColumns = @JoinColumn(name = "item_uuid")
+    @OneToMany(
+            mappedBy = "product",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
-    private List<ItemEntity> items = new ArrayList<>();
+    private List<ProductItemEntity> items = new ArrayList<>();
 
     // 狀態
     @Column(

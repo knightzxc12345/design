@@ -13,7 +13,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     open-in-view: false
     properties:
       hibernate:
@@ -50,4 +50,4 @@ springdoc:
   swagger-ui.tagsSorter: alpha
 
 file:
-  upload-dir: D:/Project/uploads/
+  upload-dir: D:/Project/

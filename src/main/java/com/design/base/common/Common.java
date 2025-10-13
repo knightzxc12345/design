@@ -26,6 +26,12 @@ public class Common {
 
     public final static String SYSTEM_UUID = "23da4d7d-2f53-4fd0-abfd-9549357939eb";
 
-    public final static String IMAGE_PATH = "/uploads/";
+    public final static String IMAGE_PATH_CUSTOMER = "/uploads/customer/";
+
+    public final static String IMAGE_PATH_SUPPLIER = "/uploads/supplier/";
+
+    public final static String IMAGE_PATH_ITEM = "/uploads/item/";
+
+    public final static String IMAGE_PATH_PRODUCT = "/uploads/product/";
 
 }

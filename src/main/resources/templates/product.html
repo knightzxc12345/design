@@ -3,13 +3,262 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>產品</title>
+    <title>產品管理</title>
+    <script th:src="@{/js/product.js}"></script>
 </head>
 <body>
 <section layout:fragment="content">
     <div style="padding: 20px;">
         <h3 class="mb-4">產品管理</h3>
+
+        <div class="d-flex align-items-center mb-3 gap-2">
+            <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入名稱/代碼">
+
+            <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="loadProducts(0)">
+                <i class="bi bi-search me-1"></i> 搜尋
+            </button>
+
+            <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="clearSearch()">
+                <i class="bi bi-x-circle me-1"></i> 清除
+            </button>
+
+            <button class="btn btn-outline-success d-flex align-items-center" style="white-space: nowrap;" onclick="openCreateModal()">
+                <i class="bi bi-plus-lg me-1"></i> 新增
+            </button>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>名稱</th>
+                <th>代碼</th>
+                <th>尺寸</th>
+                <th>單位</th>
+                <th>價格</th>
+                <th>狀態</th>
+                <th>圖片</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+        </table>
+
+        <nav>
+            <ul class="pagination" id="pagination"></ul>
+        </nav>
     </div>
+
+    <!-- 新增產品 Modal -->
+    <div class="modal fade" id="createModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form class="modal-content" onsubmit="saveNewProduct(event)">
+                <div class="modal-header">
+                    <h5 class="modal-title">新增產品</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-2">
+                        <label>名稱 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="createName" required maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>代碼 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="createCode" required maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>描述</label>
+                        <textarea class="form-control" id="createDescription" maxlength="512" rows="2"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label>尺寸</label>
+                        <input type="text" class="form-control" id="createDimension" maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>單位 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="createUnit" required maxlength="10">
+                    </div>
+                    <div class="mb-2">
+                        <label>圖片</label>
+                        <input type="file" class="form-control" id="createImageFile" accept="image/*" onchange="previewCreateImageFile(event)">
+                        <div class="mt-2">
+                            <img id="createImagePreview" class="img-fluid rounded" style="max-height:200px; display:none;">
+                        </div>
+                    </div>
+                    <div class="mb-2" id="createProductItemsContainer">
+                        <label>品項 <span class="text-danger">*</span></label>
+                        <div class="d-flex gap-2 product-item-row">
+                            <select class="form-select supplier-select" onchange="onSupplierChange(this)" required></select>
+                            <select class="form-select item-select" required></select>
+                            <input type="number" class="form-control item-quantity" placeholder="數量" min="1" value="1" style="max-width:60px;" required>
+                            <button type="button" class="btn btn-outline-danger" onclick="removeProductItemRow(this)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-success mb-2" onclick="addProductItemRow()">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                    <div class="mb-2">
+                        <label>成本金額 <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="createUnitPrice" required min="0" step="0.01">
+                    </div>
+                    <div class="mb-2">
+                        <label>報價金額 <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="createPrice" required min="0" step="0.01">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-outline-success">儲存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 編輯產品 Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+            <form class="modal-content" onsubmit="saveEditProduct(event)">
+                <div class="modal-header">
+                    <h5 class="modal-title">編輯產品</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="editUuid">
+                    <div class="mb-2">
+                        <label>名稱 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editName" required maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>代碼 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editCode" required maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>描述</label>
+                        <textarea class="form-control" id="editDescription" maxlength="512" rows="2"></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label>尺寸</label>
+                        <input type="text" class="form-control" id="editDimension" maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>單位 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editUnit" required maxlength="10">
+                    </div>
+                    <div class="mb-2">
+                        <label>報價金額 <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="editPrice" required min="0" step="0.01">
+                    </div>
+                    <div class="mb-2">
+                        <label>品項 <span class="text-danger">*</span></label>
+                        <select class="form-select" id="editProductUuids" multiple required></select>
+                    </div>
+                    <div class="mb-2 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="editStatus">
+                        <label class="form-check-label" for="editStatus">啟用</label>
+                    </div>
+                    <div class="mb-2">
+                        <label>圖片</label>
+                        <input type="file" class="form-control" id="editImageFile" accept="image/*" onchange="previewEditImageFile(event)">
+                        <div class="mt-2">
+                            <img id="editImagePreview" class="img-fluid rounded" style="max-height:200px; display:none;">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-outline-success">儲存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 查看產品 Modal -->
+    <div class="modal fade" id="viewModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">產品明細</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="viewUuid">
+                    <div class="mb-2">
+                        <label>名稱</label>
+                        <input type="text" class="form-control" id="viewName" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>代碼</label>
+                        <input type="text" class="form-control" id="viewCode" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>描述</label>
+                        <textarea class="form-control" id="viewDescription" rows="2" disabled></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label>尺寸</label>
+                        <input type="text" class="form-control" id="viewDimension" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>單位</label>
+                        <input type="text" class="form-control" id="viewUnit" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>價格</label>
+                        <input type="text" class="form-control" id="viewPrice" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>品項</label>
+                        <ul id="viewProductList"></ul>
+                    </div>
+                    <div class="mb-2 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="viewStatus" disabled>
+                        <label id="viewStatusStr">狀態</label>
+                    </div>
+                    <div class="mb-2">
+                        <label>圖片</label>
+                        <div id="viewImagesContainer"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline-secondary" data-bs-dismiss="modal">關閉</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 刪除確認 Modal -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">確認刪除</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p id="deleteConfirmMessage">你確定要刪除這筆資料嗎？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-outline-danger" id="confirmDeleteBtn">刪除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 圖片放大 Modal -->
+    <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <img id="imagePreviewModalImg" class="img-fluid rounded" alt="放大圖片">
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 </body>
 </html>

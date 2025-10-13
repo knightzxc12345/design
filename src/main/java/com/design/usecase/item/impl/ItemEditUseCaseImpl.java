@@ -1,5 +1,6 @@
 package com.design.usecase.item.impl;
 
+import com.design.base.common.Common;
 import com.design.controller.item.request.ItemEditRequest;
 import com.design.entity.ItemEntity;
 import com.design.entity.SupplierEntity;
@@ -22,7 +23,7 @@ public class ItemEditUseCaseImpl implements ItemEditUseCase {
     @Override
     public void edit(String uuid, ItemEditRequest request, MultipartFile file) {
         ItemEntity itemEntity = itemService.findByUuid(uuid);
-        String imageUrl = ImageUtil.uploadImage(file);
+        String imageUrl = ImageUtil.uploadImage(Common.IMAGE_PATH_ITEM, file);
         if(null != imageUrl){
             ImageUtil.deleteImage(itemEntity.getImageUrl());
         }

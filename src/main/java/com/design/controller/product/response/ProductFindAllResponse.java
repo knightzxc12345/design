@@ -2,6 +2,9 @@ package com.design.controller.product.response;
 
 import com.design.entity.enums.ProductStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
 
 public record ProductFindAllResponse(
 
@@ -19,6 +22,10 @@ public record ProductFindAllResponse(
 
         @Schema(description = "單位", example = "台")
         String unit,
+
+        @Schema(description = "報價金額", example = "35000")
+        @NotNull(message = "價格不得為空")
+        BigDecimal price,
 
         @Schema(description = "圖片 URL", example = "https://example.com/image.png")
         String imageUrl,

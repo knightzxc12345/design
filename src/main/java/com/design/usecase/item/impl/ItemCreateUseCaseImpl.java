@@ -1,5 +1,6 @@
 package com.design.usecase.item.impl;
 
+import com.design.base.common.Common;
 import com.design.controller.item.request.ItemCreateRequest;
 import com.design.entity.ItemEntity;
 import com.design.entity.SupplierEntity;
@@ -21,7 +22,7 @@ public class ItemCreateUseCaseImpl implements ItemCreateUseCase {
 
     @Override
     public void create(ItemCreateRequest request, MultipartFile file) {
-        String imageUrl = ImageUtil.uploadImage(file);
+        String imageUrl = ImageUtil.uploadImage(Common.IMAGE_PATH_ITEM, file);
         ItemEntity itemEntity = init(request, imageUrl);
         itemService.create(itemEntity);
     }

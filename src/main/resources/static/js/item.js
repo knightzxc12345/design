@@ -81,8 +81,9 @@ async function showDetail(uuid) {
     document.getElementById("viewDescription").value = data.description || "";
     document.getElementById("viewUnit").value = data.unit || "";
     document.getElementById("viewPrice").value = data.price || "";
-    document.getElementById("viewSupplierUuid").value = data.supplierUuid || "";
-    document.getElementById("viewStatus").value = data.status || "ACTIVE";
+    document.getElementById("viewSupplierName").value = data.supplierName || "";
+    document.getElementById("viewStatus").checked = (data.status === "ACTIVE");
+    document.getElementById("viewStatusStr").textContent = (data.status === "ACTIVE" ? "啟用" : "停用");
     document.getElementById("viewImagesContainer").innerHTML = data.imageUrl
         ? `<img src="${data.imageUrl}" class="img-fluid rounded" style="max-height:200px;">`
         : "";
@@ -167,7 +168,7 @@ async function openEditModal(uuid) {
     document.getElementById("editUnit").value = data.unit || "";
     document.getElementById("editPrice").value = data.price || "";
     document.getElementById("editSupplierUuid").value = data.supplierUuid || "";
-    document.getElementById("editStatus").value = data.status || "ACTIVE";
+    document.getElementById("editStatus").checked = data.status === "ACTIVE";
     if (data.imageUrl) {
         document.getElementById("editImagePreview").src = data.imageUrl;
         document.getElementById("editImagePreview").style.display = "block";
@@ -214,7 +215,7 @@ async function saveEditItem(e) {
     formData.append("unit", document.getElementById("editUnit").value.trim());
     formData.append("price", parseFloat(document.getElementById("editPrice").value));
     formData.append("supplierUuid", document.getElementById("editSupplierUuid").value);
-    formData.append("status", document.getElementById("editStatus").value);
+    formData.append("status", document.getElementById("editStatus").checked ? "ACTIVE" : "INACTIVE");
     const fileInput = document.getElementById("editImageFile");
     if (fileInput.files[0]) {
         formData.append("file", fileInput.files[0]);

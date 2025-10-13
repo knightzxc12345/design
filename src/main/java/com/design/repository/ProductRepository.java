@@ -18,6 +18,19 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     Optional<ProductEntity> findByCodeAndUuidNotAndIsDeletedFalse(String code, String uuid);
 
+    @Query(value = """
+            SELECT 
+                DISTINCT p
+            FROM 
+                ProductEntity p
+            LEFT JOIN FETCH 
+                p.items pi
+            LEFT JOIN FETCH 
+                pi.item
+            WHERE 
+                p.uuid = :uuid 
+                AND p.isDeleted = false
+            """)
     Optional<ProductEntity> findByUuidAndIsDeletedFalse(String uuid);
 
     @Query(value =
@@ -56,7 +69,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
                     (:keyword IS NULL OR p.code LIKE CONCAT('%', :keyword, '%'))
                 )
             ORDER BY
-                i.code
+                p.code
             """)
     Page<ProductEntity> findByPage(
             @Param("keyword") String keyword,

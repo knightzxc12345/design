@@ -37,9 +37,20 @@ public record ProductCreateRequest(
         @NotNull(message = "價格不得為空")
         BigDecimal price,
 
-        @Schema(description = "品項 UUID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
+        @Schema(description = "品項")
         @NotBlank(message = "品項不得為空")
-        List<String> itemUuids
+        String items
 
 ) {
+
+        public record Item(
+
+                @Schema(description = "uuid", example = "7d934fb6-e5b7-45db-a117-feaf75d19a9f")
+                String uuid,
+
+                @Schema(description = "品項數量", example = "1")
+                int quantity
+
+        ){}
+
 }

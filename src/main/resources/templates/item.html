@@ -151,12 +151,9 @@
                             <img id="editImagePreview" src="" alt="圖片預覽" class="img-fluid rounded" style="max-height: 200px; display: none;">
                         </div>
                     </div>
-                    <div class="mb-2">
-                        <label>狀態 <span class="text-danger">*</span></label>
-                        <select class="form-select" id="editStatus" required>
-                            <option value="ACTIVE">啟用</option>
-                            <option value="INACTIVE">停用</option>
-                        </select>
+                    <div class="mb-2 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="editStatus">
+                        <label class="form-check-label" for="editStatus">啟用</label>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -169,7 +166,7 @@
 
     <div class="modal fade" id="viewModal" tabindex="-1">
         <div class="modal-dialog">
-            <form class="modal-content">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">品項明細</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -178,50 +175,47 @@
                     <input type="hidden" id="viewUuid">
                     <div class="mb-2">
                         <label>名稱 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="viewName" required maxlength="64">
+                        <input type="text" class="form-control" id="viewName" disabled>
                     </div>
                     <div class="mb-2">
                         <label>代號 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="viewCode" required maxlength="64">
+                        <input type="text" class="form-control" id="viewCode" disabled>
                     </div>
                     <div class="mb-2">
                         <label>尺寸</label>
-                        <input type="text" class="form-control" id="viewDimension" maxlength="64">
+                        <input type="text" class="form-control" id="viewDimension" disabled>
                     </div>
                     <div class="mb-2">
                         <label>描述</label>
-                        <textarea class="form-control" id="viewDescription" maxlength="512" rows="2"></textarea>
+                        <textarea class="form-control" id="viewDescription" rows="2" disabled></textarea>
                     </div>
                     <div class="mb-2">
                         <label>單位 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="viewUnit" required maxlength="10">
+                        <input type="text" class="form-control" id="viewUnit" disabled>
                     </div>
                     <div class="mb-2">
                         <label>報價金額 <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="viewPrice" required min="0" step="0.01">
+                        <input type="number" class="form-control" id="viewPrice" disabled>
                     </div>
                     <div class="mb-2">
                         <label>供應商 <span class="text-danger">*</span></label>
-                        <select class="form-select" id="viewSupplierUuid" required>
-                            <option value="">請選擇供應商</option>
-                        </select>
-                    </div>
-                    <div class="mb-2">
-                        <label>狀態 <span class="text-danger">*</span></label>
-                        <select class="form-select" id="viewStatus" required>
-                            <option value="ACTIVE">啟用</option>
-                            <option value="INACTIVE">停用</option>
-                        </select>
+                        <input type="text" class="form-control" id="viewSupplierName" disabled>
                     </div>
                     <div class="mb-2">
                         <label>圖片</label>
                         <div id="viewImagesContainer"></div>
                     </div>
+                    <div class="mb-2">
+                        <div class="mb-2 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="viewStatus" disabled>
+                            <label id="viewStatusStr">狀態</label>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-outline-secondary" data-bs-dismiss="modal">關閉</button>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 

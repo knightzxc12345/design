@@ -14,7 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,22 +55,20 @@ public class CustomerFindUseCaseImpl implements CustomerFindUseCase {
     }
 
     private List<CustomerFindAllResponse> formatList(List<CustomerEntity> customerEntities){
-        List<CustomerFindAllResponse> responses = new ArrayList<>();
-        if(null == customerEntities || customerEntities.isEmpty()){
-            return responses;
+        if(customerEntities == null || customerEntities.isEmpty()){
+            return List.of();
         }
-        for(CustomerEntity customerEntity : customerEntities){
-            responses.add(new CustomerFindAllResponse(
-                    customerEntity.getUuid(),
-                    customerEntity.getName(),
-                    customerEntity.getEmail(),
-                    customerEntity.getVatNumber(),
-                    customerEntity.getContactName(),
-                    customerEntity.getContactPhone(),
-                    customerEntity.getStatus()
-            ));
-        }
-        return responses;
+        return customerEntities.stream()
+                .map(customerEntity -> new CustomerFindAllResponse(
+                        customerEntity.getUuid(),
+                        customerEntity.getName(),
+                        customerEntity.getEmail(),
+                        customerEntity.getVatNumber(),
+                        customerEntity.getContactName(),
+                        customerEntity.getContactPhone(),
+                        customerEntity.getStatus()
+                ))
+                .toList();
     }
 
     private CustomerPageResponse formatPage(Page<CustomerEntity> customerEntityPage){
