@@ -40,7 +40,7 @@ public record ProductEditRequest(
 
         @Schema(description = "品項")
         @NotBlank(message = "品項不得為空")
-        List<Item> items,
+        String items,
 
         @Schema(description = "產品狀態", example = "ACTIVE")
         @NotNull(message = "笧品不得為空")

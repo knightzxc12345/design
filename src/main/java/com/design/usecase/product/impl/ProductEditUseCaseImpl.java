@@ -12,10 +12,13 @@ import com.design.service.ProductItemService;
 import com.design.service.ProductService;
 import com.design.usecase.product.ProductEditUseCase;
 import com.design.utils.ImageUtil;
+import com.design.utils.JsonUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,23 +37,31 @@ public class ProductEditUseCaseImpl implements ProductEditUseCase {
     public void edit(String uuid, ProductEditRequest request, MultipartFile file) {
         // 查詢產品
         ProductEntity productEntity = productService.findByUuid(uuid);
+        List<ProductItemEntity> oldProductItemEntities = productItemService.findAll(productEntity.getUuid());
+        BigDecimal costPrice = BigDecimal.ZERO;
         // 圖片處理
         String imageUrl = productEntity.getImageUrl();
         if (file != null && !file.isEmpty()) {
-            imageUrl = ImageUtil.uploadImage(Common.IMAGE_PATH_PRODUCT, file);
             ImageUtil.deleteImage(productEntity.getImageUrl());
+            imageUrl = ImageUtil.uploadImage(Common.IMAGE_PATH_PRODUCT, file);
         }
-        // 查詢前端品項對應 ItemEntity
-        List<String> uuids = request.items().stream()
-                .map(ProductEditRequest.Item::uuid)
-                .toList();
+        // 轉換 items
+        List<ProductEditRequest.Item> items = JsonUtil.get(request.items(), new TypeReference<List<ProductEditRequest.Item>>() {});
+        List<String> uuids = items.stream().map(ProductEditRequest.Item::uuid).toList();
         List<ItemEntity> itemEntities = itemService.findAllWithUuids(uuids);
-        // 初始化或更新 ProductItemEntity
-        List<ProductItemEntity> productItemEntities = initProductItem(itemEntities, request);
-        // 存 ProductItemEntity（生成 UUID 或更新 quantity）
-        productItemService.createAll(productItemEntities);
+
+        // 初始化 ProductItemEntity
+        List<ProductItemEntity> newProductItemEntities = initProductItem(itemEntities, items);
+        for (ProductItemEntity pi : newProductItemEntities) {
+            pi.setProduct(productEntity);
+            costPrice = costPrice.add(pi.getItem().getPrice().multiply(BigDecimal.valueOf(pi.getQuantity())));
+        }
+        productItemService.deleteAll(oldProductItemEntities);
+        productItemService.createAll(newProductItemEntities);
         // 初始化 ProductEntity
-        productEntity = initProduct(productEntity, request, productItemEntities, imageUrl);
+        productEntity = initProduct(productEntity, request, newProductItemEntities, imageUrl);
+        productEntity.setItems(newProductItemEntities);
+        productEntity.setCostPrice(costPrice);
         // 存 ProductEntity
         productService.edit(productEntity);
     }
@@ -72,11 +83,10 @@ public class ProductEditUseCaseImpl implements ProductEditUseCase {
         return productEntity;
     }
 
-    private List<ProductItemEntity> initProductItem(List<ItemEntity> itemEntities, ProductEditRequest request) {
+    private List<ProductItemEntity> initProductItem(List<ItemEntity> itemEntities, List<ProductEditRequest.Item> items) {
         Map<String, ItemEntity> itemMap = itemEntities.stream()
                 .collect(Collectors.toMap(ItemEntity::getUuid, e -> e));
-
-        return request.items().stream()
+        return items.stream()
                 .map(reqItem -> {
                     ItemEntity matchedItem = itemMap.get(reqItem.uuid());
                     if (matchedItem == null) {

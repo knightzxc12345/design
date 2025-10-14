@@ -52,8 +52,7 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
         // 初始化 ProductItemEntity，並關聯 product
         List<ProductItemEntity> productItemEntities = initProductItem(itemEntities, items);
         for (ProductItemEntity pi : productItemEntities) {
-            pi.setProduct(productEntity); // 關聯 Product
-            // 累加 costPrice
+            pi.setProduct(productEntity);
             costPrice = costPrice.add(pi.getItem().getPrice().multiply(BigDecimal.valueOf(pi.getQuantity())));
         }
 

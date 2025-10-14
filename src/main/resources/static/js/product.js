@@ -73,14 +73,14 @@ async function showProductDetail(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
     const data = (await res.json()).data;
 
-    document.getElementById("viewUuid").value = data.uuid || "";
+    document.getElementById("viewUuid").value = uuid || "";
     document.getElementById("viewName").value = data.name || "";
     document.getElementById("viewCode").value = data.code || "";
     document.getElementById("viewDimension").value = data.dimension || "";
     document.getElementById("viewDescription").value = data.description || "";
     document.getElementById("viewUnit").value = data.unit || "";
-    document.getElementById("viewCostPrice").value = data.costPrice || "";
-    document.getElementById("viewPrice").value = data.price || "";
+    document.getElementById("viewCostPrice").value = data.costPrice != null ? formatNumber(data.costPrice) : "";
+    document.getElementById("viewPrice").value = data.price != null ? formatNumber(data.price) : "";
     document.getElementById("viewStatus").checked = (data.status === "ACTIVE");
     document.getElementById("viewStatusStr").textContent = data.status === "ACTIVE" ? "啟用" : "停用";
     document.getElementById("viewImagesContainer").innerHTML = data.imageUrl
@@ -96,7 +96,7 @@ async function showProductDetail(uuid) {
             <input type="text" class="form-control" value="${item.supplierName}" placeholder="供應商名稱" disabled>
             <input type="text" class="form-control" value="${item.name}" placeholder="名稱" disabled>
             <input type="number" class="form-control" value="${item.quantity}" placeholder="數量" disabled style="max-width:60px;">
-            <input type="text" class="form-control text-end" value="${item.price.toLocaleString()}" placeholder="價格" disabled>
+            <input type="text" class="form-control text-end" value="${formatNumber(item.price)}" placeholder="價格" disabled>
         `;
 
         productListEl.appendChild(row);
@@ -261,7 +261,7 @@ async function saveNewProduct(e) {
 // ==========================
 // 編輯產品 (UPDATE)
 // ==========================
-async function openEditModal(uuid){
+async function openEditModal(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
     const data = (await res.json()).data;
 
@@ -271,16 +271,143 @@ async function openEditModal(uuid){
     document.getElementById("editDimension").value = data.dimension || "";
     document.getElementById("editDescription").value = data.description || "";
     document.getElementById("editUnit").value = data.unit || "";
-    document.getElementById("editPrice").value = data.price || "";
+    document.getElementById("editCostPrice").value = formatNumber(data.costPrice || 0);
+    document.getElementById("editPrice").value = formatNumber(data.price || 0);
     document.getElementById("editStatus").checked = data.status === "ACTIVE";
-    if(data.imageUrl){
-        document.getElementById("editImagePreview").src = data.imageUrl;
-        document.getElementById("editImagePreview").style.display = "block";
-    } else {
-        document.getElementById("editImagePreview").style.display = "none";
-    }
 
+    // 圖片
+    const preview = document.getElementById("editImagePreview");
+    if (data.imageUrl) {
+        preview.src = data.imageUrl;
+        preview.style.display = "block";
+    } else preview.style.display = "none";
+
+    // 清空品項容器
+    const container = document.getElementById("editProductItemsContainer");
+    container.innerHTML = `<label>品項 <span class="text-danger">*</span></label>`;
+
+    // 動態生成品項
+    if (Array.isArray(data.items)) {
+        data.items.forEach(item => {
+            const row = document.createElement("div");
+            row.className = "d-flex gap-2 mb-1 edit-product-item-row";
+
+            row.innerHTML = `
+                <select class="form-select supplier-select" required onchange="onEditSupplierChange(this)">
+                    ${suppliers.map(s => `<option value="${s.uuid}" ${s.uuid === item.supplierUuid ? "selected" : ""}>${s.name}</option>`).join("")}
+                </select>
+                <select class="form-select item-select" required></select>
+                <input type="number" class="form-control item-quantity" placeholder="數量" min="1" value="${item.quantity}" style="max-width:80px;" required>
+                <input type="text" class="form-control item-price text-end" placeholder="單價" value="${formatNumber(item.price)}" readonly style="max-width:100px;">
+                <button type="button" class="btn btn-outline-danger" onclick="removeEditProductItemRow(this)">
+                    <i class="bi bi-trash"></i>
+                </button>
+            `;
+            container.appendChild(row);
+
+            // 初始化 item-select
+            const supplierSelect = row.querySelector(".supplier-select");
+            const itemSelect = row.querySelector(".item-select");
+            updateEditItemSelect(itemSelect, supplierSelect.value, item.uuid);
+
+            // 事件
+            supplierSelect.addEventListener("change", () => onEditSupplierChange(supplierSelect));
+            row.querySelector(".item-quantity").addEventListener("input", updateEditTotalPrice);
+        });
+    }
+    updateEditTotalPrice();
     new bootstrap.Modal(document.getElementById("editModal"), { backdrop: "static", keyboard: false }).show();
+}
+
+// 當更換供應商時更新品項下拉
+function onEditSupplierChange(selectEl) {
+    const row = selectEl.closest(".edit-product-item-row");
+    const supplierUuid = selectEl.value;
+    const itemSelect = row.querySelector(".item-select");
+    updateEditItemSelect(itemSelect, supplierUuid);
+    updateEditItemPrice(row);
+}
+
+// 更新編輯品項的 item-select
+function updateEditItemSelect(itemSelect, supplierUuid, selectedItemUuid) {
+    if (!items) return;
+    const filtered = items.filter(i => i.supplierUuid === supplierUuid);
+    itemSelect.innerHTML = filtered.length === 0
+        ? `<option value="">無品項</option>`
+        : filtered.map(i => {
+            const priceObj = prices.find(p => p.uuid === i.uuid);
+            const price = priceObj ? priceObj.price : 0;
+            const selected = selectedItemUuid && i.uuid === selectedItemUuid ? "selected" : "";
+            return `<option value="${i.uuid}" data-price="${price}" ${selected}>${i.name}</option>`;
+        }).join("");
+    updateEditItemPrice(itemSelect.closest(".edit-product-item-row"));
+}
+
+// 更新單價
+function updateEditItemPrice(row) {
+    const itemSelect = row.querySelector(".item-select");
+    const priceInput = row.querySelector(".item-price");
+    const selectedOption = itemSelect.options[itemSelect.selectedIndex];
+    const price = parseFloat(selectedOption?.dataset.price || 0);
+    priceInput.value = formatNumber(Math.round(price));
+    updateEditTotalPrice();
+}
+
+// 計算編輯總價
+function updateEditTotalPrice() {
+    let total = 0;
+    document.querySelectorAll("#editProductItemsContainer .edit-product-item-row").forEach(row => {
+        const qty = parseInt(row.querySelector(".item-quantity").value) || 0;
+        const price = parseInt(unformatNumber(row.querySelector(".item-price").value)) || 0;
+        total += qty * price;
+    });
+    const totalInput = document.getElementById("editCostPrice");
+    if (totalInput) totalInput.value = formatNumber(total);
+}
+
+// 新增品項行
+async function addEditProductItemRow() {
+    const container = document.getElementById("editProductItemsContainer");
+    const row = document.createElement("div");
+    row.className = "d-flex gap-2 mb-1 edit-product-item-row";
+
+    row.innerHTML = `
+        <select class="form-select supplier-select" required onchange="onEditSupplierChange(this)">
+            ${suppliers.map(s => `<option value="${s.uuid}">${s.name}</option>`).join("")}
+        </select>
+        <select class="form-select item-select" required></select>
+        <input type="number" class="form-control item-quantity" placeholder="數量" min="1" value="1" style="max-width:80px;" required>
+        <input type="text" class="form-control item-price text-end" placeholder="單價" readonly style="max-width:100px;">
+        <button type="button" class="btn btn-outline-danger" onclick="removeEditProductItemRow(this)">
+            <i class="bi bi-trash"></i>
+        </button>
+    `;
+    container.appendChild(row);
+
+    const supplierSelect = row.querySelector(".supplier-select");
+    const itemSelect = row.querySelector(".item-select");
+    const qtyInput = row.querySelector(".item-quantity");
+
+    updateEditItemSelect(itemSelect, supplierSelect.value);
+    updateEditItemPrice(row);
+
+    supplierSelect.addEventListener("change", () => onEditSupplierChange(supplierSelect));
+    qtyInput.addEventListener("input", updateEditTotalPrice);
+}
+
+// 移除品項行
+function removeEditProductItemRow(btn) {
+    btn.closest(".edit-product-item-row").remove();
+    updateEditTotalPrice();
+}
+
+// 取得編輯品項資料
+function getEditProductItemsData() {
+    const container = document.getElementById("editProductItemsContainer");
+    return Array.from(container.querySelectorAll(".edit-product-item-row")).map(row => ({
+        uuid: row.querySelector(".item-select").value,
+        quantity: parseInt(row.querySelector(".item-quantity").value) || 0
+    }));
 }
 
 function clearEditModal(){
@@ -299,8 +426,14 @@ function previewEditImageFile(event){
     } else { preview.src = ""; preview.style.display = "none"; }
 }
 
-async function saveEditProduct(e){
+// 儲存編輯產品
+async function saveEditProduct(e) {
     e.preventDefault();
+    // 將格式化價格轉回數字
+    document.querySelectorAll(".item-price, #editPrice").forEach(input => {
+        input.value = unformatNumber(input.value);
+    });
+
     const uuid = document.getElementById("editUuid").value;
     const formData = new FormData();
     formData.append("name", document.getElementById("editName").value.trim());
@@ -310,21 +443,23 @@ async function saveEditProduct(e){
     formData.append("unit", document.getElementById("editUnit").value.trim());
     formData.append("price", parseInt(document.getElementById("editPrice").value) || 0);
     formData.append("status", document.getElementById("editStatus").checked ? "ACTIVE" : "INACTIVE");
+    formData.append("items", JSON.stringify(getEditProductItemsData()));
 
     const fileInput = document.getElementById("editImageFile");
-    if(fileInput.files[0]) formData.append("file", fileInput.files[0]);
+    if (fileInput.files[0]) formData.append("file", fileInput.files[0]);
 
     try {
         const res = await fetch(`${API_BASE}/v1/${uuid}`, { method: "PUT", body: formData });
         const data = await res.json();
-        if(data.code === "SYS0001"){
+        if (data.code === "SYS0001") {
             bootstrap.Modal.getInstance(document.getElementById("editModal")).hide();
-            clearEditModal();
             loadProducts(currentPage);
-            showToast("修改成功！","success");
-        } else showToast("修改失敗：" + data.message,"danger");
-    } catch(error){
-        showToast("修改失敗：" + error.message,"danger");
+            showToast("修改成功！", "success");
+        } else {
+            showToast("修改失敗：" + data.message, "danger");
+        }
+    } catch (error) {
+        showToast("修改失敗：" + error.message, "danger");
     }
 }
 

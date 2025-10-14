@@ -65,7 +65,7 @@ async function showDetail(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
     const data = (await res.json()).data;
 
-    document.getElementById("viewUuid").value = data.uuid || "";
+    document.getElementById("viewUuid").value = uuid || "";
     document.getElementById("viewName").value = data.name || "";
     document.getElementById("viewVatNumber").value = data.vatNumber || "";
     document.getElementById("viewPhone").value = data.phone || "";
