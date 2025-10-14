@@ -35,7 +35,8 @@ async function loadProducts(page = 0) {
                 <td>${p.code}</td>
                 <td>${p.dimension || ""}</td>
                 <td>${p.unit || ""}</td>
-                <td>${p.price || ""}</td>
+                <td>${p.costPrice != null ? formatNumber(p.costPrice) : ""}</td>
+                <td>${p.price != null ? formatNumber(p.price) : ""}</td>
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
                 <td>
                     ${p.imageUrl ? `<img src="${p.imageUrl}" class="img-fluid rounded" style="max-height:50px; cursor:pointer;" onclick="openImagePreview('${p.imageUrl}')">` : ''}
@@ -78,6 +79,7 @@ async function showProductDetail(uuid) {
     document.getElementById("viewDimension").value = data.dimension || "";
     document.getElementById("viewDescription").value = data.description || "";
     document.getElementById("viewUnit").value = data.unit || "";
+    document.getElementById("viewCostPrice").value = data.costPrice || "";
     document.getElementById("viewPrice").value = data.price || "";
     document.getElementById("viewStatus").checked = (data.status === "ACTIVE");
     document.getElementById("viewStatusStr").textContent = data.status === "ACTIVE" ? "啟用" : "停用";
@@ -191,7 +193,7 @@ function updateTotalPrice(){
         const price = parseInt(unformatNumber(row.querySelector(".item-price").value)) || 0;
         total += qty * price;
     });
-    const totalInput = document.getElementById("createUnitPrice");
+    const totalInput = document.getElementById("createCostPrice");
     if (totalInput) totalInput.value = formatNumber(total);
 }
 

@@ -70,7 +70,16 @@ public class ProductEntity extends BaseEntity {
     @NotBlank
     private String unit;
 
-    // 售價
+    // 成本金額
+    @Column(
+            name = "cost_price",
+            nullable = false,
+            precision = 12
+    )
+    @NotNull
+    private BigDecimal costPrice;
+
+    // 報價金額
     @Column(
             name = "price",
             nullable = false,

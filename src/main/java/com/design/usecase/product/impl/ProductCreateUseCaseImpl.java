@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,9 +38,11 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
         // 先上傳圖片
         String imageUrl = ImageUtil.uploadImage(Common.IMAGE_PATH_PRODUCT, file);
 
+        BigDecimal costPrice = BigDecimal.ZERO;
+
         // 先初始化 ProductEntity（不關聯 ProductItem）
         ProductEntity productEntity = initProduct(request, null, imageUrl);
-        productService.create(productEntity); // 先存 product，拿到 UUID/ID
+        productService.create(productEntity);
 
         // 轉換 items
         List<ProductCreateRequest.Item> items = JsonUtil.get(request.items(), new TypeReference<List<ProductCreateRequest.Item>>() {});
@@ -48,13 +51,18 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
 
         // 初始化 ProductItemEntity，並關聯 product
         List<ProductItemEntity> productItemEntities = initProductItem(itemEntities, items);
-        productItemEntities.forEach(pi -> pi.setProduct(productEntity)); // 關聯 Product
+        for (ProductItemEntity pi : productItemEntities) {
+            pi.setProduct(productEntity); // 關聯 Product
+            // 累加 costPrice
+            costPrice = costPrice.add(pi.getItem().getPrice().multiply(BigDecimal.valueOf(pi.getQuantity())));
+        }
 
         // 存 ProductItemEntity
         productItemService.createAll(productItemEntities);
 
         // 如果 ProductEntity 有 bidirectional 關聯，補上 productItems
         productEntity.setItems(productItemEntities);
+        productEntity.setCostPrice(costPrice);
         productService.edit(productEntity);
     }
 
@@ -69,6 +77,7 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
         productEntity.setDescription(request.description());
         productEntity.setImageUrl(imageUrl);
         productEntity.setUnit(request.unit());
+        productEntity.setCostPrice(new BigDecimal(0));
         productEntity.setPrice(request.price());
         productEntity.setItems(productItemEntities);
         return productEntity;

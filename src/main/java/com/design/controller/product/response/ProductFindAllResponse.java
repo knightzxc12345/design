@@ -23,8 +23,10 @@ public record ProductFindAllResponse(
         @Schema(description = "單位", example = "台")
         String unit,
 
+        @Schema(description = "成本金額", example = "35000")
+        BigDecimal costPrice,
+
         @Schema(description = "報價金額", example = "35000")
-        @NotNull(message = "價格不得為空")
         BigDecimal price,
 
         @Schema(description = "圖片 URL", example = "https://example.com/image.png")

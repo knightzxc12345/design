@@ -45,6 +45,7 @@ public class ProductFindUseCaseImpl implements ProductFindUseCase {
                 productEntity.getDescription(),
                 productEntity.getDimension(),
                 productEntity.getUnit(),
+                productEntity.getCostPrice(),
                 productEntity.getPrice(),
                 String.format("%s%s", server, productEntity.getImageUrl()),
                 productItems,
@@ -78,6 +79,7 @@ public class ProductFindUseCaseImpl implements ProductFindUseCase {
                         productEntity.getCode(),
                         productEntity.getDimension(),
                         productEntity.getUnit(),
+                        productEntity.getCostPrice(),
                         productEntity.getPrice(),
                         String.format("%s%s", server, productEntity.getImageUrl()),
                         productEntity.getStatus()
