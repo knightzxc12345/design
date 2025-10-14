@@ -16,7 +16,7 @@ import java.time.Instant;
         @Index(name = "quotation_item_find_all", columnList = "pk")
 })
 @Entity
-public class QuotationItemEntity extends BaseEntity {
+public class QuotationProductEntity extends BaseEntity {
 
     // 所屬報價單
     @ManyToOne(fetch = FetchType.LAZY)

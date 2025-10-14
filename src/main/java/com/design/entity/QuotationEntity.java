@@ -41,7 +41,7 @@ public class QuotationEntity extends BaseEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
-    private List<QuotationItemEntity> items = new ArrayList<>();
+    private List<QuotationProductEntity> products = new ArrayList<>();
 
     // 狀態
     @Column(

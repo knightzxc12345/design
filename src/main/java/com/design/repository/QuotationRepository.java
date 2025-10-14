@@ -24,9 +24,9 @@ public interface QuotationRepository extends JpaRepository<QuotationEntity, Long
             LEFT JOIN FETCH 
                 q.customer
             LEFT JOIN FETCH 
-                q.items pi
+                q.products pr
             LEFT JOIN FETCH 
-                pi.item
+                pr.product
             WHERE 
                 q.uuid = :uuid 
             """)
@@ -45,12 +45,13 @@ public interface QuotationRepository extends JpaRepository<QuotationEntity, Long
             WHERE
                 1 = 1
                 AND (:quotationStatus IS NULL OR q.status = :quotationStatus)
-                AND (COALESCE(:startTime, q.createTime) <= q.createTime)
-                AND (COALESCE(:endTime, q.createTime) >= q.createTime)
+                AND (:startTime IS NULL OR q.createTime >= :startTime)
+                AND (:endTime IS NULL OR q.createTime <= :endTime)
                 AND
                 (
-                    (:keyword IS NULL OR q.quotationNo LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR c.name LIKE CONCAT('%', :keyword, '%'))
+                    :keyword IS NULL OR
+                    q.quotationNo LIKE CONCAT('%', :keyword, '%') OR
+                    c.name LIKE CONCAT('%', :keyword, '%')  
                 )
             ORDER BY
                 q.createTime DESC
@@ -73,12 +74,13 @@ public interface QuotationRepository extends JpaRepository<QuotationEntity, Long
             WHERE
                 1 = 1
                 AND (:quotationStatus IS NULL OR q.status = :quotationStatus)
-                AND (COALESCE(:startTime, q.createTime) <= q.createTime)
-                AND (COALESCE(:endTime, q.createTime) >= q.createTime)
+                AND (:startTime IS NULL OR q.createTime >= :startTime)
+                AND (:endTime IS NULL OR q.createTime <= :endTime)
                 AND
                 (
-                    (:keyword IS NULL OR q.quotationNo LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR c.name LIKE CONCAT('%', :keyword, '%'))
+                    :keyword IS NULL OR
+                    q.quotationNo LIKE CONCAT('%', :keyword, '%') OR
+                    c.name LIKE CONCAT('%', :keyword, '%')
                 )
             ORDER BY
                 q.createTime DESC
