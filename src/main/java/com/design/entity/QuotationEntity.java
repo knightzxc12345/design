@@ -1,12 +1,12 @@
 package com.design.entity;
 
+import com.design.entity.enums.QuotationStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,30 +39,17 @@ public class QuotationEntity extends BaseEntity {
     @OneToMany(
             mappedBy = "quotation",
             cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
+            orphanRemoval = true
     )
     private List<QuotationItemEntity> items = new ArrayList<>();
 
-    // 是否刪除
+    // 狀態
     @Column(
-            name = "is_deleted",
+            name = "status",
             nullable = false
     )
+    @Enumerated(EnumType.STRING)
     @NotNull
-    private Boolean isDeleted;
-
-    // 刪除時間
-    @Column(
-            name = "deleted_time"
-    )
-    private Instant deletedTime;
-
-    // 刪除人員
-    @Column(
-            name = "deleted_user",
-            length = 36
-    )
-    private String deletedUser;
+    private QuotationStatus status;
 
 }
