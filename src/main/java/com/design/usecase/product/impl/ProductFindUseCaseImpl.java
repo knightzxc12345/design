@@ -35,6 +35,8 @@ public class ProductFindUseCaseImpl implements ProductFindUseCase {
                 .map(pi -> new ProductItem(
                         pi.getUuid(),
                         pi.getItem().getName(),
+                        pi.getItem().getSupplier().getUuid(),
+                        pi.getItem().getSupplier().getName(),
                         pi.getQuantity(),
                         pi.getItem().getPrice()
                 ))

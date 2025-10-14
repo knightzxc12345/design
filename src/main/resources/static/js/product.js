@@ -86,7 +86,21 @@ async function showProductDetail(uuid) {
     document.getElementById("viewImagesContainer").innerHTML = data.imageUrl
         ? `<img src="${data.imageUrl}" class="img-fluid rounded" style="max-height:200px;">`
         : "";
-    const productListEl = document.getElementById("viewProductList");
+    // 清空舊的品項列表
+    const productListEl = document.querySelector(".view-product-item-row");
+    productListEl.innerHTML = "";
+    data.items.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "d-flex gap-2 mb-2";
+        row.innerHTML = `
+            <input type="text" class="form-control" value="${item.supplierName}" placeholder="供應商名稱" disabled>
+            <input type="text" class="form-control" value="${item.name}" placeholder="名稱" disabled>
+            <input type="number" class="form-control" value="${item.quantity}" placeholder="數量" disabled style="max-width:60px;">
+            <input type="text" class="form-control text-end" value="${item.price.toLocaleString()}" placeholder="價格" disabled>
+        `;
+
+        productListEl.appendChild(row);
+    });
     new bootstrap.Modal(document.getElementById("viewModal"), { backdrop: "static", keyboard: false }).show();
 }
 
@@ -127,7 +141,7 @@ function previewCreateImageFile(event) {
 async function addProductItemRow(){
     const container = document.getElementById("createProductItemsContainer");
     const row = document.createElement("div");
-    row.className = "d-flex gap-2 mb-1 product-item-row";
+    row.className = "d-flex gap-2 mb-1 create-product-item-row";
 
     row.innerHTML = `
         <select class="form-select supplier-select" required onchange="onSupplierChange(this)">
@@ -155,7 +169,7 @@ async function addProductItemRow(){
 
 // 當更換供應商時，更新該列品項
 function onSupplierChange(selectEl) {
-    const row = selectEl.closest(".product-item-row");
+    const row = selectEl.closest(".create-product-item-row");
     const supplierUuid = selectEl.value;
     const itemSelect = row.querySelector(".item-select");
     updateItemSelect(itemSelect, supplierUuid);
@@ -188,7 +202,7 @@ function updateItemPrice(row){
 // 計算總金額
 function updateTotalPrice(){
     let total = 0;
-    document.querySelectorAll("#createProductItemsContainer .product-item-row").forEach(row => {
+    document.querySelectorAll("#createProductItemsContainer .create-product-item-row").forEach(row => {
         const qty = parseInt(unformatNumber(row.querySelector(".item-quantity").value)) || 0;
         const price = parseInt(unformatNumber(row.querySelector(".item-price").value)) || 0;
         total += qty * price;
@@ -198,13 +212,13 @@ function updateTotalPrice(){
 }
 
 function removeProductItemRow(btn){
-    btn.closest(".product-item-row").remove();
+    btn.closest(".create-product-item-row").remove();
     updateTotalPrice();
 }
 
 function getProductItemsData(){
     const container = document.getElementById("createProductItemsContainer");
-    return Array.from(container.querySelectorAll(".product-item-row")).map(row => ({
+    return Array.from(container.querySelectorAll(".create-product-item-row")).map(row => ({
         uuid: row.querySelector(".item-select").value,
         quantity: parseInt(row.querySelector(".item-quantity").value)
     }));
