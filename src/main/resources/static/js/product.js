@@ -45,10 +45,10 @@ async function loadProducts(page = 0) {
                         <button class="btn btn-sm btn-outline-secondary me-1" onclick="showProductDetail('${p.uuid}')">
                             <i class="bi bi-eye me-1"></i> 查看
                         </button>
-                        <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEditProductModal('${p.uuid}')">
+                        <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEditModal('${p.uuid}')">
                             <i class="bi bi-pencil me-1"></i> 編輯
                         </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteProductModal('${p.uuid}', '${p.name}')">
+                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${p.uuid}', '${p.name}')">
                             <i class="bi bi-trash"></i> 刪除
                         </button>
                     </div>
@@ -68,7 +68,7 @@ function clearSearch() {
 // ==========================
 // 查看產品 (READ)
 // ==========================
-async function showDetail(uuid) {
+async function showProductDetail(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
     const data = (await res.json()).data;
 
@@ -85,8 +85,6 @@ async function showDetail(uuid) {
         ? `<img src="${data.imageUrl}" class="img-fluid rounded" style="max-height:200px;">`
         : "";
     const productListEl = document.getElementById("viewProductList");
-    productListEl.innerHTML = (data.productItems || []).map(i => `<li>${i.name} x ${i.quantity}</li>`).join("");
-
     new bootstrap.Modal(document.getElementById("viewModal"), { backdrop: "static", keyboard: false }).show();
 }
 
@@ -103,19 +101,14 @@ async function clearCreateModal() {
     ids.forEach(id => { const el = document.getElementById(id); if(el) el.value = ""; });
     document.getElementById("createImagePreview").style.display = "none";
 
-    // 初始化品項列
     const container = document.getElementById("createProductItemsContainer");
-    container.innerHTML = `
-        <label>品項 <span class="text-danger">*</span></label>
-    `;
+    container.innerHTML = `<label>品項 <span class="text-danger">*</span></label>`;
 
-    // 確保 suppliers 已經載入再新增
     if (suppliers.length > 0) {
         await addProductItemRow();
     }
 }
 
-// 圖片預覽
 function previewCreateImageFile(event) {
     const file = event.target.files[0];
     const preview = document.getElementById("createImagePreview");
@@ -126,7 +119,9 @@ function previewCreateImageFile(event) {
     } else { preview.src = ""; preview.style.display = "none"; }
 }
 
+// ==========================
 // 品項操作
+// ==========================
 async function addProductItemRow(){
     const container = document.getElementById("createProductItemsContainer");
     const row = document.createElement("div");
@@ -136,9 +131,9 @@ async function addProductItemRow(){
         <select class="form-select supplier-select" required onchange="onSupplierChange(this)">
             ${suppliers.map(s => `<option value="${s.uuid}">${s.name}</option>`).join("")}
         </select>
-        <select class="form-select item-select" required>
-        </select>
-        <input type="number" class="form-control item-quantity" placeholder="數量" min="1" value="1" style="max-width:60px;" required>
+        <select class="form-select item-select" required></select>
+        <input type="number" class="form-control item-quantity" placeholder="數量" min="1" value="1" style="max-width:80px;" required>
+        <input type="text" class="form-control item-price" placeholder="單價" readonly style="max-width:100px;">
         <button type="button" class="btn btn-outline-danger" onclick="removeProductItemRow(this)">
             <i class="bi bi-trash"></i>
         </button>
@@ -147,28 +142,62 @@ async function addProductItemRow(){
 
     const supplierSelect = row.querySelector(".supplier-select");
     const itemSelect = row.querySelector(".item-select");
-    if (supplierSelect.value) {
-        updateItemSelect(itemSelect, supplierSelect.value);
-    }
+    const qtyInput = row.querySelector(".item-quantity");
+
+    updateItemSelect(itemSelect, supplierSelect.value);
+    updateItemPrice(row);
+
+    itemSelect.addEventListener("change", () => updateItemPrice(row));
+    qtyInput.addEventListener("input", () => updateTotalPrice());
 }
 
-function removeProductItemRow(btn){
-    const container = document.getElementById("createProductItemsContainer");
-    if(container.children.length > 1) btn.closest(".product-item-row").remove();
+// 當更換供應商時，更新該列品項
+function onSupplierChange(selectEl) {
+    const row = selectEl.closest(".product-item-row");
+    const supplierUuid = selectEl.value;
+    const itemSelect = row.querySelector(".item-select");
+    updateItemSelect(itemSelect, supplierUuid);
+    updateItemPrice(row);
 }
 
-function onSupplierChange(select){
-    const supplierUuid = select.value;
-    const row = select.closest(".product-item-row");
-    updateItemSelect(row.querySelector(".item-select"), supplierUuid);
-}
-
+// 更新 item-select 的選項
 function updateItemSelect(itemSelect, supplierUuid){
     if(!items) return;
     const filtered = items.filter(i => i.supplierUuid === supplierUuid);
     itemSelect.innerHTML = filtered.length === 0
         ? `<option value="">無品項</option>`
-        : filtered.map(i => `<option value="${i.uuid}">${i.name}</option>`).join("");
+        : filtered.map(i => {
+            const priceObj = prices.find(p => p.uuid === i.uuid);
+            const price = priceObj ? priceObj.price : 0;
+            return `<option value="${i.uuid}" data-price="${price}">${i.name}</option>`;
+        }).join("");
+}
+
+// 根據品項更新單價
+function updateItemPrice(row){
+    const itemSelect = row.querySelector(".item-select");
+    const priceInput = row.querySelector(".item-price");
+    const selectedOption = itemSelect.options[itemSelect.selectedIndex];
+    const price = parseFloat(selectedOption.dataset.price || 0);
+    priceInput.value = formatNumber(Math.round(price));
+    updateTotalPrice();
+}
+
+// 計算總金額
+function updateTotalPrice(){
+    let total = 0;
+    document.querySelectorAll("#createProductItemsContainer .product-item-row").forEach(row => {
+        const qty = parseInt(unformatNumber(row.querySelector(".item-quantity").value)) || 0;
+        const price = parseInt(unformatNumber(row.querySelector(".item-price").value)) || 0;
+        total += qty * price;
+    });
+    const totalInput = document.getElementById("createUnitPrice");
+    if (totalInput) totalInput.value = formatNumber(total);
+}
+
+function removeProductItemRow(btn){
+    btn.closest(".product-item-row").remove();
+    updateTotalPrice();
 }
 
 function getProductItemsData(){
@@ -179,16 +208,21 @@ function getProductItemsData(){
     }));
 }
 
+// ==========================
 // 儲存新增產品
+// ==========================
 async function saveNewProduct(e) {
     e.preventDefault();
+    document.querySelectorAll(".item-price, .item-quantity, #createPrice").forEach(input => {
+        input.value = unformatNumber(input.value);
+    });
     const formData = new FormData();
     formData.append("name", document.getElementById("createName").value.trim());
     formData.append("code", document.getElementById("createCode").value.trim());
     formData.append("dimension", document.getElementById("createDimension").value.trim());
     formData.append("description", document.getElementById("createDescription").value.trim());
     formData.append("unit", document.getElementById("createUnit").value.trim());
-    formData.append("price", parseFloat(document.getElementById("createPrice").value));
+    formData.append("price", parseInt(document.getElementById("createPrice").value) || 0);
     formData.append("items", JSON.stringify(getProductItemsData()));
 
     const fileInput = document.getElementById("createImageFile");
@@ -258,7 +292,7 @@ async function saveEditProduct(e){
     formData.append("dimension", document.getElementById("editDimension").value.trim());
     formData.append("description", document.getElementById("editDescription").value.trim());
     formData.append("unit", document.getElementById("editUnit").value.trim());
-    formData.append("price", parseFloat(document.getElementById("editPrice").value));
+    formData.append("price", parseInt(document.getElementById("editPrice").value) || 0);
     formData.append("status", document.getElementById("editStatus").checked ? "ACTIVE" : "INACTIVE");
 
     const fileInput = document.getElementById("editImageFile");
@@ -314,19 +348,6 @@ function openImagePreview(imageUrl){
     modal.show();
 }
 
-// 供應商 select 下拉初始化
-function populateCreateSupplierSelect(){
-    const select = document.getElementById("createSupplierUuid");
-    if(!select) return;
-    select.innerHTML = suppliers.map(s => `<option value="${s.uuid}">${s.name}</option>`).join("");
-}
-
-function populateEditSupplierSelect(){
-    const select = document.getElementById("editSupplierUuid");
-    if(!select) return;
-    select.innerHTML = suppliers.map(s => `<option value="${s.uuid}">${s.name}</option>`).join("");
-}
-
 // ==========================
 // 初始化
 // ==========================
@@ -357,13 +378,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }));
     }
 
-    // 初始化 product modal 下拉
-    populateCreateSupplierSelect();
-    populateEditSupplierSelect();
-
-    // 載入產品列表
     loadProducts();
-
-    // 刪除按鈕
     document.getElementById("confirmDeleteBtn")?.addEventListener("click", confirmDelete);
 });

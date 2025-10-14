@@ -71,6 +71,7 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
                         itemEntity.getDimension(),
                         String.format("%s%s", server, itemEntity.getImageUrl()),
                         itemEntity.getUnit(),
+                        itemEntity.getPrice(),
                         itemEntity.getSupplier().getUuid(),
                         itemEntity.getSupplier().getName(),
                         itemEntity.getStatus()

@@ -87,12 +87,7 @@
                     <div class="mb-2" id="createProductItemsContainer">
                         <label>品項 <span class="text-danger">*</span></label>
                         <div class="d-flex gap-2 product-item-row">
-                            <select class="form-select supplier-select" onchange="onSupplierChange(this)" required></select>
-                            <select class="form-select item-select" required></select>
-                            <input type="number" class="form-control item-quantity" placeholder="數量" min="1" value="1" style="max-width:60px;" required>
-                            <button type="button" class="btn btn-outline-danger" onclick="removeProductItemRow(this)">
-                                <i class="bi bi-trash"></i>
-                            </button>
+
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
@@ -102,11 +97,11 @@
                     </div>
                     <div class="mb-2">
                         <label>成本金額 <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="createUnitPrice" required min="0" step="0.01">
+                        <input type="text" class="form-control" id="createUnitPrice" readonly>
                     </div>
                     <div class="mb-2">
                         <label>報價金額 <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="createPrice" required min="0" step="0.01">
+                        <input type="text" class="form-control" id="createPrice" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -148,23 +143,34 @@
                         <input type="text" class="form-control" id="editUnit" required maxlength="10">
                     </div>
                     <div class="mb-2">
-                        <label>報價金額 <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="editPrice" required min="0" step="0.01">
-                    </div>
-                    <div class="mb-2">
-                        <label>品項 <span class="text-danger">*</span></label>
-                        <select class="form-select" id="editProductUuids" multiple required></select>
-                    </div>
-                    <div class="mb-2 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="editStatus">
-                        <label class="form-check-label" for="editStatus">啟用</label>
-                    </div>
-                    <div class="mb-2">
                         <label>圖片</label>
                         <input type="file" class="form-control" id="editImageFile" accept="image/*" onchange="previewEditImageFile(event)">
                         <div class="mt-2">
                             <img id="editImagePreview" class="img-fluid rounded" style="max-height:200px; display:none;">
                         </div>
+                    </div>
+                    <div class="mb-2 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="editStatus">
+                        <label class="form-check-label" for="editStatus">啟用</label>
+                    </div>
+                    <div class="mb-2" id="editProductItemsContainer">
+                        <label>品項 <span class="text-danger">*</span></label>
+                        <div class="d-flex gap-2 product-item-row">
+
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-success mb-2" onclick="addProductItemRow()">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                    </div>
+                    <div class="mb-2">
+                        <label>成本金額 <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="editUnitPrice" required min="0" step="0.01" readonly>
+                    </div>
+                    <div class="mb-2">
+                        <label>報價金額 <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="editPrice" required min="0" step="0.01">
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -206,20 +212,26 @@
                         <input type="text" class="form-control" id="viewUnit" disabled>
                     </div>
                     <div class="mb-2">
-                        <label>價格</label>
-                        <input type="text" class="form-control" id="viewPrice" disabled>
-                    </div>
-                    <div class="mb-2">
-                        <label>品項</label>
-                        <ul id="viewProductList"></ul>
+                        <label>圖片</label>
+                        <div id="viewImagesContainer"></div>
                     </div>
                     <div class="mb-2 form-check form-switch">
                         <input class="form-check-input" type="checkbox" id="viewStatus" disabled>
                         <label id="viewStatusStr">狀態</label>
                     </div>
                     <div class="mb-2">
-                        <label>圖片</label>
-                        <div id="viewImagesContainer"></div>
+                        <label>品項</label>
+                        <div class="d-flex gap-2 product-item-row">
+
+                        </div>
+                    </div>
+                    <div class="mb-2">
+                        <label>成本金額</label>
+                        <input type="text" class="form-control" id="viewUnitPrice" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>報價金額</label>
+                        <input type="text" class="form-control" id="viewPrice" disabled>
                     </div>
                 </div>
                 <div class="modal-footer">

@@ -80,3 +80,14 @@ async function loadItemsData() {
     const json = await res.json();
     return json.data || [];
 }
+
+// 加上千分位
+function formatNumber(num) {
+    if (isNaN(num)) return "";
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// 移除千分位
+function unformatNumber(str) {
+    return str ? str.toString().replace(/,/g, "") : "";
+}
