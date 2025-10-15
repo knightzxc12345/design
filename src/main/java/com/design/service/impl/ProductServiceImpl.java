@@ -70,6 +70,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductEntity> findByUuids(List<String> uuids) {
+        return productRepository.findByIsDeletedFalseAndUuidInOrderByPkAsc(uuids);
+    }
+
+    @Override
     public Page<ProductEntity> findByPage(String keyword, Pageable pageable) {
         return productRepository.findByPage(
                 keyword,

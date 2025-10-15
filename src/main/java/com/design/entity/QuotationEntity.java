@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,33 @@ public class QuotationEntity extends BaseEntity {
             orphanRemoval = true
     )
     private List<QuotationProductEntity> products = new ArrayList<>();
+
+    // 成本總計
+    @Column(
+            name = "total_cost_price",
+            nullable = false,
+            precision = 15
+    )
+    @NotBlank
+    private BigDecimal totalCostPrice;
+
+    // 報價總計
+    @Column(
+            name = "total_price",
+            nullable = false,
+            precision = 15
+    )
+    @NotBlank
+    private BigDecimal totalPrice;
+
+    // 議價總計
+    @Column(
+            name = "total_negotiated_price",
+            nullable = false,
+            precision = 15
+    )
+    @NotBlank
+    private BigDecimal totalNegotiatedPrice;
 
     // 狀態
     @Column(

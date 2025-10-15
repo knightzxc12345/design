@@ -51,25 +51,4 @@ public class QuotationProductEntity extends BaseEntity {
     @NotNull
     private BigDecimal negotiatedPrice;
 
-    // 是否刪除
-    @Column(
-            name = "is_deleted",
-            nullable = false
-    )
-    @NotNull
-    private Boolean isDeleted;
-
-    // 刪除時間
-    @Column(
-            name = "deleted_time"
-    )
-    private Instant deletedTime;
-
-    // 刪除人員
-    @Column(
-            name = "deleted_user",
-            length = 36
-    )
-    private String deletedUser;
-
 }

@@ -12,6 +12,8 @@ public class Common {
 
     public final static DateTimeFormatter DATE_FORMAT_2 = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
+    public final static DateTimeFormatter DATE_FORMAT_3 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
     public final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###");
 
     public final static long DAYS = 24 * 60 * 60;

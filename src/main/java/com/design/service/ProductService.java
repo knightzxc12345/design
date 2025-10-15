@@ -18,6 +18,8 @@ public interface ProductService {
 
     List<ProductEntity> findAll(String keyword);
 
+    List<ProductEntity> findByUuids(List<String> uuids);
+
     Page<ProductEntity> findByPage(String keyword, Pageable pageable);
 
 }
