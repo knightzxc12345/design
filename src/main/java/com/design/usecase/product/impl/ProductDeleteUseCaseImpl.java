@@ -8,6 +8,7 @@ import com.design.usecase.product.ProductDeleteUseCase;
 import com.design.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class ProductDeleteUseCaseImpl implements ProductDeleteUseCase {
 
     private final ProductItemService productItemService;
 
+    @Transactional
     @Override
     public void delete(String uuid) {
         ProductEntity productEntity = productService.findByUuid(uuid);

@@ -10,6 +10,7 @@ import com.design.usecase.item.ItemCreateUseCase;
 import com.design.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -20,6 +21,7 @@ public class ItemCreateUseCaseImpl implements ItemCreateUseCase {
 
     private final SupplierService supplierService;
 
+    @Transactional
     @Override
     public void create(ItemCreateRequest request, MultipartFile file) {
         String imageUrl = ImageUtil.uploadImage(Common.IMAGE_PATH_ITEM, file);

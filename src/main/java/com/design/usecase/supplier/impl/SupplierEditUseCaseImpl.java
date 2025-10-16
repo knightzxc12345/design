@@ -6,6 +6,7 @@ import com.design.service.SupplierService;
 import com.design.usecase.supplier.SupplierEditUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +14,7 @@ public class SupplierEditUseCaseImpl implements SupplierEditUseCase {
 
     private final SupplierService supplierService;
 
+    @Transactional
     @Override
     public void edit(String uuid, SupplierEditRequest request) {
         SupplierEntity supplierEntity = supplierService.findByUuid(uuid);

@@ -16,6 +16,7 @@ import com.design.utils.JsonUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
@@ -33,6 +34,7 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
 
     private final ItemService itemService;
 
+    @Transactional
     @Override
     public void create(ProductCreateRequest request, MultipartFile file) {
         // 先上傳圖片

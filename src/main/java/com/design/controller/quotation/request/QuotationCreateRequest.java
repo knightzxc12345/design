@@ -13,9 +13,12 @@ public record QuotationCreateRequest(
         @NotBlank(message = "客戶id不得為空")
         String customerUuid,
 
+        @Schema(description = "備註", example = "test")
+        String remark,
+
         @Schema(description = "產品清單", example = "7d934fb6-e5b7-45db-a117-feaf75d19a9f")
         @NotNull(message = "產品清單不得為空")
-        List<Product> products
+        List<QuotationCreateRequest.Product> products
 
 ) {
 

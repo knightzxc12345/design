@@ -5,6 +5,7 @@ import com.design.service.SupplierService;
 import com.design.usecase.supplier.SupplierDeleteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -12,6 +13,7 @@ public class SupplierDeleteUseCaseImpl implements SupplierDeleteUseCase {
 
     private final SupplierService supplierService;
 
+    @Transactional
     @Override
     public void delete(String uuid) {
         SupplierEntity supplierEntity = supplierService.findByUuid(uuid);

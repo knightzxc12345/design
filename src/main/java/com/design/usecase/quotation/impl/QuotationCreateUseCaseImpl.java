@@ -11,13 +11,14 @@ import com.design.service.ProductService;
 import com.design.service.QuotationProductService;
 import com.design.service.QuotationService;
 import com.design.usecase.quotation.QuotationCreateUseCase;
+import com.design.usecase.quotation.model.PriceSummary;
 import com.design.utils.InstantUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
 
     private final ProductService productService;
 
+    @Transactional
     @Override
     public void create(QuotationCreateRequest request) {
         // 1. 建立 quotation 並存入資料庫 (先生成 UUID/PK)
@@ -54,8 +56,13 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
         // 4. 存入明細
         quotationProductService.createAll(quotationProductEntities);
 
-        // 5. 補回雙向關聯到 quotation
+        // 5. 取得總計
+        PriceSummary priceSummary = calTotalCostPrice(quotationProductEntities, productMap);
+        // 6. 補回雙向關聯到 quotation
         quotationEntity.setProducts(quotationProductEntities);
+        quotationEntity.setTotalCostPrice(priceSummary.totalCostPrice());
+        quotationEntity.setTotalPrice(priceSummary.totalPrice());
+        quotationEntity.setTotalNegotiatedPrice(priceSummary.totalNegotiatedPrice());
         quotationService.edit(quotationEntity);
     }
 
@@ -64,36 +71,53 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
         QuotationEntity quotationEntity = new QuotationEntity();
         quotationEntity.setQuotationNo(String.format("%s%s", "DE", InstantUtil.to(Instant.now(), Common.DATE_FORMAT_3)));
         quotationEntity.setCustomer(customerEntity);
+        quotationEntity.setRemark(request.remark());
         return quotationEntity;
     }
 
     private List<QuotationProductEntity> initProducts(
             QuotationCreateRequest request,
-            QuotationEntity quotation, Map<String,
-            ProductEntity> productMap) {
+            QuotationEntity quotation,
+            Map<String, ProductEntity> productMap) {
         return request.products().stream().map(p -> {
-            ProductEntity product = productMap.get(p.productUuid());
-            if (product == null) {
-                throw new RuntimeException("產品不存在: " + p.productUuid());
-            }
+            ProductEntity productEntity = productMap.get(p.productUuid());
             QuotationProductEntity qpe = new QuotationProductEntity();
             qpe.setQuotation(quotation);
-            qpe.setProduct(product);
+            qpe.setProduct(productEntity);
             qpe.setQuantity(p.quantity());
             qpe.setNegotiatedPrice(p.negotiatedPrice());
             return qpe;
         }).toList();
     }
 
-    private Map<String, BigDecimal> calTotalCostPrice(List<QuotationProductEntity> quotationProductEntities){
-        BigDecimal totalCostPrice = new BigDecimal(0);
-        BigDecimal totalPrice = new BigDecimal(0);
-        BigDecimal totalNegotiatedPrice = new BigDecimal(0);
-        Map<String, BigDecimal> priceMap = new HashMap<>();
-        for(QuotationProductEntity quotationProductEntity : quotationProductEntities){
+    private PriceSummary calTotalCostPrice(
+            List<QuotationProductEntity> quotationProductEntities,
+            Map<String, ProductEntity> productMap) {
 
-        }
-        return priceMap;
+        BigDecimal totalCostPrice = quotationProductEntities.stream()
+                .map(qp -> {
+                    ProductEntity p = productMap.get(qp.getProduct().getUuid());
+                    return p == null ? BigDecimal.ZERO :
+                            BigDecimal.valueOf(qp.getQuantity())
+                                    .multiply(p.getCostPrice() != null ? p.getCostPrice() : BigDecimal.ZERO);
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal totalPrice = quotationProductEntities.stream()
+                .map(qp -> {
+                    ProductEntity p = productMap.get(qp.getProduct().getUuid());
+                    return p == null ? BigDecimal.ZERO :
+                            BigDecimal.valueOf(qp.getQuantity())
+                                    .multiply(p.getPrice() != null ? p.getPrice() : BigDecimal.ZERO);
+                })
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal totalNegotiatedPrice = quotationProductEntities.stream()
+                .map(qp -> BigDecimal.valueOf(qp.getQuantity())
+                        .multiply(qp.getNegotiatedPrice() != null ? qp.getNegotiatedPrice() : BigDecimal.ZERO))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new PriceSummary(totalCostPrice, totalPrice, totalNegotiatedPrice);
     }
 
 }

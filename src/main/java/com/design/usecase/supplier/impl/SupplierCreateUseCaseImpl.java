@@ -6,6 +6,7 @@ import com.design.service.SupplierService;
 import com.design.usecase.supplier.SupplierCreateUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +14,7 @@ public class SupplierCreateUseCaseImpl implements SupplierCreateUseCase {
 
     private final SupplierService supplierService;
 
+    @Transactional
     @Override
     public void create(SupplierCreateRequest request) {
         SupplierEntity supplierEntity = init(request);

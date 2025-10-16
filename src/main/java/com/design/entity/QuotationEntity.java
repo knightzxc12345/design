@@ -71,6 +71,13 @@ public class QuotationEntity extends BaseEntity {
     @NotBlank
     private BigDecimal totalNegotiatedPrice;
 
+    // 備註
+    @Column(
+            name = "remark",
+            columnDefinition = "TEXT"
+    )
+    private String remark;
+
     // 狀態
     @Column(
             name = "status",

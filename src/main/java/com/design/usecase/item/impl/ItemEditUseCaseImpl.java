@@ -10,6 +10,7 @@ import com.design.usecase.item.ItemEditUseCase;
 import com.design.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
@@ -20,6 +21,7 @@ public class ItemEditUseCaseImpl implements ItemEditUseCase {
 
     private final SupplierService supplierService;
 
+    @Transactional
     @Override
     public void edit(String uuid, ItemEditRequest request, MultipartFile file) {
         ItemEntity itemEntity = itemService.findByUuid(uuid);
