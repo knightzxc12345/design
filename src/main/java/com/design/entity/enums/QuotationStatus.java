@@ -8,8 +8,6 @@ public enum QuotationStatus {
 
     APPROVED("已核准"),
 
-    REJECTED("已拒絕"),
-
     COMPLETED("已完成"),
 
     CANCELLED("已取消"),

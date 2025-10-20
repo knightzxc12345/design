@@ -41,10 +41,22 @@ public class PageController {
         return "product";
     }
 
-    @GetMapping("/quote")
+    @GetMapping("/quotation")
     public String quote(Model model) {
-        model.addAttribute("activeMenu", "quote");
-        return "quote";
+        model.addAttribute("activeMenu", "quotation");
+        return "quotation";
+    }
+
+    @GetMapping("/quotation/create")
+    public String createQuotation(Model model) {
+        model.addAttribute("activeMenu", "quotation");
+        return "quotation_create";
+    }
+
+    @GetMapping("/quotation/edit")
+    public String editQuotation(Model model) {
+        model.addAttribute("activeMenu", "quotation");
+        return "quotation_edit";
     }
 
     @GetMapping("/shipment")

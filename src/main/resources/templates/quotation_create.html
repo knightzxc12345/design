@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>報價單</title>
+    <script th:src="@{/js/quotation_create.js}"></script>
+    <style>
+        /* 固定送出按鈕在最下方 */
+        .submit-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            z-index: 999;
+        }
+
+        /* 總計區塊樣式 */
+        .total-block {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 60px; /* 預留送出按鈕空間 */
+        }
+        .total-item {
+            margin-left: 30px;
+        }
+        .total-item span {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+    <div style="padding: 20px;">
+        <h3 class="mb-4">新增報價單</h3>
+
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-outline-success" onclick="addQuotationRow()">
+                <i class="bi bi-plus-lg me-1"></i> 新增一列
+            </button>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>產品名稱</th>
+                <th>產品代號</th>
+                <th>產品尺寸</th>
+                <th>產品單位</th>
+                <th>數量</th>
+                <th>成本</th>
+                <th>報價</th>
+                <th>成本總計</th>
+                <th>報價總計</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="quotationCreateTableBody">
+
+            </tbody>
+        </table>
+
+        <!-- 總計區塊 -->
+        <div class="container mt-4 d-flex justify-content-between">
+            <!-- 客戶資訊區塊 -->
+            <div style="flex: 1; max-width: 400px; margin-right: 40px;">
+                <div class="mb-3">
+                    <label><strong>客戶</strong></label>
+                    <select class="form-select" onchange="onCustomerSelect(this)">
+                        <option value="">請選擇客戶</option>
+                    </select>
+                </div>
+                <div>名稱: <span id="customerName"></span></div>
+                <div>統一編號: <span id="customerTaxId"></span></div>
+                <div>電話: <span id="customerPhone"></span></div>
+                <div>傳真: <span id="customerFax"></span></div>
+                <div>信箱: <span id="customerEmail"></span></div>
+                <div>地址: <span id="customerAddress"></span></div>
+                <div>聯絡人: <span id="customerContact"></span></div>
+                <div>聯絡人電話: <span id="customerContactPhone"></span></div>
+            </div>
+
+            <!-- 總計區塊 -->
+            <div style="flex: 0 0 250px;">
+                <div class="row mb-2">
+                    <div class="col-6"><strong>成本總計</strong></div>
+                    <div class="col-6 text-end"><strong><span id="totalCost">0</span></strong></div>
+                </div>
+                <div class="row">
+                    <div class="col-6"><strong>報價總計</strong></div>
+                    <div class="col-6 text-end"><strong><span id="totalPrice">0</span></strong></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 送出按鈕，放在 section 最下方 -->
+        <div class="mt-4">
+            <button class="btn btn-success w-100" onclick="submitQuotation()">
+                <strong>送出報價單</strong>
+            </button>
+        </div>
+
+    </div>
+</section>
+</body>
+</html>

@@ -38,11 +38,11 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
     @Transactional
     @Override
     public void create(QuotationCreateRequest request) {
-        // 1. 建立 quotation 並存入資料庫 (先生成 UUID/PK)
+        // 建立 quotation 並存入資料庫 (先生成 UUID/PK)
         QuotationEntity quotationEntity = init(request);
         quotationService.create(quotationEntity);
 
-        // 2.取得產品清單
+        // 取得產品清單
         List<String> productUuids = request.products().stream()
                 .map(QuotationCreateRequest.Product::productUuid)
                 .toList();
@@ -50,15 +50,15 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
         Map<String, ProductEntity> productMap = products.stream()
                 .collect(Collectors.toMap(ProductEntity::getUuid, p -> p));
 
-        // 3. 建立報價明細 list
+        // 建立報價明細 list
         List<QuotationProductEntity> quotationProductEntities = initProducts(request, quotationEntity, productMap);
 
-        // 4. 存入明細
+        // 存入明細
         quotationProductService.createAll(quotationProductEntities);
 
-        // 5. 取得總計
+        // 取得總計
         PriceSummary priceSummary = calTotalCostPrice(quotationProductEntities, productMap);
-        // 6. 補回雙向關聯到 quotation
+        // 補回雙向關聯到 quotation
         quotationEntity.setProducts(quotationProductEntities);
         quotationEntity.setTotalCostPrice(priceSummary.totalCostPrice());
         quotationEntity.setTotalPrice(priceSummary.totalPrice());

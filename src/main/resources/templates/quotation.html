@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>報價單</title>
+    <script th:src="@{/js/quotation.js}"></script>
+</head>
+<body>
+<section layout:fragment="content">
+    <div style="padding: 20px;">
+        <h3 class="mb-4">報價單管理</h3>
+
+        <div class="d-flex align-items-center mb-3 gap-2">
+            <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入 號碼/客戶名稱">
+
+            <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="loadQuotations(0)">
+                <i class="bi bi-search me-1"></i> 搜尋
+            </button>
+
+            <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="clearSearch()">
+                <i class="bi bi-x-circle me-1"></i> 清除
+            </button>
+
+            <a class="btn btn-outline-success d-flex align-items-center" style="white-space: nowrap;" href="/design/quotation/create">
+                <i class="bi bi-plus-lg me-1"></i> 新增
+            </a>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>單號</th>
+                <th>建立時間</th>
+                <th>客戶名稱</th>
+                <th>成本</th>
+                <th>報價</th>
+                <th>議價</th>
+                <th>狀態</th>
+                <th>建立人員</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="quotationTableBody"></tbody>
+        </table>
+
+        <nav>
+            <ul class="pagination" id="pagination"></ul>
+        </nav>
+
+    </div>
+</section>
+</body>
+</html>

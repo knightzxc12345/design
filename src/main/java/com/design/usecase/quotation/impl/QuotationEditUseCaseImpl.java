@@ -68,7 +68,7 @@ public class QuotationEditUseCaseImpl implements QuotationEditUseCase {
         quotationEntity.setTotalPrice(priceSummary.totalPrice());
         quotationEntity.setTotalNegotiatedPrice(priceSummary.totalNegotiatedPrice());
 
-        // 9️⃣ 更新報價單
+        // 更新報價單
         quotationService.edit(quotationEntity);
     }
 
