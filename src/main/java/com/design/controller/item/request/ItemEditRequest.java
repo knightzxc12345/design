@@ -10,15 +10,15 @@ import java.math.BigDecimal;
 
 public record ItemEditRequest(
 
+        @Schema(description = "統稱", example = "筆記型電腦")
+        @Length(min = 1, max = 64, message = "名稱長度必須為1~64")
+        @NotBlank(message = "統稱不得為空")
+        String generalTerm,
+
         @Schema(description = "品項名稱", example = "筆記型電腦")
         @Length(min = 1, max = 64, message = "名稱長度必須為1~64")
         @NotBlank(message = "名稱不得為空")
         String name,
-
-        @Schema(description = "品項代號", example = "LAPTOP001")
-        @Length(min = 1, max = 64, message = "代號長度必須為1~64")
-        @NotBlank(message = "代號不得為空")
-        String code,
 
         @Schema(description = "尺寸", example = "15吋")
         @Length(max = 64, message = "尺寸長度不得超過64")
@@ -27,10 +27,6 @@ public record ItemEditRequest(
         @Schema(description = "描述", example = "高效能筆記型電腦")
         @Length(max = 512, message = "描述長度不得超過512")
         String description,
-
-        @Schema(description = "圖片 URL", example = "https://example.com/image.png")
-        @Length(max = 512, message = "圖片 URL 長度不得超過512")
-        String imageUrl,
 
         @Schema(description = "單位", example = "台")
         @Length(min = 1, max = 10, message = "單位長度必須為1~10")

@@ -10,6 +10,11 @@ import java.math.BigDecimal;
 
 public record ItemCreateRequest(
 
+        @Schema(description = "統稱", example = "筆記型電腦")
+        @Length(min = 1, max = 64, message = "名稱長度必須為1~64")
+        @NotBlank(message = "統稱不得為空")
+        String generalTerm,
+
         @Schema(description = "品項名稱", example = "筆記型電腦")
         @Length(min = 1, max = 64, message = "名稱長度必須為1~64")
         @NotBlank(message = "名稱不得為空")

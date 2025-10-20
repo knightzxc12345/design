@@ -20,6 +20,15 @@ import java.time.Instant;
 @Entity
 public class ItemEntity extends BaseEntity {
 
+    // 統稱
+    @Column(
+            name = "general_term",
+            nullable = false,
+            length = 64
+    )
+    @NotBlank
+    private String generalTerm;
+
     // 名稱
     @Column(
             name = "name",
@@ -28,15 +37,6 @@ public class ItemEntity extends BaseEntity {
     )
     @NotBlank
     private String name;
-
-    // 代號
-    @Column(
-            name = "code",
-            nullable = false,
-            length = 64
-    )
-    @NotBlank
-    private String code;
 
     // 尺寸
     @Column(
@@ -53,12 +53,6 @@ public class ItemEntity extends BaseEntity {
     )
     private String description;
 
-    // 圖片
-    @Column(
-            name = "image_url"
-    )
-    private String imageUrl;
-
     // 單位
     @Column(
             name = "unit",
@@ -68,7 +62,7 @@ public class ItemEntity extends BaseEntity {
     @NotBlank
     private String unit;
 
-    // 報價金額
+    // 成本金額
     @Column(
             name = "price",
             nullable = false,

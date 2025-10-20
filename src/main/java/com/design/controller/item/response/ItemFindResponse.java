@@ -7,6 +7,9 @@ import java.math.BigDecimal;
 
 public record ItemFindResponse(
 
+        @Schema(description = "統稱", example = "筆記型電腦")
+        String generalTerm,
+
         @Schema(description = "品項名稱", example = "筆記型電腦")
         String name,
 
@@ -18,9 +21,6 @@ public record ItemFindResponse(
 
         @Schema(description = "描述", example = "高效能筆記型電腦")
         String description,
-
-        @Schema(description = "圖片 URL", example = "https://example.com/image.png")
-        String imageUrl,
 
         @Schema(description = "單位", example = "台")
         String unit,

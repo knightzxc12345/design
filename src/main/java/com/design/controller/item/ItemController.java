@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -50,9 +49,8 @@ public class ItemController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public CustomResponse create(
-            @ModelAttribute @Validated @NotNull ItemCreateRequest request,
-            @RequestPart(name = "file", required = false) MultipartFile file) {
-        itemCreateUseCase.create(request, file);
+            @ModelAttribute @Validated @NotNull ItemCreateRequest request) {
+        itemCreateUseCase.create(request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
@@ -63,9 +61,8 @@ public class ItemController {
     )
     public CustomResponse update(
             @PathVariable("uuid") @NotNull String uuid,
-            @ModelAttribute @Validated @NotNull ItemEditRequest request,
-            @RequestPart(name = "file", required = false) MultipartFile file) {
-        itemEditUseCase.edit(uuid, request, file);
+            @ModelAttribute @Validated @NotNull ItemEditRequest request) {
+        itemEditUseCase.edit(uuid, request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
