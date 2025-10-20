@@ -1,6 +1,5 @@
 package com.design.usecase.item.impl;
 
-import com.design.base.common.Common;
 import com.design.controller.common.response.PageResponse;
 import com.design.controller.item.request.ItemFindRequest;
 import com.design.controller.item.request.ItemPageRequest;
@@ -31,11 +30,10 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
     public ItemFindResponse findDetail(String uuid) {
         ItemEntity itemEntity = itemService.findByUuid(uuid);
         return new ItemFindResponse(
+                itemEntity.getGeneralTerm(),
                 itemEntity.getName(),
-                itemEntity.getCode(),
                 itemEntity.getDimension(),
                 itemEntity.getDescription(),
-                String.format("%s%s", server, itemEntity.getImageUrl()),
                 itemEntity.getUnit(),
                 itemEntity.getPrice(),
                 itemEntity.getSupplier().getUuid(),
@@ -66,10 +64,9 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
         return itemEntities.stream()
                 .map(itemEntity -> new ItemFindAllResponse(
                         itemEntity.getUuid(),
+                        itemEntity.getGeneralTerm(),
                         itemEntity.getName(),
-                        itemEntity.getCode(),
                         itemEntity.getDimension(),
-                        String.format("%s%s", server, itemEntity.getImageUrl()),
                         itemEntity.getUnit(),
                         itemEntity.getPrice(),
                         itemEntity.getSupplier().getUuid(),

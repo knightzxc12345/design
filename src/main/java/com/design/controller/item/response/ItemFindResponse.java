@@ -13,9 +13,6 @@ public record ItemFindResponse(
         @Schema(description = "品項名稱", example = "筆記型電腦")
         String name,
 
-        @Schema(description = "品項代號", example = "LAPTOP001")
-        String code,
-
         @Schema(description = "尺寸", example = "15吋")
         String dimension,
 

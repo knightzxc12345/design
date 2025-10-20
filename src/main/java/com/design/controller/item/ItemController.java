@@ -49,7 +49,7 @@ public class ItemController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
     public CustomResponse create(
-            @ModelAttribute @Validated @NotNull ItemCreateRequest request) {
+            @RequestBody @Validated @NotNull ItemCreateRequest request) {
         itemCreateUseCase.create(request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
@@ -61,7 +61,7 @@ public class ItemController {
     )
     public CustomResponse update(
             @PathVariable("uuid") @NotNull String uuid,
-            @ModelAttribute @Validated @NotNull ItemEditRequest request) {
+            @RequestBody @Validated @NotNull ItemEditRequest request) {
         itemEditUseCase.edit(uuid, request);
         return new CustomResponse(SystemCode.SUCCESS);
     }

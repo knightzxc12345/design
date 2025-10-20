@@ -29,19 +29,12 @@ async function loadItems(page = 0) {
 
         tbody.innerHTML += `
             <tr>
+                <td>${item.generalTerm}</td>
                 <td>${item.name}</td>
-                <td>${item.code}</td>
                 <td>${item.dimension || ""}</td>
                 <td>${item.unit || ""}</td>
                 <td>${item.supplierName || ""}</td>
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
-                <td>
-                    ${
-                        item.imageUrl
-                            ? `<img src="${item.imageUrl}" alt="圖片預覽" class="img-fluid rounded" style="max-height:50px; cursor:pointer;" onclick="openImagePreview('${item.imageUrl}')">`
-                            : ''
-                    }
-                </td>
                 <td>
                     <div class="btn-group" role="group">
                         <button class="btn btn-sm btn-outline-secondary me-1" onclick="showDetail('${item.uuid}')">
@@ -75,8 +68,8 @@ async function showDetail(uuid) {
     const data = (await res.json()).data;
 
     document.getElementById("viewUuid").value = data.uuid || "";
+    document.getElementById("viewGeneralTerm").value = data.generalTerm || "";
     document.getElementById("viewName").value = data.name || "";
-    document.getElementById("viewCode").value = data.code || "";
     document.getElementById("viewDimension").value = data.dimension || "";
     document.getElementById("viewDescription").value = data.description || "";
     document.getElementById("viewUnit").value = data.unit || "";
@@ -84,9 +77,6 @@ async function showDetail(uuid) {
     document.getElementById("viewSupplierName").value = data.supplierName || "";
     document.getElementById("viewStatus").checked = (data.status === "ACTIVE");
     document.getElementById("viewStatusStr").textContent = (data.status === "ACTIVE" ? "啟用" : "停用");
-    document.getElementById("viewImagesContainer").innerHTML = data.imageUrl
-        ? `<img src="${data.imageUrl}" class="img-fluid rounded" style="max-height:200px;">`
-        : "";
 
     new bootstrap.Modal(document.getElementById("viewModal"), { backdrop: "static", keyboard: false }).show();
 }
@@ -100,7 +90,7 @@ function openCreateModal() {
 }
 
 function clearCreateModal() {
-    const ids = ["createName","createCode","createDimension","createDescription","createImageFile","createUnit","createPrice","createSupplierUuid","createStatus"];
+    const ids = ["createGeneralTerm","createName","createDimension","createDescription","createUnit","createPrice","createSupplierUuid","createStatus"];
     ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
     document.getElementById("createImagePreview").style.display = "none";
 }
@@ -127,19 +117,14 @@ function populateCreateSupplierSelect() {
 async function saveNewItem(e) {
     e.preventDefault();
     const formData = new FormData();
+    formData.append("generalTerm", document.getElementById("createGeneralTerm").value.trim());
     formData.append("name", document.getElementById("createName").value.trim());
-    formData.append("code", document.getElementById("createCode").value.trim());
     formData.append("dimension", document.getElementById("createDimension").value.trim());
     formData.append("description", document.getElementById("createDescription").value.trim());
     formData.append("unit", document.getElementById("createUnit").value.trim());
     formData.append("price", parseFloat(document.getElementById("createPrice").value));
     formData.append("supplierUuid", document.getElementById("createSupplierUuid").value);
     formData.append("status", "ACTIVE");
-    const fileInput = document.getElementById("createImageFile");
-    if (fileInput.files[0]) {
-        formData.append("file", fileInput.files[0]);
-    }
-
     try {
         const res = await fetch(`${API_BASE}/v1`, { method: "POST", body: formData });
         const data = await res.json();
@@ -161,38 +146,22 @@ async function openEditModal(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
     const data = (await res.json()).data;
     document.getElementById("editUuid").value = uuid;
+    document.getElementById("editGeneralTerm").value = data.generalTerm;
     document.getElementById("editName").value = data.name;
-    document.getElementById("editCode").value = data.code;
-    document.getElementById("edittDimension").value = data.dimension || "";
+    document.getElementById("editDimension").value = data.dimension || "";
     document.getElementById("editDescription").value = data.description || "";
     document.getElementById("editUnit").value = data.unit || "";
     document.getElementById("editPrice").value = data.price || "";
     document.getElementById("editSupplierUuid").value = data.supplierUuid || "";
     document.getElementById("editStatus").checked = data.status === "ACTIVE";
-    if (data.imageUrl) {
-        document.getElementById("editImagePreview").src = data.imageUrl;
-        document.getElementById("editImagePreview").style.display = "block";
-    } else {
-        document.getElementById("editImagePreview").style.display = "none";
-    }
 
     new bootstrap.Modal(document.getElementById("editModal"), { backdrop: "static", keyboard: false }).show();
 }
 
 function clearEditModal() {
-    const ids = ["editUuid","editName","editCode","edittDimension","editDescription","editImageFile","editUnit","editPrice","editSupplierUuid","editStatus"];
+    const ids = ["editUuid","editGeneralTerm","editName","editDimension","editDescription","editUnit","editPrice","editSupplierUuid","editStatus"];
     ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
     document.getElementById("editImagePreview").style.display = "none";
-}
-
-function previewEditImageFile(event) {
-    const file = event.target.files[0];
-    const preview = document.getElementById("editImagePreview");
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = e => { preview.src = e.target.result; preview.style.display = "block"; };
-        reader.readAsDataURL(file);
-    } else { preview.src = ""; preview.style.display = "none"; }
 }
 
 function populateEditSupplierSelect() {
@@ -200,7 +169,7 @@ function populateEditSupplierSelect() {
     if (!select) return;
     select.innerHTML = "";
     suppliers.forEach(supplier => {
-        select.innerHTML += `<option value="${supplier.uuid}">${supplier.name}</option>`;
+        select.innerHTML += `<option value="${supplier.uuid}">${supplier.generalTerm}</option>`;
     });
 }
 
@@ -208,18 +177,14 @@ async function saveEditItem(e) {
     e.preventDefault();
     const uuid = document.getElementById("editUuid").value;
     const formData = new FormData();
+    formData.append("generalTerm", document.getElementById("editGeneralTerm").value.trim());
     formData.append("name", document.getElementById("editName").value.trim());
-    formData.append("code", document.getElementById("editCode").value.trim());
     formData.append("dimension", document.getElementById("edittDimension").value.trim());
     formData.append("description", document.getElementById("editDescription").value.trim());
     formData.append("unit", document.getElementById("editUnit").value.trim());
     formData.append("price", parseFloat(document.getElementById("editPrice").value));
     formData.append("supplierUuid", document.getElementById("editSupplierUuid").value);
     formData.append("status", document.getElementById("editStatus").checked ? "ACTIVE" : "INACTIVE");
-    const fileInput = document.getElementById("editImageFile");
-    if (fileInput.files[0]) {
-        formData.append("file", fileInput.files[0]);
-    }
 
     try {
         const res = await fetch(`${API_BASE}/v1/${uuid}`, { method: "PUT", body: formData });
@@ -240,7 +205,7 @@ async function saveEditItem(e) {
 // ==========================
 function openDeleteModal(uuid, itemName) {
     deleteItemUuid = uuid;
-    document.getElementById("deleteConfirmMessage").innerText = `你確定要刪除「${itemName}」嗎？`;
+    document.getElementById("deleteConfirmMessage").innerText = `你確定要刪除「${itemGeneralTerm}」嗎？`;
     new bootstrap.Modal(document.getElementById("deleteConfirmModal")).show();
 }
 
@@ -259,13 +224,6 @@ async function confirmDelete() {
     } finally {
         deleteItemUuid = null;
     }
-}
-
-function openImagePreview(imageUrl) {
-    const modalImg = document.getElementById("imagePreviewModalImg");
-    modalImg.src = imageUrl;
-    const modal = new bootstrap.Modal(document.getElementById("imagePreviewModal"));
-    modal.show();
 }
 
 // ==========================
