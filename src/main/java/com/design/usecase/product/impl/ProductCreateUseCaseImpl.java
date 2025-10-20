@@ -98,7 +98,7 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
                     productItem.setQuantity(reqItem.quantity());
                     return productItem;
                 })
-                .toList();
+                .collect(Collectors.toList());
     }
 
 }

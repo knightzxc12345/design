@@ -39,40 +39,42 @@ public class ProductEditUseCaseImpl implements ProductEditUseCase {
     public void edit(String uuid, ProductEditRequest request, MultipartFile file) {
         // 查詢產品
         ProductEntity productEntity = productService.findByUuid(uuid);
-        List<ProductItemEntity> oldProductItemEntities = productItemService.findAll(productEntity.getUuid());
-        BigDecimal costPrice = BigDecimal.ZERO;
-        // 圖片處理
+        List<ProductItemEntity> oldProductItems = productEntity.getItems();
+
+        // 處理圖片
         String imageUrl = productEntity.getImageUrl();
         if (file != null && !file.isEmpty()) {
             ImageUtil.deleteImage(productEntity.getImageUrl());
             imageUrl = ImageUtil.uploadImage(Common.IMAGE_PATH_PRODUCT, file);
         }
-        // 轉換 items
-        List<ProductEditRequest.Item> items = JsonUtil.get(request.items(), new TypeReference<List<ProductEditRequest.Item>>() {});
+
+        // 處理 items
+        List<ProductEditRequest.Item> items = JsonUtil.get(request.items(), new TypeReference<>() {});
         List<String> uuids = items.stream().map(ProductEditRequest.Item::uuid).toList();
         List<ItemEntity> itemEntities = itemService.findAllWithUuids(uuids);
 
-        // 初始化 ProductItemEntity
-        List<ProductItemEntity> newProductItemEntities = initProductItem(itemEntities, items);
-        for (ProductItemEntity pi : newProductItemEntities) {
+        // 轉換成 ProductItemEntity
+        List<ProductItemEntity> newProductItems = initProductItem(itemEntities, items);
+        BigDecimal costPrice = BigDecimal.ZERO;
+        for (ProductItemEntity pi : newProductItems) {
             pi.setProduct(productEntity);
             costPrice = costPrice.add(pi.getItem().getPrice().multiply(BigDecimal.valueOf(pi.getQuantity())));
         }
-        productItemService.deleteAll(oldProductItemEntities);
-        productItemService.createAll(newProductItemEntities);
-        // 初始化 ProductEntity
-        productEntity = initProduct(productEntity, request, newProductItemEntities, imageUrl);
-        productEntity.setItems(newProductItemEntities);
-        productEntity.setCostPrice(costPrice);
-        // 存 ProductEntity
+
+        // 刪除舊的 ProductItem
+        productItemService.deleteAll(oldProductItems);
+
+        // 建立新的 ProductItem
+        productItemService.createAll(newProductItems);
+
+        // 更新 ProductEntity 其他欄位
+        updateProduct(productEntity, request, imageUrl, costPrice);
+
+        // 儲存 ProductEntity
         productService.edit(productEntity);
     }
 
-    /**
-     * 初始化 ProductEntity
-     */
-    private ProductEntity initProduct(ProductEntity productEntity, ProductEditRequest request,
-                                      List<ProductItemEntity> productItemEntities, String imageUrl) {
+    private void updateProduct(ProductEntity productEntity, ProductEditRequest request, String imageUrl, BigDecimal costPrice) {
         productEntity.setName(request.name());
         productEntity.setCode(request.code());
         productEntity.setDimension(request.dimension());
@@ -80,14 +82,14 @@ public class ProductEditUseCaseImpl implements ProductEditUseCase {
         productEntity.setImageUrl(imageUrl);
         productEntity.setUnit(request.unit());
         productEntity.setPrice(request.price());
-        productEntity.setItems(productItemEntities);
+        productEntity.setCostPrice(costPrice);
         productEntity.setStatus(request.status());
-        return productEntity;
     }
 
     private List<ProductItemEntity> initProductItem(List<ItemEntity> itemEntities, List<ProductEditRequest.Item> items) {
         Map<String, ItemEntity> itemMap = itemEntities.stream()
                 .collect(Collectors.toMap(ItemEntity::getUuid, e -> e));
+
         return items.stream()
                 .map(reqItem -> {
                     ItemEntity matchedItem = itemMap.get(reqItem.uuid());
@@ -97,9 +99,9 @@ public class ProductEditUseCaseImpl implements ProductEditUseCase {
                     ProductItemEntity productItem = new ProductItemEntity();
                     productItem.setItem(matchedItem);
                     productItem.setQuantity(reqItem.quantity());
+
                     return productItem;
                 })
-                .toList();
+                .collect(Collectors.toList());
     }
-
 }
