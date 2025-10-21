@@ -1,10 +1,12 @@
 let rowIndex = 0;
 let products = [];
+let customers = [];
 
 // ==========================
 // 初始化
 // ==========================
 document.addEventListener("DOMContentLoaded", async () => {
+    // 產品資料
     const rawProducts = await loadProductsData();
     if (rawProducts && rawProducts.length > 0) {
         products = rawProducts.map(p => ({
@@ -18,16 +20,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         }));
         addQuotationRow();
     }
+    // 客戶資料
     const rawCustomers = await loadCustomersData();
     if(rawCustomers && rawCustomers.length > 0){
         customers = rawCustomers;
-        const select = document.querySelector('select.form-select');
+        const select = document.getElementById('customerSelect');
         rawCustomers.forEach(c => {
             const option = document.createElement('option');
             option.value = c.uuid;
             option.textContent = c.name;
             select.appendChild(option);
         });
+        select.value = rawCustomers[0].uuid;
+        onCustomerSelect(select);
     }
 });
 
@@ -37,13 +42,9 @@ function onCustomerSelect(select){
     if(!customer) return;
 
     document.getElementById('customerName').textContent = customer.name || '';
-    document.getElementById('customerTaxId').textContent = customer.taxId || '';
     document.getElementById('customerPhone').textContent = customer.phone || '';
-    document.getElementById('customerFax').textContent = customer.fax || '';
-    document.getElementById('customerEmail').textContent = customer.email || '';
     document.getElementById('customerAddress').textContent = customer.address || '';
-    document.getElementById('customerContact').textContent = customer.contact || '';
-    document.getElementById('customerContactPhone').textContent = customer.contactPhone || '';
+    document.getElementById('customerContact').textContent = customer.contactName || '';
 }
 
 // ==========================
@@ -126,10 +127,10 @@ function addQuotationRow() {
         <td style="width:15%;">${firstProduct.dimension || ''}</td>
         <td style="width:10%;">${firstProduct.unit || ''}</td>
         <td style="width:5%;"><input type="number" name="quantity" class="form-control text-end" value="1" min="1" onchange="updateRowTotal(this)"></td>
-        <td style="width:10%;" class="text-end">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:10%;" class="text-end">${formatNumber(firstProduct.price || 0)}</td>
-        <td style="width:10%;" class="costTotal text-end">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:10%;" class="priceTotal text-end">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:10%;">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:10%;">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:10%;" class="costTotal">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:10%;" class="priceTotal">${formatNumber(firstProduct.price || 0)}</td>
         <td style="width:5%;">
             <button type="button" class="btn btn-sm btn-danger" onclick="removeQuotationRow(${rowIndex})">
                 <i class="bi bi-trash"></i>

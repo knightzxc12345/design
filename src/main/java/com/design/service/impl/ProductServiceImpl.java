@@ -1,6 +1,5 @@
 package com.design.service.impl;
 
-import com.design.base.api.ItemCode;
 import com.design.base.api.ProductCode;
 import com.design.entity.ProductEntity;
 import com.design.entity.enums.ProductStatus;
@@ -26,7 +25,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void create(ProductEntity productEntity) {
         if (productRepository.findByCodeAndIsDeletedFalse(productEntity.getCode()).isPresent()) {
-            throw new BusinessException(ItemCode.DUPLICATE_CODE);
+            throw new BusinessException(ProductCode.DUPLICATE_CODE);
         }
         productEntity.setStatus(ProductStatus.ACTIVE);
         productEntity.setUuid(UUID.randomUUID().toString());
@@ -39,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void edit(ProductEntity productEntity) {
         if (productRepository.findByCodeAndUuidNotAndIsDeletedFalse(productEntity.getCode(), productEntity.getUuid()).isPresent()) {
-            throw new BusinessException(ItemCode.DUPLICATE_CODE);
+            throw new BusinessException(ProductCode.DUPLICATE_CODE);
         }
         productEntity.setModifiedTime(Instant.now());
         productEntity.setModifiedUser(UserUtil.getUserUuid());

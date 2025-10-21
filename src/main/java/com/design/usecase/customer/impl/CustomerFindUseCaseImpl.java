@@ -62,7 +62,9 @@ public class CustomerFindUseCaseImpl implements CustomerFindUseCase {
                 .map(customerEntity -> new CustomerFindAllResponse(
                         customerEntity.getUuid(),
                         customerEntity.getName(),
+                        customerEntity.getPhone(),
                         customerEntity.getEmail(),
+                        customerEntity.getAddress(),
                         customerEntity.getVatNumber(),
                         customerEntity.getContactName(),
                         customerEntity.getContactPhone(),

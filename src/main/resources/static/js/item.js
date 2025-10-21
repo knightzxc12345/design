@@ -43,7 +43,7 @@ async function loadItems(page = 0) {
                         <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEditModal('${item.uuid}')">
                             <i class="bi bi-pencil me-1"></i> 編輯
                         </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${item.uuid}', '${item.name}')">
+                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${item.uuid}', '${item.generalTerm}')">
                             <i class="bi bi-trash"></i> 刪除
                         </button>
                     </div>
@@ -92,17 +92,6 @@ function openCreateModal() {
 function clearCreateModal() {
     const ids = ["createGeneralTerm","createName","createDimension","createDescription","createUnit","createPrice","createSupplierUuid","createStatus"];
     ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
-    document.getElementById("createImagePreview").style.display = "none";
-}
-
-function previewCreateImageFile(event) {
-    const file = event.target.files[0];
-    const preview = document.getElementById("createImagePreview");
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = e => { preview.src = e.target.result; preview.style.display = "block"; };
-        reader.readAsDataURL(file);
-    } else { preview.src = ""; preview.style.display = "none"; }
 }
 
 function populateCreateSupplierSelect() {
@@ -116,28 +105,36 @@ function populateCreateSupplierSelect() {
 
 async function saveNewItem(e) {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("generalTerm", document.getElementById("createGeneralTerm").value.trim());
-    formData.append("name", document.getElementById("createName").value.trim());
-    formData.append("dimension", document.getElementById("createDimension").value.trim());
-    formData.append("description", document.getElementById("createDescription").value.trim());
-    formData.append("unit", document.getElementById("createUnit").value.trim());
-    formData.append("price", parseFloat(document.getElementById("createPrice").value));
-    formData.append("supplierUuid", document.getElementById("createSupplierUuid").value);
-    formData.append("status", "ACTIVE");
+    const payload = {
+        generalTerm: document.getElementById("createGeneralTerm").value.trim(),
+        name: document.getElementById("createName").value.trim(),
+        dimension: document.getElementById("createDimension").value.trim(),
+        description: document.getElementById("createDescription").value.trim(),
+        unit: document.getElementById("createUnit").value.trim(),
+        price: parseFloat(document.getElementById("createPrice").value),
+        supplierUuid: document.getElementById("createSupplierUuid").value,
+        status: "ACTIVE"
+    };
     try {
-        const res = await fetch(`${API_BASE}/v1`, { method: "POST", body: formData });
+        const res = await fetch(`${API_BASE}/v1`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
         const data = await res.json();
         if (data.code === "SYS0001") {
             bootstrap.Modal.getInstance(document.getElementById("createModal")).hide();
             clearCreateModal();
             loadItems(currentPage);
             showToast("新增成功！", "success");
-        } else showToast("新增失敗：" + data.message, "danger");
+        } else {
+            showToast("新增失敗：" + data.message, "danger");
+        }
     } catch (error) {
         showToast("新增失敗：" + error.message, "danger");
     }
 }
+
 
 // ==========================
 // 編輯功能 (UPDATE)
@@ -161,7 +158,6 @@ async function openEditModal(uuid) {
 function clearEditModal() {
     const ids = ["editUuid","editGeneralTerm","editName","editDimension","editDescription","editUnit","editPrice","editSupplierUuid","editStatus"];
     ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
-    document.getElementById("editImagePreview").style.display = "none";
 }
 
 function populateEditSupplierSelect() {
@@ -169,36 +165,43 @@ function populateEditSupplierSelect() {
     if (!select) return;
     select.innerHTML = "";
     suppliers.forEach(supplier => {
-        select.innerHTML += `<option value="${supplier.uuid}">${supplier.generalTerm}</option>`;
+        select.innerHTML += `<option value="${supplier.uuid}">${supplier.name}</option>`;
     });
 }
 
 async function saveEditItem(e) {
     e.preventDefault();
     const uuid = document.getElementById("editUuid").value;
-    const formData = new FormData();
-    formData.append("generalTerm", document.getElementById("editGeneralTerm").value.trim());
-    formData.append("name", document.getElementById("editName").value.trim());
-    formData.append("dimension", document.getElementById("edittDimension").value.trim());
-    formData.append("description", document.getElementById("editDescription").value.trim());
-    formData.append("unit", document.getElementById("editUnit").value.trim());
-    formData.append("price", parseFloat(document.getElementById("editPrice").value));
-    formData.append("supplierUuid", document.getElementById("editSupplierUuid").value);
-    formData.append("status", document.getElementById("editStatus").checked ? "ACTIVE" : "INACTIVE");
-
+    const payload = {
+        generalTerm: document.getElementById("editGeneralTerm").value.trim(),
+        name: document.getElementById("editName").value.trim(),
+        dimension: document.getElementById("editDimension").value.trim(),
+        description: document.getElementById("editDescription").value.trim(),
+        unit: document.getElementById("editUnit").value.trim(),
+        price: parseFloat(document.getElementById("editPrice").value),
+        supplierUuid: document.getElementById("editSupplierUuid").value,
+        status: document.getElementById("editStatus").checked ? "ACTIVE" : "INACTIVE"
+    };
     try {
-        const res = await fetch(`${API_BASE}/v1/${uuid}`, { method: "PUT", body: formData });
+        const res = await fetch(`${API_BASE}/v1/${uuid}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
         const data = await res.json();
         if (data.code === "SYS0001") {
             bootstrap.Modal.getInstance(document.getElementById("editModal")).hide();
             clearEditModal();
             loadItems(currentPage);
             showToast("修改成功！", "success");
-        } else showToast("修改失敗：" + data.message, "danger");
+        } else {
+            showToast("修改失敗：" + data.message, "danger");
+        }
     } catch (error) {
         showToast("修改失敗：" + error.message, "danger");
     }
 }
+
 
 // ==========================
 // 刪除功能 (DELETE)

@@ -6,14 +6,13 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.time.Instant;
 
 // 報價單明細
 @ToString(callSuper = true)
 @Data
-@Table(name = "quotation_item", indexes = {
-        @Index(name = "quotation_item_find", columnList = "uuid"),
-        @Index(name = "quotation_item_find_all", columnList = "pk")
+@Table(name = "quotation_product", indexes = {
+        @Index(name = "quotation_product_find", columnList = "uuid"),
+        @Index(name = "quotation_product_find_all", columnList = "pk")
 })
 @Entity
 public class QuotationProductEntity extends BaseEntity {

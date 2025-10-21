@@ -14,9 +14,9 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
-    Optional<ItemEntity> findByCodeAndIsDeletedFalse(String code);
+    Optional<ItemEntity> findByGeneralTermAndNameAndIsDeletedFalse(String generalTerm, String name);
 
-    Optional<ItemEntity> findByCodeAndUuidNotAndIsDeletedFalse(String code, String uuid);
+    Optional<ItemEntity> findByGeneralTermAndNameAndUuidNotAndIsDeletedFalse(String generalTerm, String name, String uuid);
 
     Optional<ItemEntity> findByUuidAndIsDeletedFalse(String uuid);
 
@@ -33,11 +33,11 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 AND i.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR i.code LIKE CONCAT('%', :keyword, '%'))
+                    (:keyword IS NULL OR i.generalTerm LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%'))
                 )
             ORDER BY
-                i.code
+                i.generalTerm
             """)
     List<ItemEntity> findAll(
             @Param("keyword") String keyword
@@ -54,11 +54,11 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 AND i.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR i.code LIKE CONCAT('%', :keyword, '%'))
+                    (:keyword IS NULL OR i.generalTerm LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%'))
                 )
             ORDER BY
-                i.code
+                i.generalTerm
             """)
     Page<ItemEntity> findByPage(
             @Param("keyword") String keyword,

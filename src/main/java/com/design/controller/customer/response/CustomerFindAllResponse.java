@@ -11,8 +11,14 @@ public record CustomerFindAllResponse(
         @Schema(description = "名稱", example = "Test")
         String name,
 
+        @Schema(description = "電話", example = "0222222222")
+        String phone,
+
         @Schema(description = "信箱", example = "test@gmail.com")
         String email,
+
+        @Schema(description = "地址", example = "台北市內湖區")
+        String address,
 
         @Schema(description = "統一編號", example = "22222222")
         String vatNumber,

@@ -29,7 +29,9 @@ async function loadCustomers(page = 0) {
         tbody.innerHTML += `
             <tr>
                 <td>${customer.name}</td>
-                <td>${customer.vatNumber}</td>
+                <td>${customer.phone || ""}</td>
+                <td>${customer.vatNumber || ""}</td>
+                <td>${customer.address || ""}</td>
                 <td>${customer.email || ""}</td>
                 <td>${customer.contactName || ""}</td>
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>

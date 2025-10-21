@@ -75,6 +75,12 @@ async function loadCustomersData() {
     return json.data || [];
 }
 
+async function loadCustomersData() {
+    const res = await fetch(`${DOMAIN}/customer/v1`);
+    const json = await res.json();
+    return json.data || [];
+}
+
 async function loadSuppliersData() {
     const res = await fetch(`${DOMAIN}/supplier/v1`);
     const json = await res.json();

@@ -24,8 +24,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void create(ItemEntity itemEntity) {
-        if (itemRepository.findByCodeAndIsDeletedFalse(itemEntity.getCode()).isPresent()) {
-            throw new BusinessException(ItemCode.DUPLICATE_CODE);
+        if (itemRepository.findByGeneralTermAndNameAndIsDeletedFalse(itemEntity.getGeneralTerm(), itemEntity.getName()).isPresent()) {
+            throw new BusinessException(ItemCode.DUPLICATE_NAME);
         }
         itemEntity.setStatus(ItemStatus.ACTIVE);
         itemEntity.setUuid(UUID.randomUUID().toString());
@@ -37,8 +37,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void edit(ItemEntity itemEntity) {
-        if (itemRepository.findByCodeAndUuidNotAndIsDeletedFalse(itemEntity.getCode(), itemEntity.getUuid()).isPresent()) {
-            throw new BusinessException(ItemCode.DUPLICATE_CODE);
+        if (itemRepository.findByGeneralTermAndNameAndUuidNotAndIsDeletedFalse(itemEntity.getGeneralTerm(), itemEntity.getName(), itemEntity.getUuid()).isPresent()) {
+            throw new BusinessException(ItemCode.DUPLICATE_NAME);
         }
         itemEntity.setModifiedTime(Instant.now());
         itemEntity.setModifiedUser(UserUtil.getUserUuid());

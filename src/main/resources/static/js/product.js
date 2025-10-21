@@ -94,7 +94,7 @@ async function showProductDetail(uuid) {
         row.className = "d-flex gap-2 mb-2";
         row.innerHTML = `
             <input type="text" class="form-control" value="${item.supplierName}" placeholder="供應商名稱" disabled>
-            <input type="text" class="form-control" value="${item.name}" placeholder="名稱" disabled>
+            <input type="text" class="form-control" value="${item.generalTerm}" placeholder="名稱" disabled>
             <input type="number" class="form-control" value="${item.quantity}" placeholder="數量" disabled style="max-width:60px;">
             <input type="text" class="form-control text-end" value="${formatNumber(item.price)}" placeholder="價格" disabled>
         `;
@@ -185,7 +185,7 @@ function updateItemSelect(itemSelect, supplierUuid){
         : filtered.map(i => {
             const priceObj = prices.find(p => p.uuid === i.uuid);
             const price = priceObj ? priceObj.price : 0;
-            return `<option value="${i.uuid}" data-price="${price}">${i.name}</option>`;
+            return `<option value="${i.uuid}" data-price="${price}">${i.generalTerm}</option>`;
         }).join("");
 }
 
@@ -338,7 +338,7 @@ function updateEditItemSelect(itemSelect, supplierUuid, selectedItemUuid) {
             const priceObj = prices.find(p => p.uuid === i.uuid);
             const price = priceObj ? priceObj.price : 0;
             const selected = selectedItemUuid && i.uuid === selectedItemUuid ? "selected" : "";
-            return `<option value="${i.uuid}" data-price="${price}" ${selected}>${i.name}</option>`;
+            return `<option value="${i.uuid}" data-price="${price}" ${selected}>${i.generalTerm}</option>`;
         }).join("");
     updateEditItemPrice(itemSelect.closest(".edit-product-item-row"));
 }
@@ -518,7 +518,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         items = rawItems.map(i => ({
             uuid: i.uuid,
-            name: i.name,
+            generalTerm: i.generalTerm,
             supplierUuid: i.supplierUuid,
             supplierName: i.supplierName
         }));

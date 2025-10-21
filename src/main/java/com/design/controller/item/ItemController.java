@@ -45,8 +45,7 @@ public class ItemController {
 
     @Operation(summary = "建立")
     @PostMapping(
-            value = "v1",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+            value = "v1"
     )
     public CustomResponse create(
             @RequestBody @Validated @NotNull ItemCreateRequest request) {
@@ -56,8 +55,7 @@ public class ItemController {
 
     @Operation(summary = "編輯")
     @PutMapping(
-            value = "v1/{uuid}",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+            value = "v1/{uuid}"
     )
     public CustomResponse update(
             @PathVariable("uuid") @NotNull String uuid,

@@ -20,11 +20,6 @@ public record ItemCreateRequest(
         @NotBlank(message = "名稱不得為空")
         String name,
 
-        @Schema(description = "品項代號", example = "LAPTOP001")
-        @Length(min = 1, max = 64, message = "代號長度必須為1~64")
-        @NotBlank(message = "代號不得為空")
-        String code,
-
         @Schema(description = "尺寸", example = "15吋")
         @Length(max = 64, message = "尺寸長度不得超過64")
         String dimension,
