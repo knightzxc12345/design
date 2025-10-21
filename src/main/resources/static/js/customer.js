@@ -52,7 +52,7 @@ async function loadCustomers(page = 0) {
         `;
     });
 
-    renderPagination("pagination", pageInfo, currentPage, loadCustomers);
+    renderPagination(pageInfo, loadCustomers);
 }
 
 function clearSearch() {

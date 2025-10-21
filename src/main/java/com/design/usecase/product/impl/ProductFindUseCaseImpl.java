@@ -95,6 +95,7 @@ public class ProductFindUseCaseImpl implements ProductFindUseCase {
                 new PageResponse(
                         productEntityPage.getNumber(),
                         productEntityPage.getSize(),
+                        productEntityPage.getTotalElements(),
                         productEntityPage.getTotalPages()
                 ),
                 responses

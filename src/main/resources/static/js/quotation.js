@@ -55,5 +55,5 @@ async function loadQuotations(page = 0) {
         `;
     });
 
-    renderPagination("pagination", pageInfo, currentPage, loadQuotations);
+    renderPagination(pageInfo, loadQuotations);
 }

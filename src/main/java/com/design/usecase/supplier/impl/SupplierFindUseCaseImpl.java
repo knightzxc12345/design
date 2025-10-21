@@ -77,6 +77,7 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
                 new PageResponse(
                         supplierEntityPage.getNumber(),
                         supplierEntityPage.getSize(),
+                        supplierEntityPage.getTotalElements(),
                         supplierEntityPage.getTotalPages()
                 ),
                 responses

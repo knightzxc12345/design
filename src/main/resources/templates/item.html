@@ -33,7 +33,9 @@
                 <th>統稱</th>
                 <th>名稱</th>
                 <th>尺寸</th>
+                <th style="width: 200px;">描述</th>
                 <th>單位</th>
+                <th>成本金額</th>
                 <th>供應商</th>
                 <th>狀態</th>
                 <th>操作</th>
@@ -44,9 +46,10 @@
             </tbody>
         </table>
 
-        <nav>
-            <ul class="pagination" id="pagination"></ul>
+        <nav aria-label="Page navigation">
+            <ul id="pagination" class="pagination justify-content-center mt-3"></ul>
         </nav>
+
     </div>
 
     <div class="modal fade" id="createModal" tabindex="-1">
@@ -78,13 +81,13 @@
                         <input type="text" class="form-control" id="createUnit" required maxlength="10">
                     </div>
                     <div class="mb-2">
-                        <label>報價金額 <span class="text-danger">*</span></label>
+                        <label>成本金額 <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="createPrice" required min="0" step="0.01">
                     </div>
                     <div class="mb-2">
                         <label>供應商 <span class="text-danger">*</span></label>
                         <select class="form-select" id="createSupplierUuid" required>
-                            <option value="">請選擇供應商</option>
+
                         </select>
                     </div>
                 </div>
@@ -127,13 +130,13 @@
                         <input type="text" class="form-control" id="editUnit" required maxlength="10">
                     </div>
                     <div class="mb-2">
-                        <label>報價金額 <span class="text-danger">*</span></label>
+                        <label>成本金額 <span class="text-danger">*</span></label>
                         <input type="number" class="form-control" id="editPrice" required min="0" step="0.01">
                     </div>
                     <div class="mb-2">
                         <label>供應商 <span class="text-danger">*</span></label>
                         <select class="form-select" id="editSupplierUuid" required>
-                            <option value="">請選擇供應商</option>
+
                         </select>
                     </div>
                     <div class="mb-2 form-check form-switch">
@@ -146,57 +149,6 @@
                     <button type="submit" class="btn btn-outline-success">儲存</button>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <div class="modal fade" id="viewModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">品項明細</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" id="viewUuid">
-                    <div class="mb-2">
-                        <label>統稱 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="viewGeneralTerm" disabled>
-                    </div>
-                    <div class="mb-2">
-                        <label>名稱 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="viewName" disabled>
-                    </div>
-                    <div class="mb-2">
-                        <label>尺寸</label>
-                        <input type="text" class="form-control" id="viewDimension" disabled>
-                    </div>
-                    <div class="mb-2">
-                        <label>描述</label>
-                        <textarea class="form-control" id="viewDescription" rows="2" disabled></textarea>
-                    </div>
-                    <div class="mb-2">
-                        <label>單位 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="viewUnit" disabled>
-                    </div>
-                    <div class="mb-2">
-                        <label>報價金額 <span class="text-danger">*</span></label>
-                        <input type="number" class="form-control" id="viewPrice" disabled>
-                    </div>
-                    <div class="mb-2">
-                        <label>供應商 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="viewSupplierName" disabled>
-                    </div>
-                    <div class="mb-2">
-                        <div class="mb-2 form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="viewStatus" disabled>
-                            <label id="viewStatusStr">狀態</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-outline-secondary" data-bs-dismiss="modal">關閉</button>
-                </div>
-            </div>
         </div>
     </div>
 

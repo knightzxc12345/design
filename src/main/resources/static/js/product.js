@@ -58,7 +58,7 @@ async function loadProducts(page = 0) {
         `;
     });
 
-    renderPagination("pagination", pageInfo, currentPage, loadProducts);
+    renderPagination(pageInfo, loadProducts);
 }
 
 function clearSearch() {

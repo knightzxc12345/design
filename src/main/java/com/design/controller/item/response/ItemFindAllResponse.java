@@ -19,6 +19,9 @@ public record ItemFindAllResponse(
         @Schema(description = "尺寸", example = "15吋")
         String dimension,
 
+        @Schema(description = "描述", example = "15吋")
+        String description,
+
         @Schema(description = "單位", example = "台")
         String unit,
 

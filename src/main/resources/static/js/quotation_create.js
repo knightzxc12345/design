@@ -41,7 +41,6 @@ function onCustomerSelect(select){
     const customer = customers.find(c => c.uuid === uuid);
     if(!customer) return;
 
-    document.getElementById('customerName').textContent = customer.name || '';
     document.getElementById('customerPhone').textContent = customer.phone || '';
     document.getElementById('customerAddress').textContent = customer.address || '';
     document.getElementById('customerContact').textContent = customer.contactName || '';
@@ -120,7 +119,7 @@ function addQuotationRow() {
         <input type="hidden" name="productUuid" value="${firstProduct.uuid}">
         <td style="width:20%;">
             <select name="productSelect" class="form-select" onchange="onProductSelect(this)">
-                ${products.map(p => `<option value="${p.uuid}">${p.name}</option>`).join('')}
+                ${products.map(p => `<option value="${p.uuid}">${p.name} - ${p.code}</option>`).join('')}
             </select>
         </td>
         <td style="width:10%;">${firstProduct.code || ''}</td>

@@ -32,14 +32,13 @@ async function loadItems(page = 0) {
                 <td>${item.generalTerm}</td>
                 <td>${item.name}</td>
                 <td>${item.dimension || ""}</td>
+                <td>${item.description || ""}</td>
                 <td>${item.unit || ""}</td>
+                <td>${item.price != null ? formatNumber(item.price) : ""}</td>
                 <td>${item.supplierName || ""}</td>
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-sm btn-outline-secondary me-1" onclick="showDetail('${item.uuid}')">
-                            <i class="bi bi-eye me-1"></i> 查看
-                        </button>
                         <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEditModal('${item.uuid}')">
                             <i class="bi bi-pencil me-1"></i> 編輯
                         </button>
@@ -52,7 +51,7 @@ async function loadItems(page = 0) {
         `;
     });
 
-    renderPagination("pagination", pageInfo, currentPage, loadItems);
+    renderPagination(pageInfo, loadItems);
 }
 
 function clearSearch() {
@@ -61,31 +60,11 @@ function clearSearch() {
 }
 
 // ==========================
-// 查看功能 (READ)
-// ==========================
-async function showDetail(uuid) {
-    const res = await fetch(`${API_BASE}/v1/${uuid}`);
-    const data = (await res.json()).data;
-
-    document.getElementById("viewUuid").value = data.uuid || "";
-    document.getElementById("viewGeneralTerm").value = data.generalTerm || "";
-    document.getElementById("viewName").value = data.name || "";
-    document.getElementById("viewDimension").value = data.dimension || "";
-    document.getElementById("viewDescription").value = data.description || "";
-    document.getElementById("viewUnit").value = data.unit || "";
-    document.getElementById("viewPrice").value = data.price || "";
-    document.getElementById("viewSupplierName").value = data.supplierName || "";
-    document.getElementById("viewStatus").checked = (data.status === "ACTIVE");
-    document.getElementById("viewStatusStr").textContent = (data.status === "ACTIVE" ? "啟用" : "停用");
-
-    new bootstrap.Modal(document.getElementById("viewModal"), { backdrop: "static", keyboard: false }).show();
-}
-
-// ==========================
 // 新增功能 (CREATE)
 // ==========================
 function openCreateModal() {
     clearCreateModal();
+    populateCreateSupplierSelect();
     new bootstrap.Modal(document.getElementById("createModal"), { backdrop: "static", keyboard: false }).show();
 }
 
@@ -98,8 +77,8 @@ function populateCreateSupplierSelect() {
     const select = document.getElementById("createSupplierUuid");
     if (!select) return;
     select.innerHTML = "";
-    suppliers.forEach(supplier => {
-        select.innerHTML += `<option value="${supplier.uuid}">${supplier.name}</option>`;
+    suppliers.forEach((supplier, index) => {
+        select.innerHTML += `<option value="${supplier.uuid}" ${index === 0 ? "selected" : ""}>${supplier.name}</option>`;
     });
 }
 
@@ -160,12 +139,15 @@ function clearEditModal() {
     ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
 }
 
-function populateEditSupplierSelect() {
+function populateEditSupplierSelect(selectedUuid) {
     const select = document.getElementById("editSupplierUuid");
     if (!select) return;
     select.innerHTML = "";
-    suppliers.forEach(supplier => {
-        select.innerHTML += `<option value="${supplier.uuid}">${supplier.name}</option>`;
+    suppliers.forEach((supplier, index) => {
+        const isSelected = selectedUuid
+            ? supplier.uuid === selectedUuid
+            : index === 0;
+        select.innerHTML += `<option value="${supplier.uuid}" ${isSelected ? "selected" : ""}>${supplier.name}</option>`;
     });
 }
 
@@ -206,7 +188,7 @@ async function saveEditItem(e) {
 // ==========================
 // 刪除功能 (DELETE)
 // ==========================
-function openDeleteModal(uuid, itemName) {
+function openDeleteModal(uuid, itemGeneralTerm) {
     deleteItemUuid = uuid;
     document.getElementById("deleteConfirmMessage").innerText = `你確定要刪除「${itemGeneralTerm}」嗎？`;
     new bootstrap.Modal(document.getElementById("deleteConfirmModal")).show();

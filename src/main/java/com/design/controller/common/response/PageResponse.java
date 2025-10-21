@@ -6,7 +6,9 @@ public record PageResponse(
 
         int size,
 
-        int total
+        long total,
+
+        int totalPage
 
 ) {
 }

@@ -125,6 +125,7 @@ public class QuotationFindUseCaseImpl implements QuotationFindUseCase {
                 new PageResponse(
                         quotationEntityPage.getNumber(),
                         quotationEntityPage.getSize(),
+                        quotationEntityPage.getTotalElements(),
                         quotationEntityPage.getTotalPages()
                 ),
                 responses

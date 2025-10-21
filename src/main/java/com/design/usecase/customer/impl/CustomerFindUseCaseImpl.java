@@ -79,6 +79,7 @@ public class CustomerFindUseCaseImpl implements CustomerFindUseCase {
                 new PageResponse(
                         customerEntityPage.getNumber(),
                         customerEntityPage.getSize(),
+                        customerEntityPage.getTotalElements(),
                         customerEntityPage.getTotalPages()
                 ),
                 responses

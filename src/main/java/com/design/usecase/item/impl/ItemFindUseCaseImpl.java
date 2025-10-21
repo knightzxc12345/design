@@ -67,6 +67,7 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
                         itemEntity.getGeneralTerm(),
                         itemEntity.getName(),
                         itemEntity.getDimension(),
+                        itemEntity.getDescription(),
                         itemEntity.getUnit(),
                         itemEntity.getPrice(),
                         itemEntity.getSupplier().getUuid(),
@@ -82,6 +83,7 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
                 new PageResponse(
                         itemEntityPage.getNumber(),
                         itemEntityPage.getSize(),
+                        itemEntityPage.getTotalElements(),
                         itemEntityPage.getTotalPages()
                 ),
                 responses

@@ -51,7 +51,7 @@ async function loadSuppliers(page = 0) {
         `;
     });
 
-    renderPagination("pagination", pageInfo, currentPage, loadSuppliers);
+    renderPagination(pageInfo, loadSuppliers);
 }
 
 function clearSearch() {
