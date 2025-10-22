@@ -91,7 +91,7 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
             qpe.setQuantity(p.quantity());
             qpe.setNegotiatedPrice(productEntity.getPrice());
             return qpe;
-        }).toList();
+        }).collect(Collectors.toList());
     }
 
     private PriceSummary calTotalCostPrice(

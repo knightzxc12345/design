@@ -195,14 +195,17 @@ async function submitQuotation() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)
         });
-        if(data.code === "SYS0001") {
+
+        const data = await res.json();
+
+        if (data.code === "SYS0001") {
             showToast("新增成功！", "success");
-        }else{
+            window.location.href = `${DOMAIN}/quotation/v1`;
+        } else {
             showToast("新增失敗：" + data.message, "danger");
         }
-        window.location.href = `${DOMAIN}/quotation/list`;
     } catch (err) {
-        showToast("新增失敗：" + error.message, "danger");
+        showToast("新增失敗：" + err.message, "danger");
     }
 
 }
