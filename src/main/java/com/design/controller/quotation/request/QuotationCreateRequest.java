@@ -30,11 +30,7 @@ public record QuotationCreateRequest(
 
                 @Schema(description = "數量", example = "1")
                 @NotNull(message = "數量不得為空")
-                Integer quantity,
-
-                @Schema(description = "議價金額", example = "100")
-                @NotNull(message = "議價金額不得為空")
-                BigDecimal negotiatedPrice
+                Integer quantity
 
         ){
         }

@@ -154,6 +154,47 @@ function removeQuotationRow(index) {
 // ==========================
 // 送出報價單
 // ==========================
-function submitQuotation() {
-    alert("送出報價單功能尚未實作");
+async function submitQuotation() {
+    const customerUuid = document.getElementById("customerSelect").value;
+    const remark = document.getElementById("remark").value.trim();
+    const rows = document.querySelectorAll("#quotationCreateTableBody tr");
+
+    if (rows.length === 0) {
+        showToast("請至少新增一筆報價產品！", "warning");
+        return;
+    }
+
+    // 組出 products 陣列
+    const products = [];
+    rows.forEach(tr => {
+        const productUuid = tr.querySelector('input[name="productUuid"]').value;
+        const quantity = parseInt(tr.querySelector('input[name="quantity"]').value) || 0;
+        products.push({
+            productUuid,
+            quantity
+        });
+    });
+
+    const payload = {
+        customerUuid,
+        remark,
+        products
+    };
+
+    try {
+        const res = await fetch(`${DOMAIN}/quotation`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        if(data.code === "SYS0001") {
+            showToast("新增成功！", "success");
+        }else{
+            showToast("新增失敗：" + data.message, "danger");
+        }
+        window.location.href = `${DOMAIN}/quotation/list`;
+    } catch (err) {
+        showToast("新增失敗：" + error.message, "danger");
+    }
+
 }

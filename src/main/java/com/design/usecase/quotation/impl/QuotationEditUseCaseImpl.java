@@ -89,7 +89,7 @@ public class QuotationEditUseCaseImpl implements QuotationEditUseCase {
             qpe.setQuotation(quotation);
             qpe.setProduct(productEntity);
             qpe.setQuantity(p.quantity());
-            qpe.setNegotiatedPrice(p.negotiatedPrice());
+            qpe.setNegotiatedPrice(productEntity.getPrice());
             return qpe;
         }).toList();
     }
