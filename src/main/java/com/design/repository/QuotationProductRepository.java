@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface QuotationProductRepository extends JpaRepository<QuotationProductEntity, Long> {
 
-    List<QuotationProductEntity> findByQuotation_Uuid(String uuid);
+    List<QuotationProductEntity> findByIsDeletedFalseAndQuotation_Uuid(String uuid);
 
 }

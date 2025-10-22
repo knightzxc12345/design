@@ -26,6 +26,7 @@ public class QuotationProductServiceImpl implements QuotationProductService {
             quotationProductEntity.setUuid(UUID.randomUUID().toString());
             quotationProductEntity.setCreateTime(Instant.now());
             quotationProductEntity.setCreateUser(UserUtil.getUserUuid());
+            quotationProductEntity.setIsDeleted(false);
         }
         quotationProductRepository.saveAll(quotationProductEntities);
     }
@@ -35,12 +36,17 @@ public class QuotationProductServiceImpl implements QuotationProductService {
         if(null == quotationProductEntities || quotationProductEntities.isEmpty()){
             return;
         }
-        quotationProductRepository.deleteAll(quotationProductEntities);
+        for(QuotationProductEntity quotationProductEntity : quotationProductEntities){
+            quotationProductEntity.setIsDeleted(true);
+            quotationProductEntity.setDeletedTime(Instant.now());
+            quotationProductEntity.setDeletedUser(UserUtil.getUserUuid());
+        }
+        quotationProductRepository.saveAll(quotationProductEntities);
     }
 
     @Override
     public List<QuotationProductEntity> findByQuotationUuid(String uuid) {
-        return quotationProductRepository.findByQuotation_Uuid(uuid);
+        return quotationProductRepository.findByIsDeletedFalseAndQuotation_Uuid(uuid);
     }
 
 }

@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -39,7 +40,7 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
     @Override
     public void create(QuotationCreateRequest request) {
         // 建立 quotation 並存入資料庫 (先生成 UUID/PK)
-        QuotationEntity quotationEntity = init(request, null);
+        QuotationEntity quotationEntity = init(request);
         quotationService.create(quotationEntity);
 
         // 取得產品清單
@@ -65,7 +66,7 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
         quotationService.edit(quotationEntity);
     }
 
-    private QuotationEntity init(QuotationCreateRequest request, List<QuotationProductEntity> quotationProductEntities) {
+    private QuotationEntity init(QuotationCreateRequest request) {
         CustomerEntity customerEntity = customerService.findByUuid(request.customerUuid());
         QuotationEntity quotationEntity = new QuotationEntity();
         quotationEntity.setQuotationNo(String.format("%s%s", "DE", InstantUtil.to(Instant.now(), Common.DATE_FORMAT_3)));
@@ -74,7 +75,7 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
         quotationEntity.setTotalCostPrice(new BigDecimal(0));
         quotationEntity.setTotalPrice(new BigDecimal(0));
         quotationEntity.setTotalNegotiatedPrice(new BigDecimal(0));
-        quotationEntity.setProducts(quotationProductEntities);
+        quotationEntity.setProducts(new ArrayList<>());
         return quotationEntity;
     }
 

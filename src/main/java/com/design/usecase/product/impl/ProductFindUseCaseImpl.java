@@ -33,10 +33,8 @@ public class ProductFindUseCaseImpl implements ProductFindUseCase {
         ProductEntity productEntity = productService.findByUuid(uuid);
         List<ProductItem> productItems = productEntity.getItems().stream()
                 .map(pi -> new ProductItem(
-                        pi.getUuid(),
-                        pi.getItem().getName(),
+                        pi.getItem().getUuid(),
                         pi.getItem().getSupplier().getUuid(),
-                        pi.getItem().getSupplier().getName(),
                         pi.getQuantity(),
                         pi.getItem().getPrice()
                 ))

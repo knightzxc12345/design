@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,7 +44,7 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
         BigDecimal costPrice = BigDecimal.ZERO;
 
         // 先初始化 ProductEntity（不關聯 ProductItem）
-        ProductEntity productEntity = initProduct(request, null, imageUrl);
+        ProductEntity productEntity = initProduct(request, imageUrl);
         productService.create(productEntity);
 
         // 轉換 items
@@ -70,7 +71,7 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
     /**
      * 初始化 ProductEntity
      */
-    private ProductEntity initProduct(ProductCreateRequest request, List<ProductItemEntity> productItemEntities, String imageUrl) {
+    private ProductEntity initProduct(ProductCreateRequest request, String imageUrl) {
         ProductEntity productEntity = new ProductEntity();
         productEntity.setName(request.name());
         productEntity.setCode(request.code());
@@ -80,7 +81,7 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
         productEntity.setUnit(request.unit());
         productEntity.setCostPrice(new BigDecimal(0));
         productEntity.setPrice(request.price());
-        productEntity.setItems(productItemEntities);
+        productEntity.setItems(new ArrayList<>());
         return productEntity;
     }
 
