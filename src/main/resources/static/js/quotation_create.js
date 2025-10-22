@@ -85,18 +85,26 @@ function updateRowTotal(input) {
 // ==========================
 function updateTotal() {
     const tbody = document.getElementById('quotationCreateTableBody');
+    let totalQuantity = 0;
     let totalCost = 0;
     let totalPrice = 0;
+    let totalProfit = 0;
 
     tbody.querySelectorAll('tr').forEach(tr => {
+        const quantity = parseInt(tr.querySelector('input[name="quantity"]').value) || 0;
         const cost = parseInt(tr.querySelector('.costTotal').textContent.replace(/,/g, '')) || 0;
         const price = parseInt(tr.querySelector('.priceTotal').textContent.replace(/,/g, '')) || 0;
+        const profit = price - cost;
+        totalQuantity += quantity;
         totalCost += cost;
         totalPrice += price;
+        totalProfit += profit;
     });
 
+    document.getElementById('totalQuantity').textContent = formatNumber(totalQuantity);
     document.getElementById('totalCost').textContent = formatNumber(totalCost);
     document.getElementById('totalPrice').textContent = formatNumber(totalPrice);
+    document.getElementById('totalProfit').textContent = formatNumber(totalProfit);
 }
 
 // ==========================
@@ -123,13 +131,13 @@ function addQuotationRow() {
             </select>
         </td>
         <td style="width:10%;">${firstProduct.code || ''}</td>
-        <td style="width:15%;">${firstProduct.dimension || ''}</td>
+        <td style="width:10%;">${firstProduct.dimension || ''}</td>
         <td style="width:10%;">${firstProduct.unit || ''}</td>
-        <td style="width:5%;"><input type="number" name="quantity" class="form-control text-end" value="1" min="1" onchange="updateRowTotal(this)"></td>
-        <td style="width:10%;">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:10%;">${formatNumber(firstProduct.price || 0)}</td>
-        <td style="width:10%;" class="costTotal">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:10%;" class="priceTotal">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:10%;"><input type="number" name="quantity" class="form-control" value="1" min="1" onchange="updateRowTotal(this)"></td>
+        <td style="width:10%;" class="text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:10%;" class="text-primary">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:10%;" class="costTotal text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:10%;" class="priceTotal text-primary">${formatNumber(firstProduct.price || 0)}</td>
         <td style="width:5%;">
             <button type="button" class="btn btn-sm btn-danger" onclick="removeQuotationRow(${rowIndex})">
                 <i class="bi bi-trash"></i>
@@ -182,7 +190,7 @@ async function submitQuotation() {
     };
 
     try {
-        const res = await fetch(`${DOMAIN}/quotation`, {
+        const res = await fetch(`${DOMAIN}/quotation/v1`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload)

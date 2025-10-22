@@ -39,7 +39,7 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
     @Override
     public void create(QuotationCreateRequest request) {
         // 建立 quotation 並存入資料庫 (先生成 UUID/PK)
-        QuotationEntity quotationEntity = init(request);
+        QuotationEntity quotationEntity = init(request, null);
         quotationService.create(quotationEntity);
 
         // 取得產品清單
@@ -58,7 +58,6 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
 
         // 取得總計
         PriceSummary priceSummary = calTotalCostPrice(quotationProductEntities, productMap);
-        // 補回雙向關聯到 quotation
         quotationEntity.setProducts(quotationProductEntities);
         quotationEntity.setTotalCostPrice(priceSummary.totalCostPrice());
         quotationEntity.setTotalPrice(priceSummary.totalPrice());
@@ -66,12 +65,16 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
         quotationService.edit(quotationEntity);
     }
 
-    private QuotationEntity init(QuotationCreateRequest request) {
+    private QuotationEntity init(QuotationCreateRequest request, List<QuotationProductEntity> quotationProductEntities) {
         CustomerEntity customerEntity = customerService.findByUuid(request.customerUuid());
         QuotationEntity quotationEntity = new QuotationEntity();
         quotationEntity.setQuotationNo(String.format("%s%s", "DE", InstantUtil.to(Instant.now(), Common.DATE_FORMAT_3)));
         quotationEntity.setCustomer(customerEntity);
         quotationEntity.setRemark(request.remark());
+        quotationEntity.setTotalCostPrice(new BigDecimal(0));
+        quotationEntity.setTotalPrice(new BigDecimal(0));
+        quotationEntity.setTotalNegotiatedPrice(new BigDecimal(0));
+        quotationEntity.setProducts(quotationProductEntities);
         return quotationEntity;
     }
 

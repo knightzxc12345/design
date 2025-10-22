@@ -99,7 +99,6 @@ public class ProductEditUseCaseImpl implements ProductEditUseCase {
                     ProductItemEntity productItem = new ProductItemEntity();
                     productItem.setItem(matchedItem);
                     productItem.setQuantity(reqItem.quantity());
-
                     return productItem;
                 })
                 .collect(Collectors.toList());

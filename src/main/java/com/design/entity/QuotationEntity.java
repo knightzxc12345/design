@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class QuotationEntity extends BaseEntity {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @Where(clause = "is_deleted = false")
     private List<QuotationProductEntity> products = new ArrayList<>();
 
     // 成本總計
@@ -50,7 +52,7 @@ public class QuotationEntity extends BaseEntity {
             nullable = false,
             precision = 15
     )
-    @NotBlank
+    @NotNull
     private BigDecimal totalCostPrice;
 
     // 報價總計
@@ -59,7 +61,7 @@ public class QuotationEntity extends BaseEntity {
             nullable = false,
             precision = 15
     )
-    @NotBlank
+    @NotNull
     private BigDecimal totalPrice;
 
     // 議價總計
@@ -68,7 +70,7 @@ public class QuotationEntity extends BaseEntity {
             nullable = false,
             precision = 15
     )
-    @NotBlank
+    @NotNull
     private BigDecimal totalNegotiatedPrice;
 
     // 備註

@@ -37,86 +37,89 @@
     <div style="padding: 20px;">
         <h3 class="mb-4">新增報價單</h3>
 
-        <div class="d-flex justify-content-end mb-3">
-            <button class="btn btn-outline-success" onclick="addQuotationRow()">
-                <i class="bi bi-plus-lg me-1"></i> 新增一列
-            </button>
-        </div>
+        <div class="row mt-4 g-3">
 
-        <table class="table">
-            <thead>
-            <tr>
-                <th>產品名稱</th>
-                <th>產品代號</th>
-                <th>產品尺寸</th>
-                <th>產品單位</th>
-                <th>數量</th>
-                <th>成本</th>
-                <th>報價</th>
-                <th>成本總計</th>
-                <th>報價總計</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody id="quotationCreateTableBody">
+            <!-- 左邊表格區 -->
+            <div class="col-md-8">
 
-            </tbody>
-        </table>
+                <div class="d-flex justify-content-end mb-3">
+                    <button type="button" class="btn btn-sm btn-success" onclick="addQuotationRow()">
+                        <i class="bi bi-plus"></i> 新增一列
+                    </button>
+                </div>
 
-        <div class="row mt-4 justify-content-end g-3">
-            <!-- 客戶資訊 Card -->
-            <div class="col-md-6">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>產品名稱</th>
+                        <th>產品代號</th>
+                        <th>產品尺寸</th>
+                        <th>產品單位</th>
+                        <th>數量</th>
+                        <th>成本</th>
+                        <th>報價</th>
+                        <th>成本總計</th>
+                        <th>報價總計</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="quotationCreateTableBody">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 右邊卡片區 -->
+            <div class="col-md-4 d-flex flex-column gap-3">
+                <!-- 客戶資訊 Card -->
                 <div class="card">
                     <div class="card-header">客戶資訊</div>
                     <div class="card-body">
                         <div class="row mb-2 align-items-center">
-                            <div class="col-2"><strong>客戶:</strong></div>
-                            <div class="col-10">
+                            <div class="col-4"><strong>客戶</strong></div>
+                            <div class="col-8">
                                 <select id="customerSelect" class="form-select form-select-sm" onchange="onCustomerSelect(this)">
-
                                 </select>
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-2"><strong>電話:</strong></div>
-                            <div class="col-10"><span id="customerPhone"></span></div>
+                            <div class="col-4"><strong>電話</strong></div>
+                            <div class="col-8"><span id="customerPhone"></span></div>
                         </div>
                         <div class="row mb-2">
-                            <div class="col-2"><strong>地址:</strong></div>
-                            <div class="col-10"><span id="customerAddress"></span></div>
+                            <div class="col-4"><strong>地址</strong></div>
+                            <div class="col-8"><span id="customerAddress"></span></div>
                         </div>
-                        <div class="row">
-                            <div class="col-2"><strong>聯絡人:</strong></div>
-                            <div class="col-10"><span id="customerContact"></span></div>
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>聯絡人</strong></div>
+                            <div class="col-8"><span id="customerContact"></span></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-4"><strong>備註</strong></div>
+                            <div class="col-8"><textarea class="form-control" id="remark" maxlength="512" rows="3" style="resize: none;"></textarea></div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- 備註 card -->
-            <div class="col-md-3">
-                <div class="card">
-                    <div class="card-header">備註</div>
-                    <div class="card-body">
-                        <div class="row mb-2">
-                            <textarea class="form-control" id="remark" maxlength="512" rows="4" style="resize: none;">
 
-                            </textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 總計 Card -->
-            <div class="col-md-3">
+                <!-- 總計 Card -->
                 <div class="card">
                     <div class="card-header">總計</div>
                     <div class="card-body">
                         <div class="row mb-2">
-                            <div class="col-6"><strong>成本總計</strong></div>
-                            <div class="col-6 text-end"><strong><span id="totalCost">0</span></strong></div>
+                            <div class="col-6"><strong>數量總計</strong></div>
+                            <div class="col-6 text-end"><strong><span id="totalQuantity">0</span></strong></div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-2">
+                            <div class="col-6"><strong>成本總計</strong></div>
+                            <div class="col-6 text-end"><strong><span id="totalCost" class="text-success">0</span></strong></div>
+                        </div>
+                        <div class="row mb-2">
                             <div class="col-6"><strong>報價總計</strong></div>
-                            <div class="col-6 text-end"><strong><span id="totalPrice">0</span></strong></div>
+                            <div class="col-6 text-end"><strong><span id="totalPrice" class="text-primary">0</span></strong></div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6"><strong>獲利總計</strong></div>
+                            <div class="col-6 text-end"><strong><span id="totalProfit" class="text-danger">0</span></strong></div>
                         </div>
                     </div>
                 </div>
