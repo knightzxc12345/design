@@ -50,7 +50,7 @@ function renderProducts(products) {
         tr.dataset.negotiatedPriceTotal = negotiatedPriceTotal;
 
         tr.innerHTML = `
-            <td >${p.name}</td>
+            <td>${p.name}</td>
             <td>${p.code}</td>
             <td>${p.dimension}</td>
             <td>${p.unit}</td>

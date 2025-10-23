@@ -92,21 +92,21 @@ function addQuotationRow() {
 
     tr.innerHTML = `
         <input type="hidden" name="productUuid" value="${firstProduct.uuid}">
-        <td style="width:13%;">
+        <td style="width:15%;">
             <select name="productSelect" class="form-select" onchange="onProductSelect(this)">
                 ${products.map(p => `<option value="${p.uuid}">${p.name} - ${p.code}</option>`).join('')}
             </select>
         </td>
-        <td style="width:8%;">${firstProduct.code || ''}</td>
+        <td style="width:10%;">${firstProduct.code || ''}</td>
         <td style="width:10%;">${firstProduct.dimension || ''}</td>
-        <td style="width:8%;">${firstProduct.unit || ''}</td>
-        <td style="width:8%;">
+        <td style="width:10%;">${firstProduct.unit || ''}</td>
+        <td style="width:10%;">
             <input type="number" name="quantity" class="form-control" value="1" min="1" onchange="updateRowTotal(this)">
         </td>
-        <td style="width:8%;" class="text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:8%;" class="text-primary">${formatNumber(firstProduct.price || 0)}</td>
-        <td style="width:8%;" class="costTotal text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:8%;" class="priceTotal text-primary">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:10%;" class="text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:10%;" class="text-primary">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:10%;" class="costTotal text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:10%;" class="priceTotal text-primary">${formatNumber(firstProduct.price || 0)}</td>
         <td style="width:5%;">
             <button type="button" class="btn btn-sm btn-danger" onclick="removeQuotationRow(${rowIndex})">
                 <i class="bi bi-trash"></i>
