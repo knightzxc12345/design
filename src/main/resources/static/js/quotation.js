@@ -29,25 +29,28 @@ async function loadQuotations(page = 0) {
     tbody.innerHTML = "";
 
     quotations.forEach(quotation => {
-        const status = STATUS_MAP[quotation.status] || { label: quotation.status, class: 'text-bg-secondary' };
+        const status = STATUS_MAP[quotation.quotationStatus] || {
+            label: quotation.quotationStatus,
+            class: 'text-bg-secondary'
+        };
 
         tbody.innerHTML += `
             <tr>
                 <td>${quotation.quotationNo}</td>
                 <td>${quotation.createTime}</td>
                 <td>${quotation.customerName}</td>
-                <td>${p.totalCostPrice != null ? formatNumber(p.totalCostPrice) : ""}</td>
-                <td>${p.totalPrice != null ? formatNumber(p.totalPrice) : ""}</td>
-                <td>${p.totalNegotiatedPrice != null ? formatNumber(p.totalNegotiatedPrice) : ""}</td>
-                <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
+                <td class="text-success">${quotation.totalCostPrice != null ? formatNumber(quotation.totalCostPrice) : ""}</td>
+                <td class="text-primary">${quotation.totalPrice != null ? formatNumber(quotation.totalPrice) : ""}</td>
+                <td class="text-secondary">${quotation.totalNegotiatedPrice != null ? formatNumber(quotation.totalNegotiatedPrice) : ""}</td>
+                <td><div class="badge rounded-pill py-2 px-3 ${status.class}">${status.label}</div></td>
                 <td>${quotation.createUser}</td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-sm btn-outline-secondary d-flex align-items-center me-1" onclick="showDetail('${quotation.uuid}')">
+                        <a class="btn btn-sm btn-outline-secondary d-flex align-items-center me-1" href="${API_BASE}/view/${quotation.uuid}" onclick="saveListState()">
                             <i class="bi bi-eye me-1"></i> 查看
-                        </button>
-                        <a class="btn btn-outline-success d-flex align-items-center" style="white-space: nowrap;" href="/quotation/edit/${quotation.uuid}'">
-                            <i class="bi bi-plus-lg me-1"></i> 編輯
+                        </a>
+                        <a class="btn btn-outline-success d-flex align-items-center" style="white-space: nowrap;" href="${API_BASE}/edit/${quotation.uuid}" onclick="saveListState()">
+                            <i class="bi bi-pencil me-1"></i> 編輯
                         </a>
                     </div>
                 </td>
@@ -57,3 +60,23 @@ async function loadQuotations(page = 0) {
 
     renderPagination(pageInfo, loadQuotations);
 }
+
+function saveListState() {
+    const keyword = document.getElementById("keyword")?.value || "";
+    sessionStorage.setItem("quotationListState", JSON.stringify({
+        page: currentPage,
+        keyword: keyword
+    }));
+}
+
+// ==========================
+// 初始化
+// ==========================
+document.addEventListener("DOMContentLoaded", async () => {
+    const state = JSON.parse(sessionStorage.getItem("quotationListState") || '{}');
+    const page = state.page || 0;
+    const keyword = state.keyword || "";
+    document.getElementById("keyword").value = keyword;
+    await loadQuotations(page);
+    clearStorage();
+});

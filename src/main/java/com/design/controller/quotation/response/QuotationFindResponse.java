@@ -73,6 +73,15 @@ public record QuotationFindResponse(
                 @Schema(description = "名稱", example = "Test")
                 String name,
 
+                @Schema(description = "代碼", example = "T1")
+                String code,
+
+                @Schema(description = "尺寸", example = "100X100")
+                String dimension,
+
+                @Schema(description = "單位", example = "張")
+                String unit,
+
                 @Schema(description = "數量", example = "1")
                 Integer quantity,
 

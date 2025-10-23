@@ -6,6 +6,8 @@ import java.math.BigDecimal;
 
 public record QuotationFindAllResponse(
 
+        String uuid,
+
         String quotationNo,
 
         String customerName,

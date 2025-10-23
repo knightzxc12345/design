@@ -93,3 +93,7 @@ function formatNumber(num) {
 function unformatNumber(str) {
     return str ? str.toString().replace(/,/g, "") : "";
 }
+
+function clearStorage(){
+    sessionStorage.removeItem('quotationListState');
+}

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class ProductFindUseCaseImpl implements ProductFindUseCase {
 
     private final ProductService productService;
 
+    @Transactional(readOnly = true)
     @Override
     public ProductFindResponse findDetail(String uuid) {
         ProductEntity productEntity = productService.findByUuid(uuid);
@@ -53,12 +55,14 @@ public class ProductFindUseCaseImpl implements ProductFindUseCase {
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<ProductFindAllResponse> findAll(ProductFindRequest request) {
         List<ProductEntity> productEntities = productService.findAll(request.keyword());
         return formatList(productEntities);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public ProductPageResponse findByPage(ProductPageRequest request) {
         Page<ProductEntity> productEntityPage = productService.findByPage(
