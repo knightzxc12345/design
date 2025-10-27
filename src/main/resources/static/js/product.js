@@ -249,15 +249,12 @@ function getProductItemsData() {
         const noSelect = row.querySelector(".no-select");
         return {
             uuid: itemSelect.value,
-            no: noSelect.value,
             quantity: parseInt(row.querySelector(".item-quantity").value) || 0
         };
     });
 }
 
-// ==========================
 // 儲存新增產品
-// ==========================
 async function saveNewProduct(e) {
     e.preventDefault();
     document.querySelectorAll(".item-price, .item-quantity, #createPrice").forEach(input => {
@@ -293,9 +290,39 @@ async function saveNewProduct(e) {
 // ==========================
 // 編輯產品 (UPDATE)
 // ==========================
-// ==========================
-// 編輯品項操作
-// ==========================
+async function openEditModal(uuid) {
+
+    // 取得產品資料
+    const res = await fetch(`${API_BASE}/v1/${uuid}`);
+    const data = (await res.json()).data;
+
+    // 填入基本欄位
+    document.getElementById("editUuid").value = uuid;
+    document.getElementById("editNo").value = data.no || "";
+    document.getElementById("editName").value = data.name || "";
+    document.getElementById("editDimension").value = data.dimension || "";
+    document.getElementById("editDescription").value = data.description || "";
+    document.getElementById("editUnit").value = data.unit || "";
+    document.getElementById("editPrice").value = data.price != null ? formatNumber(data.price) : "";
+    document.getElementById("editStatus").checked = data.status === "ACTIVE";
+    const preview = document.getElementById("editImagePreview");
+    if (data.imageUrl) {
+        preview.src = data.imageUrl;
+        preview.style.display = "block";
+    } else {
+        preview.src = "";
+        preview.style.display = "none";
+    }
+
+    // 處理品項
+    const container = document.getElementById("editProductItemsContainer");
+    container.innerHTML = `<label>品項清單 <span class="text-danger">*</span></label>`;
+    data.items.forEach(item => addEditProductItemRow(item));
+
+    // 開啟 modal
+    new bootstrap.Modal(document.getElementById("editModal"), { backdrop: "static", keyboard: false }).show();
+}
+
 function addEditProductItemRow(itemData) {
     const container = document.getElementById("editProductItemsContainer");
     const row = document.createElement("div");
@@ -402,10 +429,25 @@ function getEditProductItemsData() {
         const noSelect = row.querySelector(".no-select");
         return {
             uuid: itemSelect.value,
-            no: noSelect.value,
             quantity: parseInt(row.querySelector(".item-quantity").value) || 0
         };
     });
+}
+
+function previewEditImageFile(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById("editImagePreview");
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = e => {
+            preview.src = e.target.result;
+            preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = "";
+        preview.style.display = "none";
+    }
 }
 
 async function saveEditProduct(e){
