@@ -3,6 +3,9 @@ let rowIndex = 0;
 let products = [];
 let customers = [];
 
+// ==========================
+// 客戶選擇變更
+// ==========================
 function onCustomerSelect(select){
     const uuid = select.value;
     const customer = customers.find(c => c.uuid === uuid);
@@ -11,25 +14,6 @@ function onCustomerSelect(select){
     document.getElementById('customerPhone').textContent = customer.phone || '';
     document.getElementById('customerAddress').textContent = customer.address || '';
     document.getElementById('customerContact').textContent = customer.contactName || '';
-}
-
-// ==========================
-// 產品選擇變更時自動帶資料
-// ==========================
-function onProductSelect(select) {
-    const tr = select.closest('tr');
-    const uuid = select.value;
-    const product = products.find(p => p.uuid === uuid);
-    if (!product) return;
-
-    tr.querySelector('input[name="productUuid"]').value = product.uuid;
-    tr.cells[1].textContent = product.code || '';
-    tr.cells[2].textContent = product.dimension || '';
-    tr.cells[3].textContent = product.unit || '';
-    tr.cells[5].textContent = formatNumber(product.costPrice || 0);
-    tr.cells[6].textContent = formatNumber(product.price || 0);
-
-    updateRowTotal(tr.querySelector('input[name="quantity"]'));
 }
 
 // ==========================
@@ -87,27 +71,40 @@ function addQuotationRow() {
     const tbody = document.getElementById('quotationCreateTableBody');
     const firstProduct = products[0];
 
+    // 取得唯一 No
+    const uniqueNos = [...new Set(products.map(p => p.no))];
+    const noOptions = uniqueNos.map(no => `<option value="${no}">${no}</option>`).join('');
+
+    // 取得對應 Name
+    const nameOptions = products
+        .filter(p => p.no === firstProduct.no)
+        .map(p => `<option value="${p.uuid}">${p.name}</option>`).join('');
+
     const tr = document.createElement('tr');
     tr.setAttribute('id', `row-${rowIndex}`);
 
     tr.innerHTML = `
         <input type="hidden" name="productUuid" value="${firstProduct.uuid}">
-        <td style="width:15%;">
-            <select name="productSelect" class="form-select" onchange="onProductSelect(this)">
-                ${products.map(p => `<option value="${p.uuid}">${p.name} - ${p.code}</option>`).join('')}
+        <td style="width:12%;">
+            <select name="productNoSelect" class="form-select" onchange="onProductNoChange(this)">
+                ${noOptions}
             </select>
         </td>
-        <td style="width:10%;">${firstProduct.code || ''}</td>
-        <td style="width:10%;">${firstProduct.dimension || ''}</td>
-        <td style="width:10%;">${firstProduct.unit || ''}</td>
-        <td style="width:10%;">
+        <td style="width:16%;">
+            <select name="productNameSelect" class="form-select" onchange="onProductNameChange(this)">
+                ${nameOptions}
+            </select>
+        </td>
+        <td style="width:16%;">${firstProduct.dimension || ''}</td>
+        <td style="width:8%;">${firstProduct.unit || ''}</td>
+        <td style="width:8%;">
             <input type="number" name="quantity" class="form-control" value="1" min="1" onchange="updateRowTotal(this)">
         </td>
-        <td style="width:10%;" class="text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:10%;" class="text-primary">${formatNumber(firstProduct.price || 0)}</td>
-        <td style="width:10%;" class="costTotal text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:10%;" class="priceTotal text-primary">${formatNumber(firstProduct.price || 0)}</td>
-        <td style="width:5%;">
+        <td style="width:8%;" class="text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:8%;" class="text-primary">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:8%;" class="costTotal text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:8%;" class="priceTotal text-primary">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:6%;">
             <button type="button" class="btn btn-sm btn-danger" onclick="removeQuotationRow(${rowIndex})">
                 <i class="bi bi-trash"></i>
             </button>
@@ -115,7 +112,57 @@ function addQuotationRow() {
     `;
 
     tbody.appendChild(tr);
-    tr.querySelector('select[name="productSelect"]').value = firstProduct.uuid;
+
+    tr.querySelector('select[name="productNoSelect"]').value = firstProduct.no;
+    tr.querySelector('select[name="productNameSelect"]').value = firstProduct.uuid;
+
+    updateRowTotal(tr.querySelector('input[name="quantity"]'));
+}
+
+// ==========================
+// 選擇 No 時更新 Name 下拉選及其他欄位
+// ==========================
+function onProductNoChange(select) {
+    const selectedNo = select.value;
+    const tr = select.closest('tr');
+
+    // 篩選符合 No 的產品
+    const filteredProducts = products.filter(p => p.no === selectedNo);
+
+    // 更新 Name 下拉選
+    const nameSelect = tr.querySelector('select[name="productNameSelect"]');
+    nameSelect.innerHTML = filteredProducts.map(p => `<option value="${p.uuid}">${p.name}</option>`).join('');
+
+    // 自動選第一個 Name
+    const product = filteredProducts[0];
+    tr.querySelector('input[name="productUuid"]').value = product.uuid;
+    tr.cells[2].textContent = product.dimension || '';
+    tr.cells[3].textContent = product.unit || '';
+    tr.cells[5].textContent = formatNumber(product.costPrice || 0);
+    tr.cells[6].textContent = formatNumber(product.price || 0);
+
+    updateRowTotal(tr.querySelector('input[name="quantity"]'));
+}
+
+// ==========================
+// 選擇 Name 時同步 No 與其他欄位
+// ==========================
+function onProductNameChange(select) {
+    const uuid = select.value;
+    const tr = select.closest('tr');
+    const product = products.find(p => p.uuid === uuid);
+    if (!product) return;
+
+    // 同步 No
+    tr.querySelector('select[name="productNoSelect"]').value = product.no;
+
+    // 更新其他欄位
+    tr.querySelector('input[name="productUuid"]').value = product.uuid;
+    tr.cells[2].textContent = product.dimension || '';
+    tr.cells[3].textContent = product.unit || '';
+    tr.cells[5].textContent = formatNumber(product.costPrice || 0);
+    tr.cells[6].textContent = formatNumber(product.price || 0);
+
     updateRowTotal(tr.querySelector('input[name="quantity"]'));
 }
 
@@ -141,12 +188,11 @@ async function submitQuotation() {
         return;
     }
 
-    // 組出 products 陣列
-    const products = [];
+    const productsPayload = [];
     rows.forEach(tr => {
         const productUuid = tr.querySelector('input[name="productUuid"]').value;
         const quantity = parseInt(tr.querySelector('input[name="quantity"]').value) || 0;
-        products.push({
+        productsPayload.push({
             productUuid,
             quantity
         });
@@ -155,7 +201,7 @@ async function submitQuotation() {
     const payload = {
         customerUuid,
         remark,
-        products
+        products: productsPayload
     };
 
     try {
@@ -176,20 +222,18 @@ async function submitQuotation() {
     } catch (err) {
         showToast("新增失敗：" + err.message, "danger");
     }
-
 }
 
 // ==========================
 // 初始化
 // ==========================
 document.addEventListener("DOMContentLoaded", async () => {
-    // 產品資料
     const rawProducts = await loadProductsData();
     if (rawProducts && rawProducts.length > 0) {
         products = rawProducts.map(p => ({
             uuid: p.uuid,
+            no: p.no,
             name: p.name,
-            code: p.code,
             dimension: p.dimension,
             unit: p.unit,
             costPrice: p.costPrice,
@@ -197,7 +241,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }));
         addQuotationRow();
     }
-    // 客戶資料
+
     const rawCustomers = await loadCustomersData();
     if(rawCustomers && rawCustomers.length > 0){
         customers = rawCustomers;
