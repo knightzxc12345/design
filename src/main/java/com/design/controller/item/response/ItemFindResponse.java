@@ -7,13 +7,13 @@ import java.math.BigDecimal;
 
 public record ItemFindResponse(
 
-        @Schema(description = "統稱", example = "筆記型電腦")
-        String generalTerm,
+        @Schema(description = "編號", example = "筆記型電腦")
+        String no,
 
-        @Schema(description = "品項名稱", example = "筆記型電腦")
+        @Schema(description = "品名", example = "筆記型電腦")
         String name,
 
-        @Schema(description = "尺寸", example = "15吋")
+        @Schema(description = "規格", example = "15吋")
         String dimension,
 
         @Schema(description = "描述", example = "高效能筆記型電腦")

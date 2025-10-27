@@ -11,7 +11,7 @@ import com.design.service.ProductService;
 import com.design.service.QuotationProductService;
 import com.design.service.QuotationService;
 import com.design.usecase.quotation.QuotationCreateUseCase;
-import com.design.usecase.quotation.model.PriceSummary;
+import com.design.model.PriceSummary;
 import com.design.utils.InstantUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

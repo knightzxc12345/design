@@ -28,7 +28,7 @@ public class ItemEditUseCaseImpl implements ItemEditUseCase {
 
     private ItemEntity init(ItemEntity itemEntity, ItemEditRequest request){
         SupplierEntity supplierEntity = supplierService.findByUuid(request.supplierUuid());
-        itemEntity.setGeneralTerm(request.generalTerm());
+        itemEntity.setNo(request.no());
         itemEntity.setName(request.name());
         itemEntity.setDimension(request.dimension());
         itemEntity.setDescription(request.description());

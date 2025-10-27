@@ -20,16 +20,16 @@ import java.time.Instant;
 @Entity
 public class ItemEntity extends BaseEntity {
 
-    // 統稱
+    // 編號
     @Column(
-            name = "general_term",
+            name = "no",
             nullable = false,
             length = 64
     )
     @NotBlank
-    private String generalTerm;
+    private String no;
 
-    // 名稱
+    // 品名
     @Column(
             name = "name",
             nullable = false,
@@ -38,11 +38,11 @@ public class ItemEntity extends BaseEntity {
     @NotBlank
     private String name;
 
-    // 尺寸
+    // 規格
     @Column(
             name = "dimension",
             nullable = true,
-            length = 64
+            length = 128
     )
     private String dimension;
 

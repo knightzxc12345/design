@@ -29,7 +29,7 @@ async function loadItems(page = 0) {
 
         tbody.innerHTML += `
             <tr>
-                <td>${item.generalTerm}</td>
+                <td>${item.no}</td>
                 <td>${item.name}</td>
                 <td>${item.dimension || ""}</td>
                 <td>${item.description || ""}</td>
@@ -42,7 +42,7 @@ async function loadItems(page = 0) {
                         <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEditModal('${item.uuid}')">
                             <i class="bi bi-pencil me-1"></i> 編輯
                         </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${item.uuid}', '${item.generalTerm}')">
+                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${item.uuid}', '${item.no}-${item.name}')">
                             <i class="bi bi-trash"></i> 刪除
                         </button>
                     </div>
@@ -69,7 +69,7 @@ function openCreateModal() {
 }
 
 function clearCreateModal() {
-    const ids = ["createGeneralTerm","createName","createDimension","createDescription","createUnit","createPrice","createSupplierUuid","createStatus"];
+    const ids = ["createNo","createName","createDimension","createDescription","createUnit","createPrice","createSupplierUuid","createStatus"];
     ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
 }
 
@@ -85,7 +85,7 @@ function populateCreateSupplierSelect() {
 async function saveNewItem(e) {
     e.preventDefault();
     const payload = {
-        generalTerm: document.getElementById("createGeneralTerm").value.trim(),
+        no: document.getElementById("createNo").value.trim(),
         name: document.getElementById("createName").value.trim(),
         dimension: document.getElementById("createDimension").value.trim(),
         description: document.getElementById("createDescription").value.trim(),
@@ -122,7 +122,7 @@ async function openEditModal(uuid) {
     const res = await fetch(`${API_BASE}/v1/${uuid}`);
     const data = (await res.json()).data;
     document.getElementById("editUuid").value = uuid;
-    document.getElementById("editGeneralTerm").value = data.generalTerm;
+    document.getElementById("editNo").value = data.no;
     document.getElementById("editName").value = data.name;
     document.getElementById("editDimension").value = data.dimension || "";
     document.getElementById("editDescription").value = data.description || "";
@@ -135,7 +135,7 @@ async function openEditModal(uuid) {
 }
 
 function clearEditModal() {
-    const ids = ["editUuid","editGeneralTerm","editName","editDimension","editDescription","editUnit","editPrice","editSupplierUuid","editStatus"];
+    const ids = ["editUuid","editNo","editName","editDimension","editDescription","editUnit","editPrice","editSupplierUuid","editStatus"];
     ids.forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
 }
 
@@ -155,7 +155,7 @@ async function saveEditItem(e) {
     e.preventDefault();
     const uuid = document.getElementById("editUuid").value;
     const payload = {
-        generalTerm: document.getElementById("editGeneralTerm").value.trim(),
+        no: document.getElementById("editNo").value.trim(),
         name: document.getElementById("editName").value.trim(),
         dimension: document.getElementById("editDimension").value.trim(),
         description: document.getElementById("editDescription").value.trim(),
@@ -188,9 +188,9 @@ async function saveEditItem(e) {
 // ==========================
 // 刪除功能 (DELETE)
 // ==========================
-function openDeleteModal(uuid, itemGeneralTerm) {
+function openDeleteModal(uuid, itemDesc) {
     deleteItemUuid = uuid;
-    document.getElementById("deleteConfirmMessage").innerText = `你確定要刪除「${itemGeneralTerm}」嗎？`;
+    document.getElementById("deleteConfirmMessage").innerText = `你確定要刪除「${itemDesc}」嗎？`;
     new bootstrap.Modal(document.getElementById("deleteConfirmModal")).show();
 }
 

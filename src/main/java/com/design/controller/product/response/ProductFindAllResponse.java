@@ -11,13 +11,13 @@ public record ProductFindAllResponse(
         @Schema(description = "唯一值", example = "7d934fb6-e5b7-45db-a117-feaf75d19a9f")
         String uuid,
 
-        @Schema(description = "名稱", example = "test")
+        @Schema(description = "編號", example = "test")
+        String no,
+
+        @Schema(description = "品名", example = "test")
         String name,
 
-        @Schema(description = "代碼", example = "test")
-        String code,
-
-        @Schema(description = "尺寸", example = "15吋")
+        @Schema(description = "規格", example = "15吋")
         String dimension,
 
         @Schema(description = "單位", example = "台")

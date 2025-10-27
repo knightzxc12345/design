@@ -10,13 +10,13 @@ public record ItemFindAllResponse(
         @Schema(description = "唯一值", example = "7d934fb6-e5b7-45db-a117-feaf75d19a9f")
         String uuid,
 
-        @Schema(description = "統稱", example = "筆記型電腦")
-        String generalTerm,
+        @Schema(description = "編號", example = "筆記型電腦")
+        String no,
 
-        @Schema(description = "品項名稱", example = "筆記型電腦")
+        @Schema(description = "品名", example = "筆記型電腦")
         String name,
 
-        @Schema(description = "尺寸", example = "15吋")
+        @Schema(description = "規格", example = "15吋")
         String dimension,
 
         @Schema(description = "描述", example = "15吋")

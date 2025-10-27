@@ -31,8 +31,8 @@ async function loadProducts(page = 0) {
 
         tbody.innerHTML += `
             <tr>
+                <td>${p.no}</td>
                 <td>${p.name}</td>
-                <td>${p.code}</td>
                 <td>${p.dimension || ""}</td>
                 <td>${p.unit || ""}</td>
                 <td>${p.costPrice != null ? formatNumber(p.costPrice) : ""}</td>
@@ -74,10 +74,10 @@ async function showProductDetail(uuid) {
     const data = (await res.json()).data;
 
     document.getElementById("viewUuid").value = uuid || "";
+    document.getElementById("viewNo").value = data.no || "";
     document.getElementById("viewName").value = data.name || "";
-    document.getElementById("viewCode").value = data.code || "";
-    document.getElementById("viewDimension").value = data.dimension || "";
     document.getElementById("viewDescription").value = data.description || "";
+    document.getElementById("viewDimension").value = data.dimension || "";
     document.getElementById("viewUnit").value = data.unit || "";
     document.getElementById("viewCostPrice").value = data.costPrice != null ? formatNumber(data.costPrice) : "";
     document.getElementById("viewPrice").value = data.price != null ? formatNumber(data.price) : "";
@@ -99,7 +99,7 @@ async function showProductDetail(uuid) {
         row.className = "d-flex gap-2 mb-2";
         row.innerHTML = `
             <input type="text" class="form-control" value="${supplier ? supplier.name : ''}" placeholder="供應商名稱" disabled>
-            <input type="text" class="form-control" value="${itemInfo ? itemInfo.generalTerm : ''}" placeholder="品項名稱" disabled>
+            <input type="text" class="form-control" value="${itemInfo ? itemInfo.name : ''}" placeholder="品名" disabled>
             <input type="number" class="form-control" value="${item.quantity}" placeholder="數量" disabled style="max-width:60px;">
             <input type="text" class="form-control text-end" value="${formatNumber(item.price)}" placeholder="價格" disabled>
         `;
@@ -118,7 +118,7 @@ function openCreateModal() {
 }
 
 async function clearCreateModal() {
-    const ids = ["createName","createCode","createDimension","createDescription","createUnit","createPrice","createImageFile"];
+    const ids = ["createNo","createName","createDimension","createDescription","createUnit","createPrice","createImageFile"];
     ids.forEach(id => { const el = document.getElementById(id); if(el) el.value = ""; });
     document.getElementById("createImagePreview").style.display = "none";
 
@@ -195,7 +195,7 @@ function updateItemSelect(itemSelect, supplierUuid, selectedItemUuid) {
             const priceObj = prices.find(p => p.uuid === i.uuid);
             const price = priceObj ? priceObj.price : 0;
             const selected = selectedItemUuid && i.uuid === selectedItemUuid ? "selected" : "";
-            return `<option value="${i.uuid}" data-price="${price}" ${selected}>${i.generalTerm}</option>`;
+            return `<option value="${i.uuid}" data-price="${price}" ${selected}>${i.name}</option>`;
         }).join("");
 }
 
@@ -242,8 +242,8 @@ async function saveNewProduct(e) {
     });
 
     const formData = new FormData();
+    formData.append("no", document.getElementById("createNo").value.trim());
     formData.append("name", document.getElementById("createName").value.trim());
-    formData.append("code", document.getElementById("createCode").value.trim());
     formData.append("dimension", document.getElementById("createDimension").value.trim());
     formData.append("description", document.getElementById("createDescription").value.trim());
     formData.append("unit", document.getElementById("createUnit").value.trim());
@@ -275,8 +275,8 @@ async function openEditModal(uuid) {
     const data = (await res.json()).data;
 
     document.getElementById("editUuid").value = uuid;
+    document.getElementById("editNo").value = data.no;
     document.getElementById("editName").value = data.name;
-    document.getElementById("editCode").value = data.code;
     document.getElementById("editDimension").value = data.dimension || "";
     document.getElementById("editDescription").value = data.description || "";
     document.getElementById("editUnit").value = data.unit || "";
@@ -359,7 +359,7 @@ function updateEditItemSelect(itemSelect, supplierUuid, selectedItemUuid) {
         : filtered.map(i => {
             const priceObj = prices.find(p => p.uuid === i.uuid);
             const price = priceObj ? priceObj.price : 0;
-            return `<option value="${i.uuid}" data-price="${price}">${i.generalTerm}</option>`;
+            return `<option value="${i.uuid}" data-price="${price}">${i.name}</option>`;
         }).join("");
 
     // 明確選中
@@ -411,8 +411,8 @@ async function saveEditProduct(e){
 
     const uuid = document.getElementById("editUuid").value;
     const formData = new FormData();
+    formData.append("no", document.getElementById("editNo").value.trim());
     formData.append("name", document.getElementById("editName").value.trim());
-    formData.append("code", document.getElementById("editCode").value.trim());
     formData.append("dimension", document.getElementById("editDimension").value.trim());
     formData.append("description", document.getElementById("editDescription").value.trim());
     formData.append("unit", document.getElementById("editUnit").value.trim());
@@ -486,7 +486,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         });
         suppliers = Array.from(supplierMap.values());
 
-        items = rawItems.map(i=>({ uuid:i.uuid, generalTerm:i.generalTerm, supplierUuid:i.supplierUuid, supplierName:i.supplierName }));
+        items = rawItems.map(i=>({ uuid:i.uuid, name:i.name, supplierUuid:i.supplierUuid, supplierName:i.supplierName }));
         prices = rawItems.map(i=>({ uuid:i.uuid, price:i.price }));
     }
 

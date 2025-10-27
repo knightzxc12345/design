@@ -75,8 +75,8 @@ public class ProductEditUseCaseImpl implements ProductEditUseCase {
     }
 
     private void updateProduct(ProductEntity productEntity, ProductEditRequest request, String imageUrl, BigDecimal costPrice) {
+        productEntity.setNo(request.no());
         productEntity.setName(request.name());
-        productEntity.setCode(request.code());
         productEntity.setDimension(request.dimension());
         productEntity.setDescription(request.description());
         productEntity.setImageUrl(imageUrl);

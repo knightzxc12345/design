@@ -1,4 +1,4 @@
-package com.design.usecase.quotation.model;
+package com.design.model;
 
 import java.math.BigDecimal;
 

@@ -12,7 +12,7 @@
         <h3 class="mb-4">品項管理</h3>
 
         <div class="d-flex align-items-center mb-3 gap-2">
-            <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入 統稱/名稱">
+            <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入 編號/品名">
 
             <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="loadItems(0)">
                 <i class="bi bi-search me-1"></i> 搜尋
@@ -30,9 +30,9 @@
         <table class="table">
             <thead>
             <tr>
-                <th>統稱</th>
-                <th>名稱</th>
-                <th>尺寸</th>
+                <th>編號</th>
+                <th>品名</th>
+                <th>規格</th>
                 <th style="width: 200px;">描述</th>
                 <th>單位</th>
                 <th>成本金額</th>
@@ -61,15 +61,15 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label>統稱 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="createGeneralTerm" required maxlength="64">
+                        <label>編號 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="createNo" required maxlength="64">
                     </div>
                     <div class="mb-2">
-                        <label>名稱 <span class="text-danger">*</span></label>
+                        <label>品名 <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="createName" required maxlength="64">
                     </div>
                     <div class="mb-2">
-                        <label>尺寸</label>
+                        <label>規格</label>
                         <input type="text" class="form-control" id="createDimension" maxlength="64">
                     </div>
                     <div class="mb-2">
@@ -110,15 +110,15 @@
                     <input type="hidden" id="editUuid">
 
                     <div class="mb-2">
-                        <label>統稱 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="editGeneralTerm" required maxlength="64">
+                        <label>編號 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editNo" required maxlength="64">
                     </div>
                     <div class="mb-2">
-                        <label>名稱 <span class="text-danger">*</span></label>
+                        <label>品名 <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="editName" required maxlength="64">
                     </div>
                     <div class="mb-2">
-                        <label>尺寸</label>
+                        <label>規格</label>
                         <input type="text" class="form-control" id="editDimension" maxlength="64">
                     </div>
                     <div class="mb-2">

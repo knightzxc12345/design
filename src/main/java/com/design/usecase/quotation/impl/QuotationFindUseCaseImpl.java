@@ -71,8 +71,8 @@ public class QuotationFindUseCaseImpl implements QuotationFindUseCase {
             ProductEntity productEntity = quotationProductEntity.getProduct();
             responses.add(new QuotationFindResponse.Product(
                     productEntity.getUuid(),
+                    productEntity.getNo(),
                     productEntity.getName(),
-                    productEntity.getCode(),
                     productEntity.getDimension(),
                     productEntity.getUnit(),
                     quotationProductEntity.getQuantity(),

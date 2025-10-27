@@ -12,7 +12,7 @@
         <h3 class="mb-4">產品管理</h3>
 
         <div class="d-flex align-items-center mb-3 gap-2">
-            <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入名稱/代碼">
+            <input id="keyword" type="text" class="form-control flex-grow-1" placeholder="請輸入 編號/品名">
 
             <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="loadProducts(0)">
                 <i class="bi bi-search me-1"></i> 搜尋
@@ -30,9 +30,9 @@
         <table class="table">
             <thead>
             <tr>
-                <th>名稱</th>
-                <th>代碼</th>
-                <th>尺寸</th>
+                <th>編號</th>
+                <th>品名</th>
+                <th>規格</th>
                 <th>單位</th>
                 <th>成本金額</th>
                 <th>報價金額</th>
@@ -52,7 +52,7 @@
 
     <!-- 新增產品 Modal -->
     <div class="modal fade" id="createModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <form class="modal-content" onsubmit="saveNewProduct(event)">
                 <div class="modal-header">
                     <h5 class="modal-title">新增產品</h5>
@@ -60,20 +60,20 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-2">
-                        <label>名稱 <span class="text-danger">*</span></label>
+                        <label>編號 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="createNo" required maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>品名 <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="createName" required maxlength="64">
                     </div>
                     <div class="mb-2">
-                        <label>代碼 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="createCode" required maxlength="64">
+                        <label>規格</label>
+                        <input type="text" class="form-control" id="createDimension" maxlength="64">
                     </div>
                     <div class="mb-2">
                         <label>描述</label>
                         <textarea class="form-control" id="createDescription" maxlength="512" rows="2" style="resize: none;"></textarea>
-                    </div>
-                    <div class="mb-2">
-                        <label>尺寸</label>
-                        <input type="text" class="form-control" id="createDimension" maxlength="64">
                     </div>
                     <div class="mb-2">
                         <label>單位 <span class="text-danger">*</span></label>
@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <div class="mb-2" id="createProductItemsContainer">
-                        <label>品項 <span class="text-danger">*</span></label>
+                        <label>品項清單 <span class="text-danger">*</span></label>
                         <div class="d-flex gap-2 create-product-item-row">
 
                         </div>
@@ -116,7 +116,7 @@
 
     <!-- 編輯產品 Modal -->
     <div class="modal fade" id="editModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <form class="modal-content" onsubmit="saveEditProduct(event)">
                 <div class="modal-header">
                     <h5 class="modal-title">編輯產品</h5>
@@ -125,20 +125,20 @@
                 <div class="modal-body">
                     <input type="hidden" id="editUuid">
                     <div class="mb-2">
-                        <label>名稱 <span class="text-danger">*</span></label>
+                        <label>編號 <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="editNo" required maxlength="64">
+                    </div>
+                    <div class="mb-2">
+                        <label>品名 <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="editName" required maxlength="64">
                     </div>
                     <div class="mb-2">
-                        <label>代碼 <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="editCode" required maxlength="64">
+                        <label>規格</label>
+                        <input type="text" class="form-control" id="editDimension" maxlength="64">
                     </div>
                     <div class="mb-2">
                         <label>描述</label>
                         <textarea class="form-control" id="editDescription" maxlength="512" rows="2" style="resize: none;"></textarea>
-                    </div>
-                    <div class="mb-2">
-                        <label>尺寸</label>
-                        <input type="text" class="form-control" id="editDimension" maxlength="64">
                     </div>
                     <div class="mb-2">
                         <label>單位 <span class="text-danger">*</span></label>
@@ -156,7 +156,7 @@
                         <label class="form-check-label" for="editStatus">啟用</label>
                     </div>
                     <div class="mb-2" id="editProductItemsContainer">
-                        <label>品項 <span class="text-danger">*</span></label>
+                        <label>品項清單 <span class="text-danger">*</span></label>
                         <div class="d-flex gap-2 edit-product-item-row">
 
                         </div>
@@ -185,7 +185,7 @@
 
     <!-- 查看產品 Modal -->
     <div class="modal fade" id="viewModal" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">產品明細</h5>
@@ -194,20 +194,20 @@
                 <div class="modal-body">
                     <input type="hidden" id="viewUuid">
                     <div class="mb-2">
-                        <label>名稱</label>
+                        <label>編號</label>
+                        <input type="text" class="form-control" id="viewNo" disabled>
+                    </div>
+                    <div class="mb-2">
+                        <label>品名</label>
                         <input type="text" class="form-control" id="viewName" disabled>
                     </div>
                     <div class="mb-2">
-                        <label>代碼</label>
-                        <input type="text" class="form-control" id="viewCode" disabled>
+                        <label>規格</label>
+                        <input type="text" class="form-control" id="viewDimension" disabled>
                     </div>
                     <div class="mb-2">
                         <label>描述</label>
                         <textarea class="form-control" id="viewDescription" rows="2" disabled style="resize: none;"></textarea>
-                    </div>
-                    <div class="mb-2">
-                        <label>尺寸</label>
-                        <input type="text" class="form-control" id="viewDimension" disabled>
                     </div>
                     <div class="mb-2">
                         <label>單位</label>

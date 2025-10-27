@@ -28,7 +28,7 @@ public class ItemCreateUseCaseImpl implements ItemCreateUseCase {
     private ItemEntity init(ItemCreateRequest request){
         SupplierEntity supplierEntity = supplierService.findByUuid(request.supplierUuid());
         ItemEntity itemEntity = new ItemEntity();
-        itemEntity.setGeneralTerm(request.generalTerm());
+        itemEntity.setNo(request.no());
         itemEntity.setName(request.name());
         itemEntity.setDimension(request.dimension());
         itemEntity.setDescription(request.description());

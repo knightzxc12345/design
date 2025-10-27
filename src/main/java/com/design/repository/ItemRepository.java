@@ -14,9 +14,9 @@ import java.util.Optional;
 @Repository
 public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
-    Optional<ItemEntity> findByGeneralTermAndNameAndIsDeletedFalse(String generalTerm, String name);
+    Optional<ItemEntity> findByNoAndNameAndSupplier_UuidAndIsDeletedFalse(String no, String name, String uuid);
 
-    Optional<ItemEntity> findByGeneralTermAndNameAndUuidNotAndIsDeletedFalse(String generalTerm, String name, String uuid);
+    Optional<ItemEntity> findByNoAndNameAndUuidNotAndSupplier_UuidAndIsDeletedFalse(String no, String name, String supplierUuid, String uuid);
 
     Optional<ItemEntity> findByUuidAndIsDeletedFalse(String uuid);
 
@@ -33,11 +33,13 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 AND i.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR i.generalTerm LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR i.no LIKE CONCAT('%', :keyword, '%')) OR
                     (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%'))
                 )
             ORDER BY
-                i.generalTerm
+                i.no,
+                i.name,
+                i.supplier.uuid
             """)
     List<ItemEntity> findAll(
             @Param("keyword") String keyword
@@ -54,11 +56,26 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 AND i.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR i.generalTerm LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR i.no LIKE CONCAT('%', :keyword, '%')) OR
                     (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%'))
                 )
             ORDER BY
-                i.generalTerm
+                i.no,
+                i.name,
+                i.supplier.uuid
+            """,
+            countQuery = """
+            SELECT 
+                COUNT(i)
+            FROM 
+                ItemEntity i
+            WHERE 
+                i.isDeleted = false
+                AND
+                (
+                    (:keyword IS NULL OR i.no LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%'))
+                )
             """)
     Page<ItemEntity> findByPage(
             @Param("keyword") String keyword,

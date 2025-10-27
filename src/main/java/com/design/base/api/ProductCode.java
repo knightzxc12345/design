@@ -4,8 +4,6 @@ public enum ProductCode implements CodeMessage {
 
     NOT_EXISTS("ITE0001", "查無項目"),
 
-    DUPLICATE_CODE("ITE0002", "代碼重複"),
-
     ;
 
     private final String code;

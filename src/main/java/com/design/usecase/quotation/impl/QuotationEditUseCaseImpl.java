@@ -10,7 +10,7 @@ import com.design.service.ProductService;
 import com.design.service.QuotationProductService;
 import com.design.service.QuotationService;
 import com.design.usecase.quotation.QuotationEditUseCase;
-import com.design.usecase.quotation.model.PriceSummary;
+import com.design.model.PriceSummary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

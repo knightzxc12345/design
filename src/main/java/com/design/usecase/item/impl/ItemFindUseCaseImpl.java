@@ -32,7 +32,7 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
     public ItemFindResponse findDetail(String uuid) {
         ItemEntity itemEntity = itemService.findByUuid(uuid);
         return new ItemFindResponse(
-                itemEntity.getGeneralTerm(),
+                itemEntity.getNo(),
                 itemEntity.getName(),
                 itemEntity.getDimension(),
                 itemEntity.getDescription(),
@@ -68,7 +68,7 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
         return itemEntities.stream()
                 .map(itemEntity -> new ItemFindAllResponse(
                         itemEntity.getUuid(),
-                        itemEntity.getGeneralTerm(),
+                        itemEntity.getNo(),
                         itemEntity.getName(),
                         itemEntity.getDimension(),
                         itemEntity.getDescription(),

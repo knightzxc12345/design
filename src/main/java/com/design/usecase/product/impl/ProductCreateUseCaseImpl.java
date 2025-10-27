@@ -73,8 +73,8 @@ public class ProductCreateUseCaseImpl implements ProductCreateUseCase {
      */
     private ProductEntity initProduct(ProductCreateRequest request, String imageUrl) {
         ProductEntity productEntity = new ProductEntity();
+        productEntity.setNo(request.no());
         productEntity.setName(request.name());
-        productEntity.setCode(request.code());
         productEntity.setDimension(request.dimension());
         productEntity.setDescription(request.description());
         productEntity.setImageUrl(imageUrl);

@@ -23,7 +23,16 @@ import java.util.List;
 @Entity
 public class ProductEntity extends BaseEntity {
 
-    // 名稱
+    // 編號
+    @Column(
+            name = "no",
+            nullable = false,
+            length = 64
+    )
+    @NotBlank
+    private String no;
+
+    // 品名
     @Column(
             name = "name",
             nullable = false,
@@ -32,14 +41,13 @@ public class ProductEntity extends BaseEntity {
     @NotBlank
     private String name;
 
-    // 代號
+    // 規格
     @Column(
-            name = "code",
-            nullable = false,
-            length = 64
+            name = "dimension",
+            nullable = true,
+            length = 128
     )
-    @NotBlank
-    private String code;
+    private String dimension;
 
     // 描述
     @Column(
@@ -47,14 +55,6 @@ public class ProductEntity extends BaseEntity {
             length = 512
     )
     private String description;
-
-    // 尺寸
-    @Column(
-            name = "dimension",
-            nullable = true,
-            length = 64
-    )
-    private String dimension;
 
     // 圖片
     @Column(

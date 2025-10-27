@@ -24,9 +24,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void create(ProductEntity productEntity) {
-        if (productRepository.findByCodeAndIsDeletedFalse(productEntity.getCode()).isPresent()) {
-            throw new BusinessException(ProductCode.DUPLICATE_CODE);
-        }
         productEntity.setStatus(ProductStatus.ACTIVE);
         productEntity.setUuid(UUID.randomUUID().toString());
         productEntity.setCreateTime(Instant.now());
@@ -37,9 +34,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void edit(ProductEntity productEntity) {
-        if (productRepository.findByCodeAndUuidNotAndIsDeletedFalse(productEntity.getCode(), productEntity.getUuid()).isPresent()) {
-            throw new BusinessException(ProductCode.DUPLICATE_CODE);
-        }
         productEntity.setModifiedTime(Instant.now());
         productEntity.setModifiedUser(UserUtil.getUserUuid());
         productRepository.save(productEntity);

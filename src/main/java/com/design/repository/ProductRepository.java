@@ -8,16 +8,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
-
-    Optional<ProductEntity> findByCodeAndIsDeletedFalse(String code);
-
-    Optional<ProductEntity> findByCodeAndUuidNotAndIsDeletedFalse(String code, String uuid);
 
     @Query(value = """
             SELECT 
@@ -45,11 +40,11 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
                 AND p.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR p.code LIKE CONCAT('%', :keyword, '%'))
+                    (:keyword IS NULL OR p.no LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%'))
                 )
             ORDER BY
-                p.code
+                p.no
             """)
     List<ProductEntity> findAll(
             @Param("keyword") String keyword
@@ -68,11 +63,11 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
                 AND p.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR p.code LIKE CONCAT('%', :keyword, '%'))
+                    (:keyword IS NULL OR p.no LIKE CONCAT('%', :keyword, '%')) OR
+                    (:keyword IS NULL OR p.name LIKE CONCAT('%', :keyword, '%'))
                 )
             ORDER BY
-                p.code
+                p.no
             """)
     Page<ProductEntity> findByPage(
             @Param("keyword") String keyword,

@@ -42,10 +42,10 @@ public class ProductFindUseCaseImpl implements ProductFindUseCase {
                 ))
                 .toList();
         return new ProductFindResponse(
+                productEntity.getNo(),
                 productEntity.getName(),
-                productEntity.getCode(),
-                productEntity.getDescription(),
                 productEntity.getDimension(),
+                productEntity.getDescription(),
                 productEntity.getUnit(),
                 productEntity.getCostPrice(),
                 productEntity.getPrice(),
@@ -79,8 +79,8 @@ public class ProductFindUseCaseImpl implements ProductFindUseCase {
         return productEntities.stream()
                 .map(productEntity -> new ProductFindAllResponse(
                         productEntity.getUuid(),
+                        productEntity.getNo(),
                         productEntity.getName(),
-                        productEntity.getCode(),
                         productEntity.getDimension(),
                         productEntity.getUnit(),
                         productEntity.getCostPrice(),

@@ -10,18 +10,18 @@ import java.math.BigDecimal;
 
 public record ItemEditRequest(
 
-        @Schema(description = "統稱", example = "筆記型電腦")
-        @Length(min = 1, max = 64, message = "名稱長度必須為1~64")
-        @NotBlank(message = "統稱不得為空")
-        String generalTerm,
+        @Schema(description = "編號", example = "筆記型電腦")
+        @Length(min = 1, max = 64, message = "編號長度必須為1~64")
+        @NotBlank(message = "編號不得為空")
+        String no,
 
-        @Schema(description = "品項名稱", example = "筆記型電腦")
-        @Length(min = 1, max = 64, message = "名稱長度必須為1~64")
-        @NotBlank(message = "名稱不得為空")
+        @Schema(description = "品名名稱", example = "筆記型電腦")
+        @Length(min = 1, max = 64, message = "品名長度必須為1~64")
+        @NotBlank(message = "品名不得為空")
         String name,
 
-        @Schema(description = "尺寸", example = "15吋")
-        @Length(max = 64, message = "尺寸長度不得超過64")
+        @Schema(description = "規格", example = "15吋")
+        @Length(max = 128, message = "規格長度不得超過64")
         String dimension,
 
         @Schema(description = "描述", example = "高效能筆記型電腦")

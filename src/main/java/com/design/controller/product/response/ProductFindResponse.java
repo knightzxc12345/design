@@ -11,17 +11,17 @@ import java.util.List;
 
 public record ProductFindResponse(
 
-        @Schema(description = "名稱", example = "test")
+        @Schema(description = "編號", example = "test")
+        String no,
+
+        @Schema(description = "品名", example = "test")
         String name,
 
-        @Schema(description = "代碼", example = "test")
-        String code,
+        @Schema(description = "規格", example = "15吋")
+        String dimension,
 
         @Schema(description = "描述", example = "test")
         String description,
-
-        @Schema(description = "尺寸", example = "15吋")
-        String dimension,
 
         @Schema(description = "單位", example = "台")
         String unit,
