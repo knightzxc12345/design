@@ -59,6 +59,18 @@ function updateTotal() {
 }
 
 // ==========================
+// 初始化 Select2（No / Name 都可以搜尋）
+// ==========================
+function initSelect2(tr) {
+    $(tr).find('select[name="productNoSelect"], select[name="productNameSelect"]').select2({
+        theme: 'bootstrap-5',
+        placeholder: '請選擇',
+        allowClear: false, // ❌ 不要顯示 X 清除按鈕
+        width: '100%'
+    });
+}
+
+// ==========================
 // 新增一列報價資料
 // ==========================
 function addQuotationRow() {
@@ -116,24 +128,31 @@ function addQuotationRow() {
     tr.querySelector('select[name="productNoSelect"]').value = firstProduct.no;
     tr.querySelector('select[name="productNameSelect"]').value = firstProduct.uuid;
 
+    // 初始化 Select2（No & Name 都可搜尋）
+    initSelect2(tr);
+
     updateRowTotal(tr.querySelector('input[name="quantity"]'));
 }
 
 // ==========================
-// 選擇 No 時更新 Name 下拉選及其他欄位
+// 選擇 No 時更新 Name 下拉及其他欄位
 // ==========================
 function onProductNoChange(select) {
     const selectedNo = select.value;
     const tr = select.closest('tr');
-
-    // 篩選符合 No 的產品
     const filteredProducts = products.filter(p => p.no === selectedNo);
 
-    // 更新 Name 下拉選
     const nameSelect = tr.querySelector('select[name="productNameSelect"]');
     nameSelect.innerHTML = filteredProducts.map(p => `<option value="${p.uuid}">${p.name}</option>`).join('');
 
-    // 自動選第一個 Name
+    // 重新初始化 Name 下拉
+    $(nameSelect).select2({
+        theme: 'bootstrap-5',
+        placeholder: '請選擇產品名稱',
+        allowClear: false,
+        width: '100%'
+    });
+
     const product = filteredProducts[0];
     tr.querySelector('input[name="productUuid"]').value = product.uuid;
     tr.cells[2].textContent = product.dimension || '';
@@ -153,10 +172,8 @@ function onProductNameChange(select) {
     const product = products.find(p => p.uuid === uuid);
     if (!product) return;
 
-    // 同步 No
     tr.querySelector('select[name="productNoSelect"]').value = product.no;
 
-    // 更新其他欄位
     tr.querySelector('input[name="productUuid"]').value = product.uuid;
     tr.cells[2].textContent = product.dimension || '';
     tr.cells[3].textContent = product.unit || '';
@@ -192,17 +209,10 @@ async function submitQuotation() {
     rows.forEach(tr => {
         const productUuid = tr.querySelector('input[name="productUuid"]').value;
         const quantity = parseInt(tr.querySelector('input[name="quantity"]').value) || 0;
-        productsPayload.push({
-            productUuid,
-            quantity
-        });
+        productsPayload.push({ productUuid, quantity });
     });
 
-    const payload = {
-        customerUuid,
-        remark,
-        products: productsPayload
-    };
+    const payload = { customerUuid, remark, products: productsPayload };
 
     try {
         const res = await fetch(`${API_BASE}/v1`, {
