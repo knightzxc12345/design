@@ -88,7 +88,15 @@ async function showProductDetail(uuid) {
         : "";
 
     const productListEl = document.querySelector(".view-product-item-row");
-    productListEl.innerHTML = "";
+    productListEl.innerHTML = `
+        <div class="d-flex gap-2 mb-2 fw-bold">
+            <div class="flex-grow-1">供應商</div>
+            <div class="flex-grow-1">編號</div>
+            <div class="flex-grow-1">品名</div>
+            <div style="width:80px;">數量</div>
+            <div style="width:100px;">金額</div>
+        </div>
+    `;
 
     // 使用 items & suppliers 對應名稱
     data.items.forEach(item => {
@@ -99,9 +107,10 @@ async function showProductDetail(uuid) {
         row.className = "d-flex gap-2 mb-2";
         row.innerHTML = `
             <input type="text" class="form-control" value="${supplier ? supplier.name : ''}" placeholder="供應商名稱" disabled>
+            <input type="text" class="form-control" value="${itemInfo ? itemInfo.no : ''}" placeholder="品名" disabled>
             <input type="text" class="form-control" value="${itemInfo ? itemInfo.name : ''}" placeholder="品名" disabled>
-            <input type="number" class="form-control" value="${item.quantity}" placeholder="數量" disabled style="max-width:60px;">
-            <input type="text" class="form-control text-end" value="${formatNumber(item.price)}" placeholder="價格" disabled>
+            <input type="number" class="form-control" value="${item.quantity}" placeholder="數量" disabled style="width:80px;">
+            <input type="text" class="form-control text-end" value="${formatNumber(item.price)}" placeholder="價格" disabled style="width:100px;">
         `;
         productListEl.appendChild(row);
     });
@@ -123,7 +132,16 @@ async function clearCreateModal() {
     document.getElementById("createImagePreview").style.display = "none";
 
     const container = document.getElementById("createProductItemsContainer");
-    container.innerHTML = `<label>品項 <span class="text-danger">*</span></label>`;
+    container.innerHTML = `
+        <div class="d-flex gap-2 mb-2 fw-bold">
+            <div class="flex-grow-1">供應商</div>
+            <div class="flex-grow-1">編號</div>
+            <div class="flex-grow-1">品名</div>
+            <div style="width:80px;">數量</div>
+            <div style="width:100px;">金額</div>
+            <div style="width:35px;"></div>
+        </div>
+    `;
 
     if (suppliers.length > 0) {
         await addProductItemRow();
@@ -316,7 +334,16 @@ async function openEditModal(uuid) {
 
     // 處理品項
     const container = document.getElementById("editProductItemsContainer");
-    container.innerHTML = `<label>品項清單 <span class="text-danger">*</span></label>`;
+    container.innerHTML = `
+        <div class="d-flex gap-2 mb-2 fw-bold">
+            <div class="flex-grow-1">供應商</div>
+            <div class="flex-grow-1">編號</div>
+            <div class="flex-grow-1">品名</div>
+            <div style="width:80px;">數量</div>
+            <div style="width:100px;">金額</div>
+            <div style="width:35px;"></div>
+        </div>
+    `;
     data.items.forEach(item => addEditProductItemRow(item));
 
     // 開啟 modal
