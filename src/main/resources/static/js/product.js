@@ -35,8 +35,8 @@ async function loadProducts(page = 0) {
                 <td>${p.name}</td>
                 <td>${p.dimension || ""}</td>
                 <td>${p.unit || ""}</td>
-                <td>${p.costPrice != null ? formatNumber(p.costPrice) : ""}</td>
-                <td>${p.price != null ? formatNumber(p.price) : ""}</td>
+                <td class="text-success">${p.costPrice != null ? formatNumber(p.costPrice) : ""}</td>
+                <td class="text-primary">${p.price != null ? formatNumber(p.price) : ""}</td>
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
                 <td>
                     ${p.imageUrl ? `<img src="${p.imageUrl}" class="img-fluid rounded" style="max-height:50px; cursor:pointer;" onclick="openImagePreview('${p.imageUrl}')">` : ''}

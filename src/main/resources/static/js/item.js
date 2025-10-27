@@ -35,7 +35,7 @@ async function loadItems(page = 0) {
                 <td>${item.dimension || ""}</td>
                 <td>${item.description || ""}</td>
                 <td>${item.unit || ""}</td>
-                <td>${item.price != null ? formatNumber(item.price) : ""}</td>
+                <td class="text-success">${item.price != null ? formatNumber(item.price) : ""}</td>
                 <td>${item.supplierName || ""}</td>
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
                 <td>
