@@ -47,7 +47,10 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
     @Transactional(readOnly = true)
     @Override
     public List<ItemFindAllResponse> findAll(ItemFindRequest request) {
-        List<ItemEntity> itemEntities = itemService.findAll(request.keyword());
+        List<ItemEntity> itemEntities = itemService.findAll(
+                request.keyword(),
+                request.supplierUuid()
+        );
         return formatList(itemEntities);
     }
 
@@ -56,6 +59,7 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
     public ItemPageResponse findByPage(ItemPageRequest request) {
         Page<ItemEntity> itemEntityPage = itemService.findByPage(
                 request.keyword(),
+                request.supplierUuid(),
                 PageRequest.of(request.page(), request.size())
         );
         return formatPage(itemEntityPage);

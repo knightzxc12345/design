@@ -9,6 +9,9 @@ public record ItemPageRequest(
         @Schema(description = "關鍵字", example = "test")
         String keyword,
 
+        @Schema(description = "供應商唯一值", example = "7d934fb6-e5b7-45db-a117-feaf75d19a9f")
+        String supplierUuid,
+
         @Min(value = 0, message = "頁數不得小於0")
         @NotNull(message = "頁數不得為空")
         int page,

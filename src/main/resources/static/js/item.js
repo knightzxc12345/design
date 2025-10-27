@@ -13,8 +13,9 @@ let suppliers = []; // 全域供應商陣列
 async function loadItems(page = 0) {
     currentPage = page;
     const keyword = document.getElementById("keyword")?.value || "";
+    const supplierUuid = document.getElementById("searchSupplier")?.value || "";
 
-    const res = await fetch(`${API_BASE}/v1/page?page=${page}&size=${pageSize}&keyword=${keyword}`);
+    const res = await fetch(`${API_BASE}/v1/page?page=${page}&size=${pageSize}&keyword=${encodeURIComponent(keyword)}&supplierUuid=${supplierUuid}`);
     const data = (await res.json()).data;
     if (!data) return;
 
@@ -56,6 +57,7 @@ async function loadItems(page = 0) {
 
 function clearSearch() {
     document.getElementById("keyword").value = "";
+    document.getElementById("searchSupplier").value = "";
     loadItems(0);
 }
 
@@ -211,6 +213,15 @@ async function confirmDelete() {
     }
 }
 
+function populateSearchSupplierSelect() {
+    const select = document.getElementById("searchSupplier");
+    if (!select) return;
+    select.innerHTML = `<option value="">全部供應商</option>`;
+    suppliers.forEach(supplier => {
+        select.innerHTML += `<option value="${supplier.uuid}">${supplier.name}</option>`;
+    });
+}
+
 // ==========================
 // 初始化
 // ==========================
@@ -218,6 +229,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     suppliers = await loadSuppliersData();
     populateCreateSupplierSelect();
     populateEditSupplierSelect();
+    populateSearchSupplierSelect();
     loadItems();
     document.getElementById("confirmDeleteBtn")?.addEventListener("click", confirmDelete);
 });

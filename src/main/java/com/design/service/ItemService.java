@@ -3,6 +3,7 @@ package com.design.service;
 import com.design.entity.ItemEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -18,8 +19,15 @@ public interface ItemService {
 
     List<ItemEntity> findAllWithUuids(List<String> uuids);
 
-    List<ItemEntity> findAll(String keyword);
+    List<ItemEntity> findAll(
+            String keyword,
+            String supplierUuid
+    );
 
-    Page<ItemEntity> findByPage(String keyword, Pageable pageable);
+    Page<ItemEntity> findByPage(
+            String keyword,
+            String supplierUuid,
+            Pageable pageable
+    );
 
 }

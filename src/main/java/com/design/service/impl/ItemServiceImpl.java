@@ -74,16 +74,23 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemEntity> findAll(String keyword) {
+    public List<ItemEntity> findAll(
+            String keyword,
+            String supplierUuid) {
         return itemRepository.findAll(
-                keyword
+                keyword,
+                supplierUuid
         );
     }
 
     @Override
-    public Page<ItemEntity> findByPage(String keyword, Pageable pageable) {
+    public Page<ItemEntity> findByPage(
+            String keyword,
+            String supplierUuid,
+            Pageable pageable) {
         return itemRepository.findByPage(
                 keyword,
+                supplierUuid,
                 pageable
         );
     }

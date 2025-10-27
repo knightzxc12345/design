@@ -150,6 +150,7 @@ async function addProductItemRow(itemData) {
 
     row.innerHTML = `
         <select class="form-select supplier-select" required></select>
+        <select class="form-select no-select" required></select>
         <select class="form-select item-select" required></select>
         <input type="number" class="form-control item-quantity" placeholder="數量" min="1" value="1" style="max-width:80px;" required>
         <input type="text" class="form-control item-price" placeholder="單價" readonly style="max-width:100px;">
@@ -160,37 +161,53 @@ async function addProductItemRow(itemData) {
     container.appendChild(row);
 
     const supplierSelect = row.querySelector(".supplier-select");
+    const noSelect = row.querySelector(".no-select");
     const itemSelect = row.querySelector(".item-select");
     const qtyInput = row.querySelector(".item-quantity");
 
+    // 初始化供應商選單
     supplierSelect.innerHTML = suppliers.map(s =>
         `<option value="${s.uuid}" ${itemData?.supplierUuid === s.uuid ? "selected" : ""}>${s.name}</option>`
     ).join("");
 
-    updateItemSelect(itemSelect, supplierSelect.value, itemData?.uuid);
+    // 更新「編號」與「品名」
+    updateNoSelect(noSelect, supplierSelect.value, itemData?.no);
+    updateItemSelectByNo(itemSelect, supplierSelect.value, noSelect.value, itemData?.uuid);
 
-    if(itemData?.quantity) qtyInput.value = itemData.quantity;
+    if (itemData?.quantity) qtyInput.value = itemData.quantity;
 
-    supplierSelect.addEventListener("change", () => onSupplierChange(supplierSelect));
+    // 綁定事件
+    supplierSelect.addEventListener("change", () => {
+        updateNoSelect(noSelect, supplierSelect.value);
+        updateItemSelectByNo(itemSelect, supplierSelect.value, noSelect.value);
+        updateItemPrice(row);
+    });
+
+    noSelect.addEventListener("change", () => {
+        updateItemSelectByNo(itemSelect, supplierSelect.value, noSelect.value);
+        updateItemPrice(row);
+    });
+
     itemSelect.addEventListener("change", () => updateItemPrice(row));
     qtyInput.addEventListener("input", updateTotalPrice);
 
     updateItemPrice(row);
 }
 
-function onSupplierChange(selectEl) {
-    const row = selectEl.closest(".create-product-item-row");
-    const supplierUuid = selectEl.value;
-    const itemSelect = row.querySelector(".item-select");
-    updateItemSelect(itemSelect, supplierUuid);
-    updateItemPrice(row);
+// 更新「編號」下拉
+function updateNoSelect(noSelect, supplierUuid, selectedNo) {
+    const filtered = items.filter(i => i.supplierUuid === supplierUuid);
+    const distinctNos = [...new Set(filtered.map(i => i.no))];
+    noSelect.innerHTML = distinctNos.length === 0
+        ? `<option value="">無編號</option>`
+        : distinctNos.map(no => `<option value="${no}" ${selectedNo === no ? "selected" : ""}>${no}</option>`).join("");
 }
 
-function updateItemSelect(itemSelect, supplierUuid, selectedItemUuid) {
-    if(!items) return;
-    const filtered = items.filter(i => i.supplierUuid === supplierUuid);
+// 更新「品名」下拉（依編號）
+function updateItemSelectByNo(itemSelect, supplierUuid, selectedNo, selectedItemUuid) {
+    const filtered = items.filter(i => i.supplierUuid === supplierUuid && i.no === selectedNo);
     itemSelect.innerHTML = filtered.length === 0
-        ? `<option value="">無品項</option>`
+        ? `<option value="">無品名</option>`
         : filtered.map(i => {
             const priceObj = prices.find(p => p.uuid === i.uuid);
             const price = priceObj ? priceObj.price : 0;
@@ -199,11 +216,12 @@ function updateItemSelect(itemSelect, supplierUuid, selectedItemUuid) {
         }).join("");
 }
 
-function updateItemPrice(row){
+// 更新價格與總價
+function updateItemPrice(row) {
     const itemSelect = row.querySelector(".item-select");
     const priceInput = row.querySelector(".item-price");
     const selectedOption = itemSelect.options[itemSelect.selectedIndex];
-    const price = parseFloat(selectedOption.dataset.price || 0);
+    const price = parseFloat(selectedOption?.dataset.price || 0);
     priceInput.value = formatNumber(Math.round(price));
     updateTotalPrice();
 }
@@ -211,25 +229,30 @@ function updateItemPrice(row){
 function updateTotalPrice() {
     let total = 0;
     document.querySelectorAll("#createProductItemsContainer .create-product-item-row").forEach(row => {
-        const qty = parseInt(unformatNumber(row.querySelector(".item-quantity").value)) || 0;
+        const qty = parseInt(row.querySelector(".item-quantity").value) || 0;
         const price = parseInt(unformatNumber(row.querySelector(".item-price").value)) || 0;
         total += qty * price;
     });
     const totalInput = document.getElementById("createCostPrice");
-    if(totalInput) totalInput.value = formatNumber(total);
+    if (totalInput) totalInput.value = formatNumber(total);
 }
 
-function removeProductItemRow(btn){
+function removeProductItemRow(btn) {
     btn.closest(".create-product-item-row").remove();
     updateTotalPrice();
 }
 
-function getProductItemsData(){
+function getProductItemsData() {
     const container = document.getElementById("createProductItemsContainer");
-    return Array.from(container.querySelectorAll(".create-product-item-row")).map(row => ({
-        uuid: row.querySelector(".item-select").value,
-        quantity: parseInt(row.querySelector(".item-quantity").value) || 0
-    }));
+    return Array.from(container.querySelectorAll(".create-product-item-row")).map(row => {
+        const itemSelect = row.querySelector(".item-select");
+        const noSelect = row.querySelector(".no-select");
+        return {
+            uuid: itemSelect.value,
+            no: noSelect.value,
+            quantity: parseInt(row.querySelector(".item-quantity").value) || 0
+        };
+    });
 }
 
 // ==========================
@@ -270,37 +293,6 @@ async function saveNewProduct(e) {
 // ==========================
 // 編輯產品 (UPDATE)
 // ==========================
-async function openEditModal(uuid) {
-    const res = await fetch(`${API_BASE}/v1/${uuid}`);
-    const data = (await res.json()).data;
-
-    document.getElementById("editUuid").value = uuid;
-    document.getElementById("editNo").value = data.no;
-    document.getElementById("editName").value = data.name;
-    document.getElementById("editDimension").value = data.dimension || "";
-    document.getElementById("editDescription").value = data.description || "";
-    document.getElementById("editUnit").value = data.unit || "";
-    document.getElementById("editCostPrice").value = formatNumber(data.costPrice || 0);
-    document.getElementById("editPrice").value = formatNumber(data.price || 0);
-    document.getElementById("editStatus").checked = data.status === "ACTIVE";
-
-    const preview = document.getElementById("editImagePreview");
-    if(data.imageUrl) {
-        preview.src = data.imageUrl;
-        preview.style.display = "block";
-    } else preview.style.display = "none";
-
-    const container = document.getElementById("editProductItemsContainer");
-    container.innerHTML = `<label>品項 <span class="text-danger">*</span></label>`;
-
-    if(Array.isArray(data.items)) {
-        data.items.forEach(item => addEditProductItemRow(item));
-    }
-
-    updateEditTotalPrice();
-    new bootstrap.Modal(document.getElementById("editModal"), { backdrop: "static", keyboard: false }).show();
-}
-
 // ==========================
 // 編輯品項操作
 // ==========================
@@ -311,6 +303,7 @@ function addEditProductItemRow(itemData) {
 
     row.innerHTML = `
         <select class="form-select supplier-select" required></select>
+        <select class="form-select no-select" required></select>
         <select class="form-select item-select" required></select>
         <input type="number" class="form-control item-quantity" placeholder="數量" min="1" value="1" style="max-width:80px;" required>
         <input type="text" class="form-control item-price text-end" placeholder="單價" readonly style="max-width:100px;">
@@ -321,58 +314,63 @@ function addEditProductItemRow(itemData) {
     container.appendChild(row);
 
     const supplierSelect = row.querySelector(".supplier-select");
+    const noSelect = row.querySelector(".no-select");
     const itemSelect = row.querySelector(".item-select");
     const qtyInput = row.querySelector(".item-quantity");
 
-    // 選中對應供應商
+    // 初始化供應商
     supplierSelect.innerHTML = suppliers.map(s =>
         `<option value="${s.uuid}" ${itemData?.supplierUuid === s.uuid ? "selected" : ""}>${s.name}</option>`
     ).join("");
 
-    // 用品項 uuid 選中正確品項
-    updateEditItemSelect(itemSelect, supplierSelect.value, itemData.uuid);
+    // 初始化編號 & 品名
+    updateEditNoSelect(noSelect, supplierSelect.value, itemData?.no);
+    updateEditItemSelectByNo(itemSelect, supplierSelect.value, noSelect.value, itemData?.uuid);
 
-    if(itemData?.quantity) qtyInput.value = itemData.quantity;
+    if (itemData?.quantity) qtyInput.value = itemData.quantity;
 
-    supplierSelect.addEventListener("change", () => onEditSupplierChange(supplierSelect));
+    // 綁定事件
+    supplierSelect.addEventListener("change", () => {
+        updateEditNoSelect(noSelect, supplierSelect.value);
+        updateEditItemSelectByNo(itemSelect, supplierSelect.value, noSelect.value);
+        updateEditItemPrice(row);
+    });
+
+    noSelect.addEventListener("change", () => {
+        updateEditItemSelectByNo(itemSelect, supplierSelect.value, noSelect.value);
+        updateEditItemPrice(row);
+    });
+
     itemSelect.addEventListener("change", () => updateEditItemPrice(row));
     qtyInput.addEventListener("input", updateEditTotalPrice);
 
     updateEditItemPrice(row);
 }
 
-function onEditSupplierChange(selectEl) {
-    const row = selectEl.closest(".edit-product-item-row");
-    const itemSelect = row.querySelector(".item-select");
-    updateEditItemSelect(itemSelect, selectEl.value);
-    updateEditItemPrice(row);
+// 更新「編號」下拉
+function updateEditNoSelect(noSelect, supplierUuid, selectedNo) {
+    const filtered = items.filter(i => i.supplierUuid === supplierUuid);
+    const distinctNos = [...new Set(filtered.map(i => i.no))];
+    noSelect.innerHTML = distinctNos.length === 0
+        ? `<option value="">無編號</option>`
+        : distinctNos.map(no => `<option value="${no}" ${selectedNo === no ? "selected" : ""}>${no}</option>`).join("");
 }
 
-function updateEditItemSelect(itemSelect, supplierUuid, selectedItemUuid) {
-    if (!items) return;
-
-    const filtered = items.filter(i => i.supplierUuid === supplierUuid);
-
-    // 生成選項
+// 更新「品名」下拉（依編號）
+function updateEditItemSelectByNo(itemSelect, supplierUuid, selectedNo, selectedItemUuid) {
+    const filtered = items.filter(i => i.supplierUuid === supplierUuid && i.no === selectedNo);
     itemSelect.innerHTML = filtered.length === 0
-        ? `<option value="">無品項</option>`
+        ? `<option value="">無品名</option>`
         : filtered.map(i => {
             const priceObj = prices.find(p => p.uuid === i.uuid);
             const price = priceObj ? priceObj.price : 0;
-            return `<option value="${i.uuid}" data-price="${price}">${i.name}</option>`;
+            const selected = selectedItemUuid && i.uuid === selectedItemUuid ? "selected" : "";
+            return `<option value="${i.uuid}" data-price="${price}" ${selected}>${i.name}</option>`;
         }).join("");
-
-    // 明確選中
-    if (selectedItemUuid) {
-        const optionToSelect = Array.from(itemSelect.options).find(opt => opt.value === selectedItemUuid);
-        if (optionToSelect) optionToSelect.selected = true;
-    }
-
-    // 更新價格
-    updateEditItemPrice(itemSelect.closest(".edit-product-item-row"));
 }
 
-function updateEditItemPrice(row){
+// 更新價格與總價
+function updateEditItemPrice(row) {
     const itemSelect = row.querySelector(".item-select");
     const priceInput = row.querySelector(".item-price");
     const selectedOption = itemSelect.options[itemSelect.selectedIndex];
@@ -389,20 +387,25 @@ function updateEditTotalPrice() {
         total += qty * price;
     });
     const totalInput = document.getElementById("editCostPrice");
-    if(totalInput) totalInput.value = formatNumber(total);
+    if (totalInput) totalInput.value = formatNumber(total);
 }
 
-function removeEditProductItemRow(btn){
+function removeEditProductItemRow(btn) {
     btn.closest(".edit-product-item-row").remove();
     updateEditTotalPrice();
 }
 
-function getEditProductItemsData(){
+function getEditProductItemsData() {
     const container = document.getElementById("editProductItemsContainer");
-    return Array.from(container.querySelectorAll(".edit-product-item-row")).map(row => ({
-        uuid: row.querySelector(".item-select").value,
-        quantity: parseInt(row.querySelector(".item-quantity").value) || 0
-    }));
+    return Array.from(container.querySelectorAll(".edit-product-item-row")).map(row => {
+        const itemSelect = row.querySelector(".item-select");
+        const noSelect = row.querySelector(".no-select");
+        return {
+            uuid: itemSelect.value,
+            no: noSelect.value,
+            quantity: parseInt(row.querySelector(".item-quantity").value) || 0
+        };
+    });
 }
 
 async function saveEditProduct(e){
@@ -486,7 +489,7 @@ document.addEventListener("DOMContentLoaded", async ()=>{
         });
         suppliers = Array.from(supplierMap.values());
 
-        items = rawItems.map(i=>({ uuid:i.uuid, name:i.name, supplierUuid:i.supplierUuid, supplierName:i.supplierName }));
+        items = rawItems.map(i=>({ uuid:i.uuid, no:i.no, name:i.name, supplierUuid:i.supplierUuid, supplierName:i.supplierName }));
         prices = rawItems.map(i=>({ uuid:i.uuid, price:i.price }));
     }
 

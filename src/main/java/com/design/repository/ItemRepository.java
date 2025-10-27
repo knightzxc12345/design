@@ -36,13 +36,15 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                     (:keyword IS NULL OR i.no LIKE CONCAT('%', :keyword, '%')) OR
                     (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%'))
                 )
+                AND (:supplierUuid IS NULL OR :supplierUuid = '' OR i.supplier.uuid = :supplierUuid)
             ORDER BY
                 i.no,
-                i.name,
-                i.supplier.uuid
+                i.supplier.uuid,
+                i.name
             """)
     List<ItemEntity> findAll(
-            @Param("keyword") String keyword
+            @Param("keyword") String keyword,
+            @Param("supplierUuid") String supplierUuid
     );
 
     @Query(value =
@@ -59,10 +61,11 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                     (:keyword IS NULL OR i.no LIKE CONCAT('%', :keyword, '%')) OR
                     (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%'))
                 )
+                AND (:supplierUuid IS NULL OR :supplierUuid = '' OR i.supplier.uuid = :supplierUuid)
             ORDER BY
+                i.supplier.uuid,
                 i.no,
-                i.name,
-                i.supplier.uuid
+                i.name
             """,
             countQuery = """
             SELECT 
@@ -74,11 +77,13 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 AND
                 (
                     (:keyword IS NULL OR i.no LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%'))
+                    (:keyword IS NULL OR i.name LIKE CONCAT('%', :keyword, '%')) OR
+                    (:supplierUuid IS NULL OR i.supplier.uuid = :supplierUuid)
                 )
             """)
     Page<ItemEntity> findByPage(
             @Param("keyword") String keyword,
+            @Param("supplierUuid") String supplierUuid,
             Pageable pageable
     );
 
