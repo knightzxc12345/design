@@ -46,11 +46,14 @@ async function loadQuotations(page = 0) {
                 <td>${quotation.createUser}</td>
                 <td>
                     <div class="btn-group" role="group">
-                        <a class="btn btn-sm btn-outline-secondary d-flex align-items-center me-1" href="${API_BASE}/view/${quotation.uuid}" onclick="saveListState()">
+                        <a class="btn btn-outline-secondary d-flex align-items-center" href="${API_BASE}/view/${quotation.uuid}" onclick="saveListState()">
                             <i class="bi bi-eye me-1"></i> 查看
                         </a>
-                        <a class="btn btn-outline-success d-flex align-items-center" style="white-space: nowrap;" href="${API_BASE}/edit/${quotation.uuid}" onclick="saveListState()">
+                        <a class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" href="${API_BASE}/edit/${quotation.uuid}" onclick="saveListState()">
                             <i class="bi bi-pencil me-1"></i> 編輯
+                        </a>
+                        <a class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" href="${API_BASE}/v1/download/CATHAY/${quotation.uuid}">
+                            <i class="bi bi-pencil me-1"></i> 下載
                         </a>
                     </div>
                 </td>

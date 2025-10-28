@@ -25,8 +25,11 @@ import java.util.stream.Collectors;
 public class QuotationEditUseCaseImpl implements QuotationEditUseCase {
 
     private final QuotationService quotationService;
+
     private final QuotationProductService quotationProductService;
+
     private final CustomerService customerService;
+
     private final ProductService productService;
 
     @Transactional
@@ -35,15 +38,8 @@ public class QuotationEditUseCaseImpl implements QuotationEditUseCase {
         // 取得報價單
         QuotationEntity quotationEntity = quotationService.findByUuid(uuid);
 
-        // 更新報價單基本資訊（例如客戶、備註等）
-        init(quotationEntity, request);
-
-        // 取得原有明細
-        List<QuotationProductEntity> existingProducts =
-                quotationProductService.findByQuotationUuid(quotationEntity.getUuid());
-
-        // 先刪除舊的明細（也可以選擇比較差異後再刪/改/新增）
-        quotationProductService.deleteAll(existingProducts);
+        // 取得舊明細
+        List<QuotationProductEntity> oldProducts = quotationProductService.findByQuotationUuid(quotationEntity.getUuid());
 
         // 取得產品清單
         List<String> productUuids = request.products().stream()
@@ -53,45 +49,41 @@ public class QuotationEditUseCaseImpl implements QuotationEditUseCase {
         Map<String, ProductEntity> productMap = products.stream()
                 .collect(Collectors.toMap(ProductEntity::getUuid, p -> p));
 
-        // 立新的報價明細
-        List<QuotationProductEntity> newQuotationProducts =
-                initProducts(request, quotationEntity, productMap);
+        // 建立新明細
+        List<QuotationProductEntity> newProducts = request.products().stream().map(p -> {
+            ProductEntity prod = productMap.get(p.productUuid());
+            QuotationProductEntity qpe = new QuotationProductEntity();
+            qpe.setQuotation(quotationEntity);
+            qpe.setProduct(prod);
+            qpe.setQuantity(p.quantity());
+            qpe.setNegotiatedPrice(prod.getPrice());
+            return qpe;
+        }).toList();
 
-        // 存入新的明細
-        quotationProductService.createAll(newQuotationProducts);
+        // 先刪除舊明細
+        quotationProductService.deleteAll(oldProducts);
 
-        // 重新計算金額
-        PriceSummary priceSummary = calTotalCostPrice(newQuotationProducts, productMap);
+        // 批量新增新明細
+        quotationProductService.createAll(newProducts);
 
-        quotationEntity.setProducts(newQuotationProducts);
+        // 更新報價單基本資訊
+        update(quotationEntity, request);
+
+        // 計算金額
+        PriceSummary priceSummary = calTotalCostPrice(newProducts, productMap);
         quotationEntity.setTotalCostPrice(priceSummary.totalCostPrice());
         quotationEntity.setTotalPrice(priceSummary.totalPrice());
         quotationEntity.setTotalNegotiatedPrice(priceSummary.totalNegotiatedPrice());
 
-        // 更新報價單
+        // 儲存報價單
         quotationService.edit(quotationEntity);
     }
 
-    private QuotationEntity init(QuotationEntity quotationEntity, QuotationEditRequest request) {
+    private QuotationEntity update(QuotationEntity quotationEntity, QuotationEditRequest request) {
         CustomerEntity customer = customerService.findByUuid(request.customerUuid());
         quotationEntity.setCustomer(customer);
         quotationEntity.setRemark(request.remark());
         return quotationEntity;
-    }
-
-    private List<QuotationProductEntity> initProducts(
-            QuotationEditRequest request,
-            QuotationEntity quotation,
-            Map<String, ProductEntity> productMap) {
-        return request.products().stream().map(p -> {
-            ProductEntity productEntity = productMap.get(p.productUuid());
-            QuotationProductEntity qpe = new QuotationProductEntity();
-            qpe.setQuotation(quotation);
-            qpe.setProduct(productEntity);
-            qpe.setQuantity(p.quantity());
-            qpe.setNegotiatedPrice(productEntity.getPrice());
-            return qpe;
-        }).toList();
     }
 
     private PriceSummary calTotalCostPrice(

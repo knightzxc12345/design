@@ -43,15 +43,15 @@ async function loadProducts(page = 0) {
                 </td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-sm btn-outline-secondary me-1" onclick="showProductDetail('${p.uuid}')">
+                        <a class="btn btn-outline-secondary d-flex align-items-center" onclick="showProductDetail('${p.uuid}')">
                             <i class="bi bi-eye me-1"></i> 查看
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEditModal('${p.uuid}')">
+                        </a>
+                        <a class="btn btn-outline-secondary d-flex align-items-center" onclick="openEditModal('${p.uuid}')">
                             <i class="bi bi-pencil me-1"></i> 編輯
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${p.uuid}', '${p.name}')">
+                        </a>
+                        <a class="btn btn-outline-danger d-flex align-items-center" onclick="openDeleteModal('${p.uuid}', '${p.name}')">
                             <i class="bi bi-trash"></i> 刪除
-                        </button>
+                        </a>
                     </div>
                 </td>
             </tr>

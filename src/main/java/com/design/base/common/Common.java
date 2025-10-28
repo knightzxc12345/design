@@ -3,6 +3,7 @@ package com.design.base.common;
 import java.text.DecimalFormat;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
 
 public class Common {
 
@@ -35,5 +36,11 @@ public class Common {
     public final static String IMAGE_PATH_ITEM = "/uploads/item/";
 
     public final static String IMAGE_PATH_PRODUCT = "/uploads/product/";
+
+    public final static Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\{\\{(.+?)}}");
+
+    public final static String EXCEL = ".xlsx";
+
+    public final static String EXCEL_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 }

@@ -37,15 +37,15 @@ async function loadCustomers(page = 0) {
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-sm btn-outline-secondary d-flex align-items-center me-1" onclick="showDetail('${customer.uuid}')">
+                        <a class="btn btn-outline-secondary d-flex align-items-center" onclick="showDetail('${customer.uuid}')">
                             <i class="bi bi-eye me-1"></i> 查看
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary d-flex align-items-center me-1" onclick="openEditModal('${customer.uuid}')">
+                        </a>
+                        <a class="btn btn-outline-secondary d-flex align-items-center" onclick="openEditModal('${customer.uuid}')">
                             <i class="bi bi-pencil me-1"></i> 編輯
-                        </button>
-                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal('${customer.uuid}', '${customer.name}')">
+                        </a>
+                        <a class="btn btn-outline-danger d-flex align-items-center" onclick="openDeleteModal('${customer.uuid}', '${customer.name}')">
                             <i class="bi bi-trash"></i> 刪除
-                        </button>
+                        </a>
                     </div>
                 </td>
             </tr>

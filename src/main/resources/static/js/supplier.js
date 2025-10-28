@@ -36,15 +36,15 @@ async function loadSuppliers(page = 0) {
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-sm btn-outline-secondary d-flex align-items-center me-1" onclick="showDetail('${supplier.uuid}')">
+                        <a class="btn btn-outline-secondary d-flex align-items-center" onclick="showDetail('${supplier.uuid}')">
                             <i class="bi bi-eye me-1"></i> 查看
-                        </button>
-                        <button class="btn btn-sm btn-outline-secondary d-flex align-items-center me-1" onclick="openEditModal('${supplier.uuid}')">
+                        </a>
+                        <a class="btn btn-outline-secondary d-flex align-items-center" onclick="openEditModal('${supplier.uuid}')">
                             <i class="bi bi-pencil me-1"></i> 編輯
-                        </button>
-                        <button class="btn btn-outline-danger btn-sm" onclick="openDeleteModal('${supplier.uuid}', '${supplier.name}')">
+                        </a>
+                        <a class="btn btn-outline-danger d-flex align-items-center" onclick="openDeleteModal('${supplier.uuid}', '${supplier.name}')">
                             <i class="bi bi-trash"></i> 刪除
-                        </button>
+                        </a>
                     </div>
                 </td>
             </tr>

@@ -94,8 +94,8 @@ function renderProducts(quotationProducts) {
                 <input type="number" name="quantity" class="form-control" value="${qp.quantity || 1}" min="1" onchange="updateRowTotal(this)">
             </td>
             <td style="width:7%;" class="text-success">${formatNumber(product.costPrice || 0)}</td>
-            <td style="width:7%;" class="text-primary">${formatNumber(product.price || 0)}</td>
             <td style="width:7%;" class="costTotal text-success">${formatNumber((qp.quantity || 1) * (product.costPrice || 0))}</td>
+            <td style="width:7%;" class="text-primary">${formatNumber(product.price || 0)}</td>
             <td style="width:7%;" class="priceTotal text-primary">${formatNumber((qp.quantity || 1) * (product.price || 0))}</td>
             <td style="width:12%;">
                 <input type="number" name="negotiatedPrice" class="form-control" value="${qp.negotiatedPrice || product.price || 0}" onchange="updateRowTotal(this)">
@@ -132,7 +132,7 @@ function onProductNoChange(select) {
     tr.cells[2].textContent = product.dimension || '';
     tr.cells[3].textContent = product.unit || '';
     tr.cells[5].textContent = formatNumber(product.costPrice || 0);
-    tr.cells[6].textContent = formatNumber(product.price || 0);
+    tr.cells[7].textContent = formatNumber(product.price || 0);
 
     const negotiatedInput = tr.querySelector('input[name="negotiatedPrice"]');
     if (negotiatedInput) negotiatedInput.value = product.price || 0;
@@ -154,7 +154,7 @@ function onProductNameChange(select) {
     tr.cells[2].textContent = product.dimension || '';
     tr.cells[3].textContent = product.unit || '';
     tr.cells[5].textContent = formatNumber(product.costPrice || 0);
-    tr.cells[6].textContent = formatNumber(product.price || 0);
+    tr.cells[7].textContent = formatNumber(product.price || 0);
 
     const negotiatedInput = tr.querySelector('input[name="negotiatedPrice"]');
     if (negotiatedInput) negotiatedInput.value = product.price || 0;
@@ -186,11 +186,12 @@ function updateTotal() {
     const tbody = document.getElementById('quotationEditTableBody');
     let totalQuantity=0, totalCost=0, totalPrice=0, totalNegotiated=0, totalProfit=0;
 
-    tbody.querySelectorAll('tr').forEach(tr=>{
+    tbody.querySelectorAll('tr').forEach(tr => {
         const quantity = parseInt(tr.querySelector('input[name="quantity"]').value) || 0;
-        const cost = parseInt(tr.querySelector('.costTotal').textContent.replace(/,/g,'')) || 0;
-        const price = parseInt(tr.querySelector('.priceTotal').textContent.replace(/,/g,'')) || 0;
-        const negotiated = parseInt(tr.querySelector('.negotiatedPriceTotal').textContent.replace(/,/g,'')) || 0;
+        const cost = parseFloat(tr.querySelector('.costTotal').textContent.replace(/,/g,'')) || 0;
+        const price = parseFloat(tr.querySelector('.priceTotal').textContent.replace(/,/g,'')) || 0;
+        const negotiated = parseFloat(tr.querySelector('.negotiatedPriceTotal').textContent.replace(/,/g,'')) || 0;
+
         totalQuantity += quantity;
         totalCost += cost;
         totalPrice += price;
@@ -222,29 +223,29 @@ function addQuotationRow() {
     tr.setAttribute('id',`row-${rowIndex}`);
     tr.innerHTML=`
         <input type="hidden" name="productUuid" value="${firstProduct.uuid}">
-        <td style="width:12%;">
+        <td style="width:10%;">
             <select name="productNoSelect" class="form-select" onchange="onProductNoChange(this)">
                 ${noOptions}
             </select>
         </td>
-        <td style="width:16%;">
+        <td style="width:15%;">
             <select name="productNameSelect" class="form-select" onchange="onProductNameChange(this)">
                 ${nameOptions}
             </select>
         </td>
-        <td style="width:16%;">${firstProduct.dimension || ''}</td>
-        <td style="width:8%;">${firstProduct.unit || ''}</td>
-        <td style="width:8%;">
+        <td style="width:10%;">${firstProduct.dimension || ''}</td>
+        <td style="width:5%;">${firstProduct.unit || ''}</td>
+        <td style="width:7%;">
             <input type="number" name="quantity" class="form-control" value="1" min="1" onchange="updateRowTotal(this)">
         </td>
-        <td style="width:8%;" class="text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:8%;" class="text-primary">${formatNumber(firstProduct.price || 0)}</td>
-        <td style="width:8%;" class="costTotal text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
-        <td style="width:8%;" class="priceTotal text-primary">${formatNumber(firstProduct.price || 0)}</td>
-        <td style="width:8%;">
+        <td style="width:7%;" class="text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:7%;" class="costTotal text-success">${formatNumber(firstProduct.costPrice || 0)}</td>
+        <td style="width:7%;" class="text-primary">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:7%;" class="priceTotal text-primary">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:12%;">
             <input type="number" name="negotiatedPrice" class="form-control" value="${firstProduct.price || 0}" onchange="updateRowTotal(this)">
         </td>
-        <td style="width:8%;" class="negotiatedPriceTotal text-secondary">${formatNumber(firstProduct.price || 0)}</td>
+        <td style="width:7%;" class="negotiatedPriceTotal text-secondary">${formatNumber(firstProduct.price || 0)}</td>
         <td style="width:6%;">
             <button type="button" class="btn btn-sm btn-danger" onclick="removeQuotationRow(${rowIndex})">
                 <i class="bi bi-trash"></i>

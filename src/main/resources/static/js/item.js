@@ -40,12 +40,12 @@ async function loadItems(page = 0) {
                 <td><div class="badge rounded-pill py-2 px-3 ${statusClass}">${statusLabel}</div></td>
                 <td>
                     <div class="btn-group" role="group">
-                        <button class="btn btn-sm btn-outline-secondary me-1" onclick="openEditModal('${item.uuid}')">
+                        <a class="btn btn-outline-secondary d-flex align-items-center" onclick="openEditModal('${item.uuid}')">
                             <i class="bi bi-pencil me-1"></i> 編輯
-                        </button>
-                        <button class="btn btn-sm btn-outline-danger" onclick="openDeleteModal('${item.uuid}', '${item.no}-${item.name}')">
+                        </a>
+                        <a class="btn btn-outline-danger d-flex align-items-center" onclick="openDeleteModal('${item.uuid}', '${item.no}-${item.name}')">
                             <i class="bi bi-trash"></i> 刪除
-                        </button>
+                        </a>
                     </div>
                 </td>
             </tr>

@@ -1,15 +1,19 @@
 package com.design.controller.quotation;
 
+import com.design.base.api.CompanyType;
 import com.design.base.api.CustomResponse;
 import com.design.base.api.SystemCode;
+import com.design.base.common.Common;
 import com.design.controller.quotation.request.QuotationCreateRequest;
 import com.design.controller.quotation.request.QuotationEditRequest;
 import com.design.controller.quotation.request.QuotationFindRequest;
 import com.design.controller.quotation.request.QuotationPageRequest;
+import com.design.controller.quotation.response.QuotationDownloadResponse;
 import com.design.controller.quotation.response.QuotationFindAllResponse;
 import com.design.controller.quotation.response.QuotationFindResponse;
 import com.design.controller.quotation.response.QuotationPageResponse;
 import com.design.usecase.quotation.QuotationCreateUseCase;
+import com.design.usecase.quotation.QuotationDownloadUseCase;
 import com.design.usecase.quotation.QuotationEditUseCase;
 import com.design.usecase.quotation.QuotationFindUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +25,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +45,8 @@ public class QuotationController {
     private final QuotationEditUseCase quotationEditUseCase;
 
     private final QuotationFindUseCase quotationFindUseCase;
+
+    private final QuotationDownloadUseCase quotationDownloadUseCase;
 
     @Operation(summary = "建立")
     @PostMapping(
@@ -101,6 +110,34 @@ public class QuotationController {
             @Validated QuotationPageRequest request) {
         QuotationPageResponse response = quotationFindUseCase.findByPage(request);
         return new CustomResponse(SystemCode.SUCCESS, response);
+    }
+
+    @Operation(summary = "下載報價單")
+    @GetMapping(
+            value = "v1/download/{company}/{uuid}"
+    )
+    @ApiResponse(responseCode = "200", description = "OK")
+    public ResponseEntity<byte[]> download(
+            @PathVariable("company") @NotNull CompanyType companyType,
+            @PathVariable("uuid") @NotNull String uuid) {
+        QuotationDownloadResponse response = quotationDownloadUseCase.download(companyType, uuid);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + response.fileName() + "\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(response.file());
+    }
+
+    @Operation(summary = "預覽報價單")
+    @GetMapping("v1/preview/{uuid}")
+    @ApiResponse(responseCode = "200", description = "OK")
+    public ResponseEntity<byte[]> preview(
+            @PathVariable("company") @NotNull CompanyType companyType,
+            @PathVariable("uuid") @NotNull String uuid) {
+        QuotationDownloadResponse response = quotationDownloadUseCase.download(companyType, uuid);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + response.fileName() + "\"")
+                .contentType(MediaType.parseMediaType(Common.EXCEL_CONTENT_TYPE))
+                .body(response.file());
     }
 
 }
