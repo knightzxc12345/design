@@ -1,6 +1,7 @@
 package com.design.usecase.quotation.impl;
 
 import com.design.base.api.CompanyType;
+import com.design.base.api.FileType;
 import com.design.base.common.Common;
 import com.design.controller.quotation.response.QuotationDownloadResponse;
 import com.design.entity.CustomerEntity;
@@ -15,6 +16,7 @@ import com.design.utils.InstantUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -33,21 +35,34 @@ public class QuotationDownloadUseCaseImpl implements QuotationDownloadUseCase {
     private final QuotationService quotationService;
 
     @Override
-    public QuotationDownloadResponse download(CompanyType companyType, String uuid) {
+    public QuotationDownloadResponse download(CompanyType companyType, FileType fileType, String uuid) {
         try{
             String date = InstantUtil.to(Instant.now(), Common.DATE_FORMAT_2);
-            String fileName = ExcelUtil.convertFileName(String.format("%s-%s%s", date, companyType.getMessage(), Common.EXCEL));
+            String fileName = String.format("%s-%s.xlsx", date, companyType.getMessage(), Common.EXCEL);
             QuotationEntity quotationEntity = quotationService.findByUuid(uuid);
             Quotation quotation = convert(quotationEntity, date);
             byte[] file = ExcelUtil.convert(getInputStream(companyType), quotation);
+            MediaType mediaType = MediaType.parseMediaType(Common.EXCEL_CONTENT_TYPE);
+            if(FileType.PDF.equals(fileType)){
+                file = ExcelUtil.convertExcelToPdf(file);
+                fileName = String.format("%s-%s%s", date, companyType.getMessage(), Common.PDF);
+                mediaType = MediaType.APPLICATION_PDF;
+            }
+            fileName = ExcelUtil.convertFileName(fileName);
             return new QuotationDownloadResponse(
                     file,
-                    fileName
+                    fileName,
+                    mediaType
             );
         }catch (Exception ex){
             ex.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public QuotationDownloadResponse preview(CompanyType companyType, FileType fileType, String uuid) {
+        return null;
     }
 
     private InputStream getInputStream(CompanyType companyType){
@@ -86,8 +101,8 @@ public class QuotationDownloadUseCaseImpl implements QuotationDownloadUseCase {
             detail.setProductDimension(productEntity.getDimension());
             detail.setProductUnit(productEntity.getUnit());
             detail.setProductQuantity(quotationProductEntity.getQuantity());
-            detail.setProductCost(productEntity.getCostPrice());
-            detail.setProductNegotiated(quotationProductEntity.getNegotiatedPrice());
+            detail.setProductCost(Common.NUMBER_FORMAT.format(productEntity.getCostPrice()));
+            detail.setProductNegotiated(Common.NUMBER_FORMAT.format(quotationProductEntity.getNegotiatedPrice()));
 
             BigDecimal lineTotal = quotationProductEntity.getNegotiatedPrice()
                     .multiply(new BigDecimal(quotationProductEntity.getQuantity()));
@@ -101,9 +116,9 @@ public class QuotationDownloadUseCaseImpl implements QuotationDownloadUseCase {
         BigDecimal totalWithTax = total.add(tax);
 
         quotation.setDetails(details);
-        quotation.setTotal(total);
-        quotation.setTax(tax);
-        quotation.setTotalWithTax(totalWithTax);
+        quotation.setTotal(Common.NUMBER_FORMAT.format(total));
+        quotation.setTax(Common.NUMBER_FORMAT.format(tax));
+        quotation.setTotalWithTax(Common.NUMBER_FORMAT.format(totalWithTax));
 
         return quotation;
     }

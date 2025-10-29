@@ -52,8 +52,11 @@ async function loadQuotations(page = 0) {
                         <a class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" href="${API_BASE}/edit/${quotation.uuid}" onclick="saveListState()">
                             <i class="bi bi-pencil me-1"></i> 編輯
                         </a>
-                        <a class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" href="${API_BASE}/v1/download/CATHAY/${quotation.uuid}">
-                            <i class="bi bi-pencil me-1"></i> 下載
+                        <a class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" href="${API_BASE}/v1/download/CATHAY/EXCEL/${quotation.uuid}">
+                            <i class="bi bi-pencil me-1"></i> 下載Excel(國泰)
+                        </a>
+                        <a class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" href="${API_BASE}/v1/download/CATHAY/PDF/${quotation.uuid}">
+                            <i class="bi bi-pencil me-1"></i> 下載PDF(國泰)
                         </a>
                     </div>
                 </td>
@@ -71,6 +74,14 @@ function saveListState() {
         keyword: keyword
     }));
 }
+
+async function previewCathay(uuid){
+    const iframe = document.getElementById('previewFrame');
+    iframe.src = `${API_BASE}/v1/preview/CATHAY/${uuid}`;
+    const modal = new bootstrap.Modal(document.getElementById('previewModal'));
+    modal.show();
+}
+
 
 // ==========================
 // 初始化

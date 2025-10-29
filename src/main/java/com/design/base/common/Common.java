@@ -15,7 +15,7 @@ public class Common {
 
     public final static DateTimeFormatter DATE_FORMAT_3 = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
-    public final static DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#,###");
+    public final static DecimalFormat NUMBER_FORMAT = new DecimalFormat("#,###");
 
     public final static long DAYS = 24 * 60 * 60;
 
@@ -42,5 +42,7 @@ public class Common {
     public final static String EXCEL = ".xlsx";
 
     public final static String EXCEL_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+    public final static String PDF = ".pdf";
 
 }

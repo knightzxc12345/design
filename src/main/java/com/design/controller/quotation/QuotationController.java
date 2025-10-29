@@ -2,6 +2,7 @@ package com.design.controller.quotation;
 
 import com.design.base.api.CompanyType;
 import com.design.base.api.CustomResponse;
+import com.design.base.api.FileType;
 import com.design.base.api.SystemCode;
 import com.design.base.common.Common;
 import com.design.controller.quotation.request.QuotationCreateRequest;
@@ -114,26 +115,28 @@ public class QuotationController {
 
     @Operation(summary = "下載報價單")
     @GetMapping(
-            value = "v1/download/{company}/{uuid}"
+            value = "v1/download/{company}/{fileType}/{uuid}"
     )
     @ApiResponse(responseCode = "200", description = "OK")
     public ResponseEntity<byte[]> download(
             @PathVariable("company") @NotNull CompanyType companyType,
+            @PathVariable("fileType") @NotNull FileType fileType,
             @PathVariable("uuid") @NotNull String uuid) {
-        QuotationDownloadResponse response = quotationDownloadUseCase.download(companyType, uuid);
+        QuotationDownloadResponse response = quotationDownloadUseCase.download(companyType, fileType, uuid);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + response.fileName() + "\"")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentType(response.mediaType())
                 .body(response.file());
     }
 
     @Operation(summary = "預覽報價單")
-    @GetMapping("v1/preview/{uuid}")
+    @GetMapping("v1/preview/{company}/{uuid}")
     @ApiResponse(responseCode = "200", description = "OK")
     public ResponseEntity<byte[]> preview(
             @PathVariable("company") @NotNull CompanyType companyType,
+            @PathVariable("fileType") @NotNull FileType fileType,
             @PathVariable("uuid") @NotNull String uuid) {
-        QuotationDownloadResponse response = quotationDownloadUseCase.download(companyType, uuid);
+        QuotationDownloadResponse response = quotationDownloadUseCase.download(companyType, fileType, uuid);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + response.fileName() + "\"")
                 .contentType(MediaType.parseMediaType(Common.EXCEL_CONTENT_TYPE))

@@ -1,9 +1,15 @@
 package com.design.utils;
 
 import com.design.base.common.Common;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
@@ -47,6 +53,44 @@ public class ExcelUtil {
 
     public static String convertFileName(String fileName){
         return URLEncoder.encode(fileName, StandardCharsets.UTF_8).replaceAll("\\+", "%20");
+    }
+
+    public static byte[] convertExcelToPdf(byte[] excelBytes) {
+        try (InputStream is = new ByteArrayInputStream(excelBytes);
+             Workbook workbook = new XSSFWorkbook(is);
+             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             PDDocument pdf = new PDDocument()) {
+
+            for (Sheet sheet : workbook) {
+                PDPage page = new PDPage(PDRectangle.A4);
+                pdf.addPage(page);
+
+                try (PDPageContentStream content = new PDPageContentStream(pdf, page)) {
+                    float y = page.getMediaBox().getHeight() - 50;
+
+                    for (Row row : sheet) {
+                        float x = 50;
+                        for (Cell cell : row) {
+                            String text = cell.toString();
+                            content.beginText();
+                            content.setFont(PDType1Font.HELVETICA, 10);
+                            content.newLineAtOffset(x, y);
+                            content.showText(text);
+                            content.endText();
+                            x += 100;
+                        }
+                        y -= 20;
+                    }
+                }
+            }
+
+            pdf.save(bos);
+            return bos.toByteArray();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     private static <T> void fillSheet(Sheet sheet, T data) {

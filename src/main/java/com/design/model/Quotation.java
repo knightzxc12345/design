@@ -20,11 +20,11 @@ public class Quotation {
 
     private String reportDate;
 
-    private BigDecimal total;
+    private String total;
 
-    private BigDecimal tax;
+    private String tax;
 
-    private BigDecimal totalWithTax;
+    private String totalWithTax;
 
     private List<Quotation.Detail> details;
 
@@ -44,9 +44,9 @@ public class Quotation {
 
         private String productUnit;
 
-        private BigDecimal productCost;
+        private String productCost;
 
-        private BigDecimal productNegotiated;
+        private String productNegotiated;
 
     }
 

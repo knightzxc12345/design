@@ -23,6 +23,7 @@
 		<springdoc.version>2.0.0</springdoc.version>
 		<jackson.version>2.12.5</jackson.version>
 		<itext.version>7.2.5</itext.version>
+		<pdf.version>2.0.29</pdf.version>
 	</properties>
 
 	<dependencies>
@@ -124,6 +125,13 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi-ooxml</artifactId>
 			<version>${poi.version}</version>
+		</dependency>
+
+		<!-- PDF -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>${pdf.version}</version>
 		</dependency>
 
 		<!-- Swagger Doc -->

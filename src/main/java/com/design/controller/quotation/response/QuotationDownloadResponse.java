@@ -1,11 +1,15 @@
 package com.design.controller.quotation.response;
 
+import org.springframework.http.MediaType;
+
 public record QuotationDownloadResponse(
 
         byte [] file,
 
 
-        String fileName
+        String fileName,
+
+        MediaType mediaType
 
 ) {
 }
