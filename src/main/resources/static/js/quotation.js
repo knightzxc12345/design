@@ -145,9 +145,7 @@ async function updateStatus(uuid, status, btn) {
         } else {
             showToast("修改失敗：" + data.message, "danger");
         }
-
-        // 等個 0.5 秒，讓 loading 有感覺
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
     } catch (err) {
         showToast("修改失敗：" + err.message, "danger");
