@@ -6,7 +6,7 @@ public enum QuotationStatus {
 
     NEGOTIATING("議價中"),
 
-    APPROVED("已核准"),
+    IN_PROGRESS("案件進行中"),
 
     COMPLETED("已完成"),
 

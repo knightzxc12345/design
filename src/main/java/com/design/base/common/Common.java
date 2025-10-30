@@ -43,6 +43,4 @@ public class Common {
 
     public final static String EXCEL_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
-    public final static String PDF = ".pdf";
-
 }

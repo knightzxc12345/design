@@ -6,9 +6,6 @@ public record QuotationDownloadResponse(
 
         byte [] file,
 
-
-        String fileName,
-
         MediaType mediaType
 
 ) {

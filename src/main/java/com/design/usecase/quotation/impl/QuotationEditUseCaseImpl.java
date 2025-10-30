@@ -5,12 +5,13 @@ import com.design.entity.CustomerEntity;
 import com.design.entity.ProductEntity;
 import com.design.entity.QuotationEntity;
 import com.design.entity.QuotationProductEntity;
+import com.design.entity.enums.QuotationStatus;
+import com.design.model.PriceSummary;
 import com.design.service.CustomerService;
 import com.design.service.ProductService;
 import com.design.service.QuotationProductService;
 import com.design.service.QuotationService;
 import com.design.usecase.quotation.QuotationEditUseCase;
-import com.design.model.PriceSummary;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +77,13 @@ public class QuotationEditUseCaseImpl implements QuotationEditUseCase {
         quotationEntity.setTotalNegotiatedPrice(priceSummary.totalNegotiatedPrice());
 
         // 儲存報價單
+        quotationService.edit(quotationEntity);
+    }
+
+    @Override
+    public void updateStatus(String uuid, QuotationStatus status) {
+        QuotationEntity quotationEntity = quotationService.findByUuid(uuid);
+        quotationEntity.setStatus(status);
         quotationService.edit(quotationEntity);
     }
 

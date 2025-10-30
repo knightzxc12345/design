@@ -2,9 +2,7 @@ package com.design.controller.quotation;
 
 import com.design.base.api.CompanyType;
 import com.design.base.api.CustomResponse;
-import com.design.base.api.FileType;
 import com.design.base.api.SystemCode;
-import com.design.base.common.Common;
 import com.design.controller.quotation.request.QuotationCreateRequest;
 import com.design.controller.quotation.request.QuotationEditRequest;
 import com.design.controller.quotation.request.QuotationFindRequest;
@@ -13,6 +11,7 @@ import com.design.controller.quotation.response.QuotationDownloadResponse;
 import com.design.controller.quotation.response.QuotationFindAllResponse;
 import com.design.controller.quotation.response.QuotationFindResponse;
 import com.design.controller.quotation.response.QuotationPageResponse;
+import com.design.entity.enums.QuotationStatus;
 import com.design.usecase.quotation.QuotationCreateUseCase;
 import com.design.usecase.quotation.QuotationDownloadUseCase;
 import com.design.usecase.quotation.QuotationEditUseCase;
@@ -26,12 +25,15 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RequestMapping("/quotation")
@@ -67,6 +69,17 @@ public class QuotationController {
             @PathVariable("uuid") @NotNull String uuid,
             @RequestBody @Validated @NotNull QuotationEditRequest request) {
         quotationEditUseCase.edit(uuid, request);
+        return new CustomResponse(SystemCode.SUCCESS);
+    }
+
+    @Operation(summary = "變更狀態")
+    @PatchMapping(
+            value = "v1/{uuid}/{status}"
+    )
+    public CustomResponse updateStatus(
+            @PathVariable("uuid") @NotNull String uuid,
+            @PathVariable("status") @NotNull QuotationStatus status) {
+        quotationEditUseCase.updateStatus(uuid, status);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
@@ -114,32 +127,14 @@ public class QuotationController {
     }
 
     @Operation(summary = "下載報價單")
-    @GetMapping(
-            value = "v1/download/{company}/{fileType}/{uuid}"
-    )
+    @GetMapping("v1/download/{company}/{uuid}")
     @ApiResponse(responseCode = "200", description = "OK")
     public ResponseEntity<byte[]> download(
             @PathVariable("company") @NotNull CompanyType companyType,
-            @PathVariable("fileType") @NotNull FileType fileType,
             @PathVariable("uuid") @NotNull String uuid) {
-        QuotationDownloadResponse response = quotationDownloadUseCase.download(companyType, fileType, uuid);
+        QuotationDownloadResponse response = quotationDownloadUseCase.download(companyType, uuid);
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + response.fileName() + "\"")
                 .contentType(response.mediaType())
-                .body(response.file());
-    }
-
-    @Operation(summary = "預覽報價單")
-    @GetMapping("v1/preview/{company}/{uuid}")
-    @ApiResponse(responseCode = "200", description = "OK")
-    public ResponseEntity<byte[]> preview(
-            @PathVariable("company") @NotNull CompanyType companyType,
-            @PathVariable("fileType") @NotNull FileType fileType,
-            @PathVariable("uuid") @NotNull String uuid) {
-        QuotationDownloadResponse response = quotationDownloadUseCase.download(companyType, fileType, uuid);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + response.fileName() + "\"")
-                .contentType(MediaType.parseMediaType(Common.EXCEL_CONTENT_TYPE))
                 .body(response.file());
     }
 

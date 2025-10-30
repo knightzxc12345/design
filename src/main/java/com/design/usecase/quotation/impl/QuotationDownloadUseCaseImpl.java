@@ -1,7 +1,6 @@
 package com.design.usecase.quotation.impl;
 
 import com.design.base.api.CompanyType;
-import com.design.base.api.FileType;
 import com.design.base.common.Common;
 import com.design.controller.quotation.response.QuotationDownloadResponse;
 import com.design.entity.CustomerEntity;
@@ -29,29 +28,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class QuotationDownloadUseCaseImpl implements QuotationDownloadUseCase {
 
-    @Value("classpath:report/quotation_cathay.xlsx")
+    @Value("classpath:reports/quotation_cathay.xlsx")
     private Resource quotationCathayResource;
 
     private final QuotationService quotationService;
 
     @Override
-    public QuotationDownloadResponse download(CompanyType companyType, FileType fileType, String uuid) {
+    public QuotationDownloadResponse download(CompanyType companyType, String uuid) {
         try{
             String date = InstantUtil.to(Instant.now(), Common.DATE_FORMAT_2);
-            String fileName = String.format("%s-%s.xlsx", date, companyType.getMessage(), Common.EXCEL);
             QuotationEntity quotationEntity = quotationService.findByUuid(uuid);
             Quotation quotation = convert(quotationEntity, date);
             byte[] file = ExcelUtil.convert(getInputStream(companyType), quotation);
             MediaType mediaType = MediaType.parseMediaType(Common.EXCEL_CONTENT_TYPE);
-            if(FileType.PDF.equals(fileType)){
-                file = ExcelUtil.convertExcelToPdf(file);
-                fileName = String.format("%s-%s%s", date, companyType.getMessage(), Common.PDF);
-                mediaType = MediaType.APPLICATION_PDF;
-            }
-            fileName = ExcelUtil.convertFileName(fileName);
             return new QuotationDownloadResponse(
                     file,
-                    fileName,
                     mediaType
             );
         }catch (Exception ex){
@@ -61,7 +52,7 @@ public class QuotationDownloadUseCaseImpl implements QuotationDownloadUseCase {
     }
 
     @Override
-    public QuotationDownloadResponse preview(CompanyType companyType, FileType fileType, String uuid) {
+    public QuotationDownloadResponse preview(CompanyType companyType, String uuid) {
         return null;
     }
 
