@@ -57,7 +57,7 @@ public class ItemController {
     @PutMapping(
             value = "v1/{uuid}"
     )
-    public CustomResponse update(
+    public CustomResponse edit(
             @PathVariable("uuid") @NotNull String uuid,
             @RequestBody @Validated @NotNull ItemEditRequest request) {
         itemEditUseCase.edit(uuid, request);

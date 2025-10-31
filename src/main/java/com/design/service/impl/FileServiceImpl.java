@@ -20,36 +20,27 @@ public class FileServiceImpl implements FileService {
     private final FileRepository fileRepository;
 
     @Override
-    public void createAll(List<FileEntity> fileEntities) {
-        if(null == fileEntities || fileEntities.isEmpty()){
-            return;
-        }
-        for(FileEntity fileEntity : fileEntities){
-            fileEntity.setUuid(UUID.randomUUID().toString());
-            fileEntity.setCreateTime(Instant.now());
-            fileEntity.setCreateUser(UserUtil.getUserUuid());
-        }
-        fileRepository.saveAll(fileEntities);
+    public void createFolder(FileEntity fileEntity) {
+        fileEntity.setUuid(UUID.randomUUID().toString());
+        fileEntity.setCreateTime(Instant.now());
+        fileEntity.setCreateUser(UserUtil.getUserUuid());
+        fileEntity.setIsFolder(true);
     }
 
     @Override
-    public void deleteAll(List<FileEntity> fileEntities) {
-        if(null == fileEntities || fileEntities.isEmpty()){
-            return;
-        }
-        fileRepository.deleteAll(fileEntities);
+    public void createFile(FileEntity fileEntity) {
+        fileEntity.setUuid(UUID.randomUUID().toString());
+        fileEntity.setCreateTime(Instant.now());
+        fileEntity.setCreateUser(UserUtil.getUserUuid());
+        fileEntity.setIsFolder(false);
     }
 
     @Override
-    public List<FileEntity> findAllByUuid(String quotationUuid) {
-        return fileRepository.findByQuotation_UuidOrderByQuotation_PkAsc(quotationUuid);
+    public List<FileEntity> findAllByUuid(String uuid) {
+        return fileRepository.findByUuidOrderByUuidAsc(uuid);
     }
 
     @Override
-    public List<FileEntity> findAll(String keyword) {
-        return fileRepository.findAll(keyword);
-    }
-
     public Page<FileEntity> findByPage(String keyword, Pageable pageable) {
         return fileRepository.findByPage(
                 keyword,

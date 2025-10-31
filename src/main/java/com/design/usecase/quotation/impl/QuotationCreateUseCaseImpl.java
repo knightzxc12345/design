@@ -2,14 +2,8 @@ package com.design.usecase.quotation.impl;
 
 import com.design.base.common.Common;
 import com.design.controller.quotation.request.QuotationCreateRequest;
-import com.design.entity.CustomerEntity;
-import com.design.entity.ProductEntity;
-import com.design.entity.QuotationEntity;
-import com.design.entity.QuotationProductEntity;
-import com.design.service.CustomerService;
-import com.design.service.ProductService;
-import com.design.service.QuotationProductService;
-import com.design.service.QuotationService;
+import com.design.entity.*;
+import com.design.service.*;
 import com.design.usecase.quotation.QuotationCreateUseCase;
 import com.design.model.PriceSummary;
 import com.design.utils.InstantUtil;
@@ -35,6 +29,8 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
     private final CustomerService customerService;
 
     private final ProductService productService;
+
+    private final FileService fileService;
 
     @Transactional
     @Override
@@ -64,6 +60,10 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
         quotationEntity.setTotalPrice(priceSummary.totalPrice());
         quotationEntity.setTotalNegotiatedPrice(priceSummary.totalNegotiatedPrice());
         quotationService.edit(quotationEntity);
+
+        // 建立資料夾
+        FileEntity fileEntity = initFile(quotationEntity);
+        fileService.createFile(fileEntity);
     }
 
     private QuotationEntity init(QuotationCreateRequest request) {
@@ -122,6 +122,12 @@ public class QuotationCreateUseCaseImpl implements QuotationCreateUseCase {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         return new PriceSummary(totalCostPrice, totalPrice, totalNegotiatedPrice);
+    }
+
+    private FileEntity initFile(QuotationEntity quotationEntity){
+        FileEntity fileEntity = new FileEntity();
+        fileEntity.setQuotation(quotationEntity);
+        return fileEntity;
     }
 
 }

@@ -65,7 +65,7 @@ public class QuotationController {
     @PutMapping(
             value = "v1/{uuid}"
     )
-    public CustomResponse update(
+    public CustomResponse edit(
             @PathVariable("uuid") @NotNull String uuid,
             @RequestBody @Validated @NotNull QuotationEditRequest request) {
         quotationEditUseCase.edit(uuid, request);

@@ -5,6 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // 檔案
 @ToString(callSuper = true)
 @Data
@@ -20,14 +23,20 @@ public class FileEntity extends BaseEntity {
     @JoinColumn(name = "quotation_uuid", nullable = false)
     private QuotationEntity quotation;
 
-    // 標籤
+    // 名稱
     @Column(
-            name = "tag",
+            name = "name",
             nullable = false,
-            unique = false,
             length = 64
     )
     @NotBlank
+    private String name;
+
+    // 標籤
+    @Column(
+            name = "tag",
+            length = 64
+    )
     private String tag;
 
     // 備註
@@ -37,11 +46,26 @@ public class FileEntity extends BaseEntity {
     )
     private String remark;
 
-    // 圖片
+    // 父節點
     @Column(
-            name = "image_url"
+            name = "parent_uuid",
+            length = 36
     )
-    @NotBlank
-    private String imageUrl;
+    private String parentUuid;
+
+    // 是否為資料夾
+    @Column(
+            name = "is_folder",
+            nullable = false
+    )
+    private Boolean isFolder = false;
+
+    // 多張圖片
+    @OneToMany(
+            mappedBy = "file",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<FileDetailEntity> fileDetails = new ArrayList<>();
 
 }

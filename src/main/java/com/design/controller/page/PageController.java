@@ -74,4 +74,10 @@ public class PageController {
         return "shipment";
     }
 
+    @GetMapping("/file")
+    public String file(Model model) {
+        model.addAttribute("activeMenu", "file");
+        return "file";
+    }
+
 }

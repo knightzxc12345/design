@@ -123,6 +123,9 @@
         <div class="menu-item" th:classappend="${activeMenu == 'shipment'} ? ' active'" th:onclick="|window.location='@{/shipment}'|">
             <i class="bi bi-truck"></i> 出貨單
         </div>
+        <div class="menu-item" th:classappend="${activeMenu == 'file'} ? ' active'" th:onclick="|window.location='@{/file}'|">
+            <i class="bi bi-folder2-open"></i> 檔案櫃
+        </div>
     </nav>
     <main>
         <section layout:fragment="content"></section>

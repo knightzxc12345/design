@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface FileRepository extends JpaRepository<FileEntity, Long> {
 
-    List<FileEntity> findByQuotation_UuidOrderByQuotation_PkAsc(String uuid);
+    List<FileEntity> findByUuidOrderByUuidAsc(String uuid);
 
     @Query(value =
             """
@@ -25,29 +25,10 @@ public interface FileRepository extends JpaRepository<FileEntity, Long> {
                 1 = 1
                 AND
                 (
-                    (:keyword IS NULL OR f.tags LIKE CONCAT('%', :keyword, '%'))
+                    (:keyword IS NULL OR f.tag LIKE CONCAT('%', :keyword, '%'))
                 )
             ORDER BY
-                f.createTime DESC
-            """)
-    List<FileEntity> findAll(
-            @Param("keyword") String keyword
-    );
-
-    @Query(value =
-            """
-            SELECT
-                f
-            FROM
-                FileEntity f
-            WHERE
-                1 = 1
-                AND
-                (
-                    (:keyword IS NULL OR f.tags LIKE CONCAT('%', :keyword, '%'))
-                )
-            ORDER BY
-                f.createTime DESC
+                f.pk DESC
             """)
     Page<FileEntity> findByPage(
             @Param("keyword") String keyword,

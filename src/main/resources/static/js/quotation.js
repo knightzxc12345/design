@@ -64,6 +64,9 @@ async function loadQuotations(page = 0) {
                                 <li><a class="dropdown-item" href="#" onclick="updateStatus('${quotation.uuid}', 'CANCELLED', this)">已取消</a></li>
                             </ul>
                         </div>
+                        <a class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" href="${API_BASE}/file/${quotation.uuid}">
+                            <i class="bi bi-pencil me-1"></i> 前往檔案櫃
+                        </a>
                         <a class="btn btn-outline-secondary d-flex align-items-center"
                            style="white-space: nowrap;"
                            href="javascript:void(0)"

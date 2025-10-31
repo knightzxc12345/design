@@ -61,7 +61,7 @@ public class ProductController {
             value = "v1/{uuid}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     )
-    public CustomResponse update(
+    public CustomResponse edit(
             @PathVariable("uuid") @NotNull String uuid,
             @ModelAttribute @Validated @NotNull ProductEditRequest request,
             @RequestPart(name = "file", required = false) MultipartFile file) {

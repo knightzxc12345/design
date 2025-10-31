@@ -8,13 +8,11 @@ import java.util.List;
 
 public interface FileService {
 
-    void createAll(List<FileEntity> fileEntities);
+    void createFolder(FileEntity fileEntity);
 
-    void deleteAll(List<FileEntity> fileEntities);
+    void createFile(FileEntity fileEntity);
 
-    List<FileEntity> findAllByUuid(String quotationUuid);
-
-    List<FileEntity> findAll(String keyword);
+    List<FileEntity> findAllByUuid(String uuid);
 
     Page<FileEntity> findByPage(String keyword, Pageable pageable);
 

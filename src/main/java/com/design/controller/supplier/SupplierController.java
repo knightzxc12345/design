@@ -56,7 +56,7 @@ public class SupplierController {
     @PutMapping(
             value = "v1/{uuid}"
     )
-    public CustomResponse update(
+    public CustomResponse edit(
             @PathVariable("uuid") @NotNull String uuid,
             @RequestBody @Validated @NotNull SupplierEditRequest request) {
         supplierEditUseCase.edit(uuid, request);

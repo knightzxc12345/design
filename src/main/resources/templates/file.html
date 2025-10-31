@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>檔案管理</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/bootstrap-icons.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <style>
+        .img-thumbnail { cursor: pointer; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="" style="padding: 20px;">
+        <div class="row">
+            <div class="col-md-3">
+                <h3 class="mb-4">檔案櫃</h3>
+
+                <div class="d-flex align-items-center mb-3 gap-2">
+                    <input id="fileKeyword" type="text" class="form-control flex-grow-1" placeholder="請輸入 標籤">
+
+                    <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="searchFiles()">
+                        <i class="bi bi-search me-1"></i> 搜尋
+                    </button>
+
+                    <button class="btn btn-outline-secondary d-flex align-items-center" style="white-space: nowrap;" onclick="clearFileSearch()">
+                        <i class="bi bi-x-circle me-1"></i> 清除
+                    </button>
+                </div>
+                <div class="accordion" id="folderAccordion">
+
+                </div>
+            </div>
+
+            <!-- 右側檔案卡片區 -->
+            <div class="col-md-9">
+                <div class="row" id="fileCardsContainer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-body p-0">
+                    <img id="imagePreviewModalImg" class="img-fluid rounded" alt="放大圖片">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

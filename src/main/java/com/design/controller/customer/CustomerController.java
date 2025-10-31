@@ -56,7 +56,7 @@ public class CustomerController {
     @PutMapping(
             value = "v1/{uuid}"
     )
-    public CustomResponse update(
+    public CustomResponse edit(
             @PathVariable("uuid") @NotNull String uuid,
             @RequestBody @Validated @NotNull CustomerEditRequest request) {
         customerEditUseCase.edit(uuid, request);

@@ -224,7 +224,6 @@ async function confirmDeleteCustomer() {
 // ==========================
 document.addEventListener("DOMContentLoaded", () => {
     loadCustomers();
-
     const confirmBtn = document.getElementById('confirmDeleteBtn');
     confirmBtn?.addEventListener('click', confirmDeleteCustomer);
 });
