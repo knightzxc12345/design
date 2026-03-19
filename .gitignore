@@ -36,6 +36,6 @@ mvnw
 mvnw.cmd
 .mvn/wrapper/maven-wrapper.jar
 .mvn/wrapper/maven-wrapper.properties
-design.log
+erp.log
 logs/archived/**
-logs/design.log
+logs/erp.log

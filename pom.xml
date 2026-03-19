@@ -5,15 +5,15 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.7</version>
+		<version>3.2.5</version>
 		<relativePath/>
 	</parent>
 
 	<groupId>com.tk</groupId>
-	<artifactId>design</artifactId>
+	<artifactId>erp</artifactId>
 	<packaging>jar</packaging>
-	<name>design</name>
-	<description>design</description>
+	<name>erp</name>
+	<description>erp</description>
 
 	<properties>
 		<java.version>17</java.version>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
     <!--專案名稱-->
-    <contextName>design</contextName>
+    <contextName>erp</contextName>
     <!--日誌路徑-->
-    <property name="logHome" value="../design/logs"/>
+    <property name="logHome" value="../erp/logs"/>
     <!--專案名稱-->
-    <property name="projectName" value="design"/>
+    <property name="projectName" value="erp"/>
 
     <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${logHome}/${projectName}.log</file>
