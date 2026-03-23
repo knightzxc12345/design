@@ -1,9 +1,7 @@
 package com.erp.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
+import com.erp.entity.enums.RoleStatus;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -29,6 +27,16 @@ public class RoleEntity extends BaseEntity {
     )
     @NotBlank
     private String name;
+
+    // 狀態
+    @Column(
+            name = "status",
+            nullable = false,
+            length = 32
+    )
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private RoleStatus status;
 
     // 是否刪除
     @Column(

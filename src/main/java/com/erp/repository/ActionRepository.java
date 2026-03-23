@@ -1,10 +1,11 @@
 package com.erp.repository;
 
+import com.erp.entity.ActionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ActionRepository extends JpaRepository<ActionRepository, Long> {
+public interface ActionRepository extends JpaRepository<ActionEntity, Long> {
 
 
 

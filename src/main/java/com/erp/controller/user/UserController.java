@@ -1,18 +1,18 @@
-package com.erp.controller.customer;
+package com.erp.controller.user;
 
 import com.erp.base.response.CustomResponse;
 import com.erp.base.response.PageResponse;
 import com.erp.base.response.enums.SystemCode;
-import com.erp.controller.customer.request.CustomerCreateRequest;
-import com.erp.controller.customer.request.CustomerEditRequest;
-import com.erp.controller.customer.request.CustomerFindRequest;
-import com.erp.controller.customer.request.CustomerPageRequest;
-import com.erp.controller.customer.response.CustomerFindAllResponse;
-import com.erp.controller.customer.response.CustomerFindResponse;
-import com.erp.usecase.customer.CustomerCreateUseCase;
-import com.erp.usecase.customer.CustomerDeleteUseCase;
-import com.erp.usecase.customer.CustomerEditUseCase;
-import com.erp.usecase.customer.CustomerFindUseCase;
+import com.erp.controller.user.request.UserCreateRequest;
+import com.erp.controller.user.request.UserEditRequest;
+import com.erp.controller.user.request.UserFindRequest;
+import com.erp.controller.user.request.UserPageRequest;
+import com.erp.controller.user.response.UserFindAllResponse;
+import com.erp.controller.user.response.UserFindResponse;
+import com.erp.usecase.user.UserCreateUseCase;
+import com.erp.usecase.user.UserDeleteUseCase;
+import com.erp.usecase.user.UserEditUseCase;
+import com.erp.usecase.user.UserFindUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,28 +28,28 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/customer")
-@Tag(name = "客戶")
+@RequestMapping("/user")
+@Tag(name = "使用者")
 @RestController
 @RequiredArgsConstructor
 @Validated
-public class CustomerController {
+public class UserController {
 
-    private final CustomerCreateUseCase customerCreateUseCase;
+    private final UserCreateUseCase userCreateUseCase;
 
-    private final CustomerEditUseCase customerEditUseCase;
+    private final UserEditUseCase userEditUseCase;
 
-    private final CustomerDeleteUseCase customerDeleteUseCase;
+    private final UserDeleteUseCase userDeleteUseCase;
 
-    private final CustomerFindUseCase customerFindUseCase;
+    private final UserFindUseCase userFindUseCase;
 
     @Operation(summary = "建立")
     @PostMapping(
             value = "v1"
     )
     public CustomResponse create(
-            @RequestBody @Validated @NotNull CustomerCreateRequest request) {
-        customerCreateUseCase.create(request);
+            @RequestBody @Validated @NotNull UserCreateRequest request) {
+        userCreateUseCase.create(request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
@@ -59,8 +59,8 @@ public class CustomerController {
     )
     public CustomResponse edit(
             @PathVariable("uuid") @NotNull UUID uuid,
-            @RequestBody @Validated @NotNull CustomerEditRequest request) {
-        customerEditUseCase.edit(uuid, request);
+            @RequestBody @Validated @NotNull UserEditRequest request) {
+        userEditUseCase.edit(uuid, request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
@@ -70,7 +70,7 @@ public class CustomerController {
     )
     public CustomResponse delete(
             @PathVariable("uuid") @NotNull UUID uuid) {
-        customerDeleteUseCase.delete(uuid);
+        userDeleteUseCase.delete(uuid);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
@@ -79,11 +79,11 @@ public class CustomerController {
             value = "v1/{uuid}"
     )
     @ApiResponse(responseCode = "200", description = "OK", content = {
-            @Content(schema = @Schema(implementation = CustomerFindResponse.class))
+            @Content(schema = @Schema(implementation = UserFindResponse.class))
     })
     public CustomResponse findByUuid(
             @PathVariable("uuid") @NotNull UUID uuid) {
-        CustomerFindResponse response = customerFindUseCase.findDetail(uuid);
+        UserFindResponse response = userFindUseCase.findDetail(uuid);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 
@@ -93,12 +93,12 @@ public class CustomerController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200 - 清單", description = "OK", content = {
-                    @Content(array = @ArraySchema(schema = @Schema(implementation = CustomerFindAllResponse.class))),
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = UserFindAllResponse.class))),
             }),
     })
     public CustomResponse findAll(
-            @Validated CustomerFindRequest request) {
-        List<CustomerFindAllResponse> responses = customerFindUseCase.findAll(request);
+            @Validated UserFindRequest request) {
+        List<UserFindAllResponse> responses = userFindUseCase.findAll(request);
         return new CustomResponse(SystemCode.SUCCESS, responses);
     }
 
@@ -112,8 +112,8 @@ public class CustomerController {
             }),
     })
     public CustomResponse findPage(
-            @Validated CustomerPageRequest request) {
-        PageResponse response = customerFindUseCase.findByPage(request);
+            @Validated UserPageRequest request) {
+        PageResponse response = userFindUseCase.findByPage(request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 
