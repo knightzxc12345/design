@@ -6,6 +6,7 @@ import com.erp.service.RoleService;
 import com.erp.usecase.role.RoleCreateUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +14,7 @@ public class RoleCreateUseCaseImpl implements RoleCreateUseCase {
 
     private final RoleService roleService;
 
+    @Transactional
     @Override
     public void create(RoleCreateRequest request) {
         RoleEntity roleEntity = init(request);

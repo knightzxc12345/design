@@ -13,6 +13,7 @@ import com.erp.service.RoleService;
 import com.erp.usecase.permission.PermissionFindUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class PermissionFindUseCaseImpl implements PermissionFindUseCase {
 
     private final RolePermissionActionService rolePermissionActionService;
 
+    @Transactional(readOnly = true)
     @Override
     public List<PermissionFindAllResponse> findAll(PermissionFindRequest request) {
         RoleEntity roleEntity = roleService.findByUuid(request.roleUuid());

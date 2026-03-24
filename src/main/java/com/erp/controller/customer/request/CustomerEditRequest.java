@@ -46,7 +46,7 @@ public record CustomerEditRequest(
         @Schema(description = "備註", example = "我是備註")
         String remark,
 
-        @Schema(description = "狀態", example = "ACTIVE")
+        @Schema(description = "狀態", example = "ENABLE")
         CustomerStatus status
 
 ) {

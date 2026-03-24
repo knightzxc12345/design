@@ -6,6 +6,7 @@ import com.erp.service.RolePermissionActionService;
 import com.erp.usecase.permission.PermissionDeleteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ public class PermissionDeleteUseCaseImpl implements PermissionDeleteUseCase {
 
     private final RolePermissionActionService rolePermissionActionService;
 
+    @Transactional
     @Override
     public void delete(UUID uuid) {
         PermissionEntity permissionEntity = permissionService.findByUuid(uuid);

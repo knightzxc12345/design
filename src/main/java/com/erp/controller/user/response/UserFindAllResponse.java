@@ -22,7 +22,7 @@ public record UserFindAllResponse(
         @Schema(description = "手機", example = "0911111111")
         String mobile,
 
-        @Schema(description = "狀態", example = "ACTIVE")
+        @Schema(description = "狀態", example = "ENABLE")
         UserStatus status
 
 ) {

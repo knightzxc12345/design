@@ -1,9 +1,8 @@
 package com.erp.service.impl;
 
 import com.erp.base.response.enums.PermissionCode;
-import com.erp.base.response.enums.RoleCode;
-import com.erp.base.response.enums.UserCode;
 import com.erp.entity.PermissionEntity;
+import com.erp.entity.enums.PermissionStatus;
 import com.erp.handler.BusinessException;
 import com.erp.repository.PermissionRepository;
 import com.erp.service.PermissionService;
@@ -28,9 +27,17 @@ public class PermissionServiceImpl implements PermissionService {
         ).ifPresent(r -> {
             throw new BusinessException(PermissionCode.DUPLICATE_NAME);
         });
+        permissionEntity.setStatus(PermissionStatus.ENABLE);
         permissionEntity.setIsDeleted(false);
         permissionEntity.setCreateTime(Instant.now());
         permissionEntity.setCreateUser(UserUtil.getUserUuid());
+        permissionRepository.save(permissionEntity);
+    }
+
+    @Override
+    public void edit(PermissionEntity permissionEntity) {
+        permissionEntity.setModifiedTime(Instant.now());
+        permissionEntity.setModifiedUser(UserUtil.getUserUuid());
         permissionRepository.save(permissionEntity);
     }
 
@@ -51,6 +58,11 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public List<PermissionEntity> findAll() {
         return permissionRepository.findByIsDeletedFalse();
+    }
+
+    @Override
+    public List<PermissionEntity> findAllByUuids(List<UUID> uuids) {
+        return permissionRepository.findByIsDeletedFalseAndUuidIn(uuids);
     }
 
 }

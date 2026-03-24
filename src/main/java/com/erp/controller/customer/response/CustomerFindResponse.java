@@ -3,7 +3,12 @@ package com.erp.controller.customer.response;
 import com.erp.entity.enums.CustomerStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.UUID;
+
 public record CustomerFindResponse(
+
+        @Schema(description = "uuid", example = "319e7e1d-ca74-4500-b2f9-d3d2d2a6ffbe")
+        UUID uuid,
 
         @Schema(description = "名稱", example = "Test")
         String name,
@@ -32,7 +37,7 @@ public record CustomerFindResponse(
         @Schema(description = "備註", example = "這是備註")
         String remark,
 
-        @Schema(description = "狀態", example = "ACTIVE")
+        @Schema(description = "狀態", example = "ENABLE")
         CustomerStatus status
 
 ) {

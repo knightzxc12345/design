@@ -14,15 +14,15 @@ public record PermissionCreateRequest(
         @NotBlank(message = "名稱不得為空")
         String name,
 
-        @Schema(description = "網址", example = "/test/test")
-        @Length(min = 1, max = 128, message = "網址長度必須為1~128")
-        @NotBlank(message = "網址不得為空")
-        String url,
+        @Schema(description = "代碼", example = "auth:user:create")
+        @Length(min = 1, max = 64, message = "代碼長度必須為1~64")
+        @NotBlank(message = "代碼不得為空")
+        String code,
 
         @Schema(description = "父權限Uuid", example = "319e7e1d-ca74-4500-b2f9-d3d2d2a6ffbe")
         UUID parentUuid,
 
-        @Schema(description = "排序", example = "1")
+        @Schema(description = "排序", example = "ENABLE")
         @NotNull(message = "排序不得為空")
         Integer sort
 

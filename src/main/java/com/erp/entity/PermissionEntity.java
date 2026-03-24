@@ -1,9 +1,7 @@
 package com.erp.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
+import com.erp.entity.enums.PermissionStatus;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -31,14 +29,14 @@ public class PermissionEntity extends BaseEntity {
     @NotBlank
     private String name;
 
-    // 網址
+    // 代碼
     @Column(
-            name = "url",
+            name = "code",
             nullable = false,
-            length = 128
+            length = 32
     )
     @NotBlank
-    private String url;
+    private String code;
 
     // 父權線Uuid
     @Column(
@@ -54,6 +52,15 @@ public class PermissionEntity extends BaseEntity {
     )
     @NotNull
     private Integer sort;
+
+    // 狀態
+    @Column(
+            name = "status",
+            nullable = false
+    )
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private PermissionStatus status;
 
     // 是否刪除
     @Column(

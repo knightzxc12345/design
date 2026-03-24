@@ -6,6 +6,7 @@ import com.erp.service.RoleService;
 import com.erp.usecase.role.RoleEditUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ public class RoleEditUseCaseImpl implements RoleEditUseCase {
 
     private final RoleService roleService;
 
+    @Transactional
     @Override
     public void edit(UUID uuid, RoleEditRequest request) {
         RoleEntity roleEntity = roleService.findByUuid(uuid);

@@ -6,6 +6,7 @@ import com.erp.service.PermissionService;
 import com.erp.usecase.permission.PermissionCreateUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -13,6 +14,7 @@ public class PermissionCreateUseCaseImpl implements PermissionCreateUseCase {
 
     private final PermissionService permissionService;
 
+    @Transactional
     @Override
     public void create(PermissionCreateRequest request) {
         PermissionEntity permissionEntity = init(request);
@@ -22,7 +24,7 @@ public class PermissionCreateUseCaseImpl implements PermissionCreateUseCase {
     private PermissionEntity init(PermissionCreateRequest request){
         PermissionEntity permissionEntity = new PermissionEntity();
         permissionEntity.setName(request.name());
-        permissionEntity.setUrl(request.url());
+        permissionEntity.setCode(request.code());
         permissionEntity.setParentUuid(request.parentUuid());
         permissionEntity.setSort(request.sort());
         return permissionEntity;

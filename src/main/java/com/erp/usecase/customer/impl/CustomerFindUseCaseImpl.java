@@ -28,6 +28,7 @@ public class CustomerFindUseCaseImpl implements CustomerFindUseCase {
     public CustomerFindResponse findDetail(UUID uuid) {
         CustomerEntity customerEntity = customerService.findByUuid(uuid);
         return new CustomerFindResponse(
+                customerEntity.getUuid(),
                 customerEntity.getName(),
                 customerEntity.getPhone(),
                 customerEntity.getFax(),

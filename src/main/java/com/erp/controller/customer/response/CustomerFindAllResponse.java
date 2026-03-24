@@ -31,7 +31,7 @@ public record CustomerFindAllResponse(
         @Schema(description = "聯絡人電話", example = "0900000000")
         String contactPhone,
 
-        @Schema(description = "狀態", example = "ACTIVE")
+        @Schema(description = "狀態", example = "ENABLE")
         CustomerStatus status
 
 ) {

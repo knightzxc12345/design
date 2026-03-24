@@ -2,11 +2,11 @@ package com.erp.controller.permission;
 
 import com.erp.base.response.CustomResponse;
 import com.erp.base.response.enums.SystemCode;
+import com.erp.controller.permission.request.PermissionBindRequest;
 import com.erp.controller.permission.request.PermissionCreateRequest;
 import com.erp.controller.permission.request.PermissionEditRequest;
 import com.erp.controller.permission.request.PermissionFindRequest;
 import com.erp.controller.permission.response.PermissionFindAllResponse;
-import com.erp.controller.user.request.UserEditRequest;
 import com.erp.usecase.permission.PermissionCreateUseCase;
 import com.erp.usecase.permission.PermissionDeleteUseCase;
 import com.erp.usecase.permission.PermissionEditUseCase;
@@ -52,12 +52,23 @@ public class PermissionController {
     }
 
     @Operation(summary = "編輯")
-    @PutMapping(
-            value = "v1/{roleUuid}"
+    @PatchMapping(
+            value = "v1/{uuid}"
     )
     public CustomResponse edit(
-            @PathVariable("roleUuid") @NotNull UUID roleUuid,
+            @PathVariable("uuid") @NotNull UUID uuid,
             @RequestBody @Validated @NotNull PermissionEditRequest request) {
+        permissionEditUseCase.edit(uuid, request);
+        return new CustomResponse(SystemCode.SUCCESS);
+    }
+
+    @Operation(summary = "綁定")
+    @PatchMapping(
+            value = "v1/{roleUuid}/bind"
+    )
+    public CustomResponse bind(
+            @PathVariable("roleUuid") @NotNull UUID roleUuid,
+            @RequestBody @Validated @NotNull PermissionBindRequest request) {
         permissionEditUseCase.bind(roleUuid, request);
         return new CustomResponse(SystemCode.SUCCESS);
     }

@@ -9,10 +9,14 @@ public interface PermissionService {
 
     void create(PermissionEntity permissionEntity);
 
+    void edit(PermissionEntity permissionEntity);
+
     void delete(PermissionEntity permissionEntity);
 
     PermissionEntity findByUuid(UUID uuid);
 
     List<PermissionEntity> findAll();
+
+    List<PermissionEntity> findAllByUuids(List<UUID> uuids);
 
 }

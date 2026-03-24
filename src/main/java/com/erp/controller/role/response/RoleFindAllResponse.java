@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public record RoleFindAllResponse(
 
-        @Schema(description = "唯一值", example = "7d934fb6-e5b7-45db-a117-feaf75d19a9f")
+        @Schema(description = "uuid", example = "319e7e1d-ca74-4500-b2f9-d3d2d2a6ffbe")
         UUID uuid,
 
         @Schema(description = "名稱", example = "Test")
