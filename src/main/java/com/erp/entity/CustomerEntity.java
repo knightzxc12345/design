@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.time.Instant;
+import java.util.UUID;
 
 // 客戶
 @ToString(callSuper = true)
@@ -116,6 +117,6 @@ public class CustomerEntity extends BaseEntity {
             name = "deleted_user",
             length = 36
     )
-    private String deletedUser;
+    private UUID deletedUser;
 
 }

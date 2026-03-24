@@ -57,6 +57,6 @@ public class UserRoleEntity extends BaseEntity {
             name = "deleted_user",
             length = 36
     )
-    private String deletedUser;
+    private UUID deletedUser;
 
 }

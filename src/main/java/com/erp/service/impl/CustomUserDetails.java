@@ -6,11 +6,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.UUID;
 
 @Getter
 public class CustomUserDetails implements UserDetails {
 
-    private final String uuid;
+    private final UUID uuid;
 
     private final String username;
 
@@ -20,7 +21,7 @@ public class CustomUserDetails implements UserDetails {
 
     public CustomUserDetails(UserEntity userEntity) {
         this.uuid = userEntity.getUuid();
-        this.username = userEntity.getUsername();
+        this.username = userEntity.getName();
         this.password = userEntity.getPassword();
         this.authorities = null;
     }

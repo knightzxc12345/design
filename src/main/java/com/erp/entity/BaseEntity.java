@@ -62,7 +62,7 @@ public class BaseEntity {
             length = 36
     )
     @NotNull
-    private String createUser;
+    private UUID createUser;
 
     // 編輯時間
     @LastModifiedDate
@@ -76,6 +76,6 @@ public class BaseEntity {
             name = "modified_user",
             length = 36
     )
-    private String modifiedUser;
+    private UUID modifiedUser;
 
 }

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.time.Instant;
+import java.util.UUID;
 
 // 角色
 @ToString(callSuper = true)
@@ -57,6 +58,6 @@ public class RoleEntity extends BaseEntity {
             name = "deleted_user",
             length = 36
     )
-    private String deletedUser;
+    private UUID deletedUser;
 
 }

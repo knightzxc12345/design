@@ -15,7 +15,8 @@ public class PermissionCreateUseCaseImpl implements PermissionCreateUseCase {
 
     @Override
     public void create(PermissionCreateRequest request) {
-
+        PermissionEntity permissionEntity = init(request);
+        permissionService.create(permissionEntity);
     }
 
     private PermissionEntity init(PermissionCreateRequest request){
