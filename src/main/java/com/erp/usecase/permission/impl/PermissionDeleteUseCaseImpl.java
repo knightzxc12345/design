@@ -1,7 +1,7 @@
 package com.erp.usecase.permission.impl;
 
 import com.erp.service.PermissionService;
-import com.erp.service.RolePermissionActionService;
+import com.erp.service.RolePermissionService;
 import com.erp.usecase.permission.PermissionDeleteUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class PermissionDeleteUseCaseImpl implements PermissionDeleteUseCase {
 
     private final PermissionService permissionService;
 
-    private final RolePermissionActionService rolePermissionActionService;
+    private final RolePermissionService rolePermissionService;
 
     @Transactional
     @Override
@@ -23,7 +23,7 @@ public class PermissionDeleteUseCaseImpl implements PermissionDeleteUseCase {
         // 刪除權限
         permissionService.delete(uuid);
         // 刪除角色權限
-        rolePermissionActionService.deleteAllByPermissionUuid(uuid);
+        rolePermissionService.deleteAllByPermissionUuid(uuid);
     }
 
 }

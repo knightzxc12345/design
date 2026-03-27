@@ -11,10 +11,10 @@ import java.time.Instant;
 import java.util.UUID;
 
 // 角色權限動作
-@Table(name = "role_permission_action", indexes = {
-        @Index(name = "role_permission_action_find", columnList = "action_uuid, is_deleted"),
-        @Index(name = "role_permission_action_find_all", columnList = "pk, is_deleted"),
-        @Index(name = "role_permission_action_find_all_by_role", columnList = "pk, role_uuid, is_deleted")
+@Table(name = "role_permission", indexes = {
+        @Index(name = "role_permission_find", columnList = "action_uuid, is_deleted"),
+        @Index(name = "role_permission_find_all", columnList = "pk, is_deleted"),
+        @Index(name = "role_permission_find_all_by_role", columnList = "pk, role_uuid, is_deleted")
 })
 @Entity
 @ToString(callSuper = true)
@@ -23,7 +23,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RolePermissionActionEntity extends BaseEntity {
+public class RolePermissionEntity extends BaseEntity {
 
     // 角色Uuid
     @Column(
@@ -46,17 +46,6 @@ public class RolePermissionActionEntity extends BaseEntity {
     )
     @NotNull
     private UUID permissionUuid;
-
-    // 動作Uuid
-    @Column(
-            name = "action_uuid",
-            nullable = false,
-            updatable = true,
-            unique = false,
-            length = 36
-    )
-    @NotNull
-    private UUID actionUuid;
 
     // 是否刪除
     @Column(

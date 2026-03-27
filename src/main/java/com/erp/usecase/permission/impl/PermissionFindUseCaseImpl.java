@@ -2,13 +2,11 @@ package com.erp.usecase.permission.impl;
 
 import com.erp.controller.permission.request.PermissionFindRequest;
 import com.erp.controller.permission.response.PermissionFindAllResponse;
-import com.erp.entity.ActionEntity;
 import com.erp.entity.PermissionEntity;
 import com.erp.entity.RoleEntity;
-import com.erp.entity.RolePermissionActionEntity;
-import com.erp.service.ActionService;
+import com.erp.entity.RolePermissionEntity;
 import com.erp.service.PermissionService;
-import com.erp.service.RolePermissionActionService;
+import com.erp.service.RolePermissionService;
 import com.erp.service.RoleService;
 import com.erp.usecase.permission.PermissionFindUseCase;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +25,13 @@ public class PermissionFindUseCaseImpl implements PermissionFindUseCase {
 
     private final ActionService actionService;
 
-    private final RolePermissionActionService rolePermissionActionService;
+    private final RolePermissionService rolePermissionService;
 
     @Transactional(readOnly = true)
     @Override
     public List<PermissionFindAllResponse> findAll(PermissionFindRequest request) {
         RoleEntity roleEntity = roleService.findByUuid(request.roleUuid());
-        List<RolePermissionActionEntity> rolePermissionActionEntities = rolePermissionActionService.findAllByRoleUuid(request.roleUuid());
+        List<RolePermissionEntity> rolePermissionActionEntities = rolePermissionService.findAllByRoleUuid(request.roleUuid());
         List<PermissionEntity> permissionEntities = permissionService.findAll();
         List<ActionEntity> actionEntities = actionService.findAll();
         return null;
