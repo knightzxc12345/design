@@ -1,6 +1,5 @@
 package com.erp.usecase.permission.impl;
 
-import com.erp.entity.PermissionEntity;
 import com.erp.service.PermissionService;
 import com.erp.service.RolePermissionActionService;
 import com.erp.usecase.permission.PermissionDeleteUseCase;
@@ -21,11 +20,10 @@ public class PermissionDeleteUseCaseImpl implements PermissionDeleteUseCase {
     @Transactional
     @Override
     public void delete(UUID uuid) {
-        PermissionEntity permissionEntity = permissionService.findByUuid(uuid);
         // 刪除權限
-        permissionService.delete(permissionEntity);
+        permissionService.delete(uuid);
         // 刪除角色權限
-        rolePermissionActionService.deleteAllByPermissionUuid(permissionEntity.getUuid());
+        rolePermissionActionService.deleteAllByPermissionUuid(uuid);
     }
 
 }

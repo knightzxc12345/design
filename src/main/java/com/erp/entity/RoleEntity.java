@@ -4,20 +4,23 @@ import com.erp.entity.enums.RoleStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
 // 角色
-@ToString(callSuper = true)
-@Data
 @Table(name = "role", indexes = {
         @Index(name = "role_find", columnList = "uuid, is_deleted"),
         @Index(name = "role_find_all", columnList = "pk, is_deleted")
 })
 @Entity
+@ToString(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RoleEntity extends BaseEntity {
 
     // 名稱
@@ -45,7 +48,7 @@ public class RoleEntity extends BaseEntity {
             nullable = false
     )
     @NotNull
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     // 刪除時間
     @Column(

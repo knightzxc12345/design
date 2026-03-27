@@ -11,7 +11,7 @@ public interface RoleService {
 
     void edit(RoleEntity roleEntity);
 
-    void delete(RoleEntity roleEntity);
+    void delete(UUID uuid);
 
     RoleEntity findByUuid(UUID uuid);
 

@@ -11,7 +11,7 @@ public interface ActionService {
 
     void edit(ActionEntity actionEntity);
 
-    void delete(ActionEntity actionEntity);
+    void delete(UUID uuid);
 
     ActionEntity findByUuid(UUID uuid);
 

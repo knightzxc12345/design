@@ -17,22 +17,18 @@ public class CustomerCreateUseCaseImpl implements CustomerCreateUseCase {
     @Transactional
     @Override
     public void create(CustomerCreateRequest request) {
-        CustomerEntity customerEntity = init(request);
+        CustomerEntity customerEntity = CustomerEntity.builder()
+                .name(request.name())
+                .vatNumber(request.vatNumber())
+                .phone(request.phone())
+                .fax(request.fax())
+                .email(request.email())
+                .address(request.address())
+                .contactName(request.contactName())
+                .contactPhone(request.contactPhone())
+                .remark(request.remark())
+                .build();
         customerService.create(customerEntity);
-    }
-
-    private CustomerEntity init(CustomerCreateRequest request){
-        CustomerEntity customerEntity = new CustomerEntity();
-        customerEntity.setName(request.name());
-        customerEntity.setVatNumber(request.vatNumber());
-        customerEntity.setPhone(request.phone());
-        customerEntity.setFax(request.fax());
-        customerEntity.setEmail(request.email());
-        customerEntity.setAddress(request.address());
-        customerEntity.setContactName(request.contactName());
-        customerEntity.setContactPhone(request.contactPhone());
-        customerEntity.setRemark(request.remark());
-        return customerEntity;
     }
 
 }

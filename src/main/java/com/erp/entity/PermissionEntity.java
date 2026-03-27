@@ -4,20 +4,23 @@ import com.erp.entity.enums.PermissionStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
-@ToString(callSuper = true)
-@Data
 @Table(name = "permission", indexes = {
         @Index(name = "permission_find", columnList = "uuid"),
         @Index(name = "permission_find", columnList = "parent_uuid"),
         @Index(name = "permission_find_all", columnList = "pk")
 })
 @Entity
+@ToString(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class PermissionEntity extends BaseEntity {
 
     // 名稱
@@ -68,7 +71,7 @@ public class PermissionEntity extends BaseEntity {
             nullable = false
     )
     @NotNull
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     // 刪除時間
     @Column(

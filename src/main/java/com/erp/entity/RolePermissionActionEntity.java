@@ -5,21 +5,24 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
 // 角色權限動作
-@ToString(callSuper = true)
-@Data
 @Table(name = "role_permission_action", indexes = {
         @Index(name = "role_permission_action_find", columnList = "action_uuid, is_deleted"),
         @Index(name = "role_permission_action_find_all", columnList = "pk, is_deleted"),
         @Index(name = "role_permission_action_find_all_by_role", columnList = "pk, role_uuid, is_deleted")
 })
 @Entity
+@ToString(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class RolePermissionActionEntity extends BaseEntity {
 
     // 角色Uuid
@@ -64,7 +67,7 @@ public class RolePermissionActionEntity extends BaseEntity {
             unique = false
     )
     @NotNull
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     // 刪除時間
     @Column(

@@ -67,7 +67,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void delete(CustomerEntity customerEntity) {
+    public void delete(UUID uuid) {
+        CustomerEntity customerEntity = findByUuid(uuid);
         customerEntity.setModifiedTime(Instant.now());
         customerEntity.setModifiedUser(UserUtil.getUserUuid());
         customerEntity.setIsDeleted(true);

@@ -7,6 +7,7 @@ import com.erp.controller.permission.request.PermissionEditRequest;
 import com.erp.entity.ActionEntity;
 import com.erp.entity.PermissionEntity;
 import com.erp.entity.RoleEntity;
+import com.erp.entity.RolePermissionActionEntity;
 import com.erp.handler.BusinessException;
 import com.erp.service.ActionService;
 import com.erp.service.PermissionService;
@@ -23,7 +24,6 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -50,34 +50,38 @@ public class PermissionEditUseCaseImpl implements PermissionEditUseCase {
     public void bind(UUID roleUuid, PermissionBindRequest request) {
         // 取得角色
         RoleEntity roleEntity = roleService.findByUuid(roleUuid);
-        // 取出權限及動作uuid清單
+        // 刪除腳色綁定權限
+        rolePermissionActionService.deleteAllByRoleUuid(roleUuid);
+        // 收集permission UUID
         List<UUID> permissionUuids = new ArrayList<>();
+        // 收集action UUID
         List<UUID> actionUuids = new ArrayList<>();
-        Stream.concat(
-                request.permissions().stream(),
-                request.parentPermissions().stream()
-        ).forEach(p -> {
-            permissionUuids.add(p.permissionUuid());
-            actionUuids.addAll(p.actionUuids());
-        });
-        // 組合權限清單
+        collectUuids(request.permissions(), permissionUuids, actionUuids);
+        // 驗證權限
         Map<UUID, PermissionEntity> permissionMap =
                 permissionService.findAllByUuids(permissionUuids)
                         .stream()
                         .collect(Collectors.toMap(PermissionEntity::getUuid, Function.identity()));
-        // 取何動作清單
+        if (permissionMap.size() != permissionUuids.size()) {
+            throw new BusinessException(PermissionCode.INVALID_EXIT);
+        }
+        // 驗證動作
         Map<UUID, ActionEntity> actionMap =
                 actionService.findAllByUuids(actionUuids)
                         .stream()
                         .collect(Collectors.toMap(ActionEntity::getUuid, Function.identity()));
-        // 檢查權限清單
-        if (permissionMap.size() != permissionUuids.size()) {
-            throw new BusinessException(PermissionCode.INVALID_EXIT);
-        }
-        // 檢查動作清單
         if (actionMap.size() != actionUuids.size()) {
             throw new BusinessException(ActionCode.INVALID_EXIT);
         }
+        List<RolePermissionActionEntity> result = new ArrayList<>();
+        processPermissions(
+                request.permissions(),
+                roleUuid,
+                permissionMap,
+                actionMap,
+                result
+        );
+        rolePermissionActionService.createAll(result);
     }
 
     private PermissionEntity init(PermissionEntity permissionEntity, PermissionEditRequest request){
@@ -86,6 +90,54 @@ public class PermissionEditUseCaseImpl implements PermissionEditUseCase {
         permissionEntity.setSort(request.sort());
         permissionEntity.setStatus(request.status());
         return permissionEntity;
+    }
+
+    private void collectUuids(
+            List<PermissionBindRequest.Permission> permissions,
+            List<UUID> permissionUuids,
+            List<UUID> actionUuids) {
+        for (var p : permissions) {
+            permissionUuids.add(p.permissionUuid());
+            actionUuids.addAll(p.actionUuids());
+            if (p.children() != null && !p.children().isEmpty()) {
+                collectUuids(p.children(), permissionUuids, actionUuids);
+            }
+        }
+    }
+
+    private void processPermissions(
+            List<PermissionBindRequest.Permission> permissions,
+            UUID roleUuid,
+            Map<UUID, PermissionEntity> permissionMap,
+            Map<UUID, ActionEntity> actionMap,
+            List<RolePermissionActionEntity> result) {
+        for (var p : permissions) {
+            PermissionEntity permissionEntity = permissionMap.get(p.permissionUuid());
+            for (UUID actionUuid : p.actionUuids()) {
+                ActionEntity actionEntity = actionMap.get(actionUuid);
+                if (!actionEntity.getPermissionUuid().equals(permissionEntity.getUuid())) {
+                    throw new BusinessException(ActionCode.INVALID_EXIT);
+                }
+                result.add(init(roleUuid, permissionEntity, actionEntity));
+            }
+            if (p.children() != null && !p.children().isEmpty()) {
+                processPermissions(
+                        p.children(),
+                        roleUuid,
+                        permissionMap,
+                        actionMap,
+                        result
+                );
+            }
+        }
+    }
+
+    private RolePermissionActionEntity init(UUID roleUuid, PermissionEntity permissionEntity, ActionEntity actionEntity){
+        return RolePermissionActionEntity.builder()
+                .roleUuid(roleUuid)
+                .permissionUuid(permissionEntity.getUuid())
+                .actionUuid(actionEntity.getUuid())
+                .build();
     }
 
 }

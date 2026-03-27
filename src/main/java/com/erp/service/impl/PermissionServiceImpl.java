@@ -42,7 +42,8 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public void delete(PermissionEntity permissionEntity) {
+    public void delete(UUID uuid) {
+        PermissionEntity permissionEntity = findByUuid(uuid);
         permissionEntity.setIsDeleted(true);
         permissionEntity.setDeletedTime(Instant.now());
         permissionEntity.setDeletedUser(UserUtil.getUserUuid());

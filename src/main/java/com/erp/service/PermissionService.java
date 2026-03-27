@@ -11,7 +11,7 @@ public interface PermissionService {
 
     void edit(PermissionEntity permissionEntity);
 
-    void delete(PermissionEntity permissionEntity);
+    void delete(UUID uuid);
 
     PermissionEntity findByUuid(UUID uuid);
 

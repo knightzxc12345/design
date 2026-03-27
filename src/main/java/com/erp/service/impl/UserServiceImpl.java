@@ -85,7 +85,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(UserEntity userEntity) {
+    public void delete(UUID uuid) {
+        UserEntity userEntity = findByUuid(uuid);
         userEntity.setModifiedTime(Instant.now());
         userEntity.setModifiedUser(UserUtil.getUserUuid());
         userEntity.setIsDeleted(true);

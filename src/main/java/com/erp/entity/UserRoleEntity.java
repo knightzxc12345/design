@@ -5,19 +5,22 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
 // 使用者角色
-@ToString(callSuper = true)
-@Data
 @Table(name = "user_role", indexes = {
         @Index(name = "user_role_find", columnList = "uuid"),
 })
 @Entity
+@ToString(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserRoleEntity extends BaseEntity {
 
     // 使用者id
@@ -44,7 +47,7 @@ public class UserRoleEntity extends BaseEntity {
             nullable = false
     )
     @NotNull
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     // 刪除時間
     @Column(

@@ -17,14 +17,10 @@ public class RoleCreateUseCaseImpl implements RoleCreateUseCase {
     @Transactional
     @Override
     public void create(RoleCreateRequest request) {
-        RoleEntity roleEntity = init(request);
+        RoleEntity roleEntity = RoleEntity.builder()
+                .name(request.name())
+                .build();
         roleService.create(roleEntity);
-    }
-
-    private RoleEntity init(RoleCreateRequest request){
-        RoleEntity roleEntity = new RoleEntity();
-        roleEntity.setName(request.name());
-        return roleEntity;
     }
 
 }

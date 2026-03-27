@@ -33,7 +33,7 @@ public class PermissionFindUseCaseImpl implements PermissionFindUseCase {
     @Override
     public List<PermissionFindAllResponse> findAll(PermissionFindRequest request) {
         RoleEntity roleEntity = roleService.findByUuid(request.roleUuid());
-        List<RolePermissionActionEntity> rolePermissionActionEntities = rolePermissionActionService.findAllByRoleUuid(null);
+        List<RolePermissionActionEntity> rolePermissionActionEntities = rolePermissionActionService.findAllByRoleUuid(request.roleUuid());
         List<PermissionEntity> permissionEntities = permissionService.findAll();
         List<ActionEntity> actionEntities = actionService.findAll();
         return null;

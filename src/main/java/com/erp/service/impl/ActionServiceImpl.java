@@ -37,7 +37,8 @@ public class ActionServiceImpl implements ActionService {
     }
 
     @Override
-    public void delete(ActionEntity actionEntity) {
+    public void delete(UUID uuid) {
+        ActionEntity actionEntity = findByUuid(uuid);
         actionEntity.setIsDeleted(false);
         actionEntity.setDeletedTime(Instant.now());
         actionEntity.setDeletedUser(UserUtil.getUserUuid());

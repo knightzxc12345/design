@@ -13,7 +13,7 @@ public interface UserService {
 
     void edit(UserEntity userEntity);
 
-    void delete(UserEntity userEntity);
+    void delete(UUID uuid);
 
     UserEntity findByUuid(UUID uuid);
 

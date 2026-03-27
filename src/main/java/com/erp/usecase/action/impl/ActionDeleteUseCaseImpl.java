@@ -1,6 +1,5 @@
 package com.erp.usecase.action.impl;
 
-import com.erp.entity.ActionEntity;
 import com.erp.service.ActionService;
 import com.erp.usecase.action.ActionDeleteUseCase;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,7 @@ public class ActionDeleteUseCaseImpl implements ActionDeleteUseCase {
     @Transactional
     @Override
     public void delete(UUID uuid) {
-        ActionEntity actionEntity = actionService.findByUuid(uuid);
-        actionService.delete(actionEntity);
+        actionService.delete(uuid);
     }
 
 }

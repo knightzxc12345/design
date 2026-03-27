@@ -17,17 +17,13 @@ public class PermissionCreateUseCaseImpl implements PermissionCreateUseCase {
     @Transactional
     @Override
     public void create(PermissionCreateRequest request) {
-        PermissionEntity permissionEntity = init(request);
+        PermissionEntity permissionEntity = PermissionEntity.builder()
+                .name(request.name())
+                .code(request.code())
+                .parentUuid(request.parentUuid())
+                .sort(request.sort())
+                .build();
         permissionService.create(permissionEntity);
-    }
-
-    private PermissionEntity init(PermissionCreateRequest request){
-        PermissionEntity permissionEntity = new PermissionEntity();
-        permissionEntity.setName(request.name());
-        permissionEntity.setCode(request.code());
-        permissionEntity.setParentUuid(request.parentUuid());
-        permissionEntity.setSort(request.sort());
-        return permissionEntity;
     }
 
 }

@@ -1,6 +1,5 @@
 package com.erp.usecase.role.impl;
 
-import com.erp.entity.RoleEntity;
 import com.erp.service.RoleService;
 import com.erp.usecase.role.RoleDeleteUseCase;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,7 @@ public class RoleDeleteUseCaseImpl implements RoleDeleteUseCase {
     @Transactional
     @Override
     public void delete(UUID uuid) {
-        RoleEntity roleEntity = roleService.findByUuid(uuid);
-        roleService.delete(roleEntity);
+        roleService.delete(uuid);
     }
 
 }

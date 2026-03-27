@@ -17,17 +17,13 @@ public class ActionCreateUseCaseImpl implements ActionCreateUseCase {
     @Transactional
     @Override
     public void create(ActionCreateRequest request) {
-        ActionEntity actionEntity = init(request);
+        ActionEntity actionEntity = ActionEntity.builder()
+                .permissionUuid(request.permiossionUuid())
+                .name(request.name())
+                .method(request.method())
+                .sort(request.sort())
+                .build();
         actionService.create(actionEntity);
-    }
-
-    private ActionEntity init(ActionCreateRequest request){
-        ActionEntity actionEntity = new ActionEntity();
-        actionEntity.setPermissionUuid(request.permiossionUuid());
-        actionEntity.setName(request.name());
-        actionEntity.setMethod(request.method());
-        actionEntity.setSort(request.sort());
-        return actionEntity;
     }
 
 }

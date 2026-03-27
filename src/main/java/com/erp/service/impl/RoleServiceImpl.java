@@ -49,7 +49,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void delete(RoleEntity roleEntity) {
+    public void delete(UUID uuid) {
+        RoleEntity roleEntity = findByUuid(uuid);
         roleEntity.setIsDeleted(true);
         roleEntity.setDeletedTime(Instant.now());
         roleEntity.setDeletedUser(UserUtil.getUserUuid());

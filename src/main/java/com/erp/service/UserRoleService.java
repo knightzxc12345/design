@@ -10,7 +10,7 @@ public interface UserRoleService {
 
     void create(UserEntity userEntity, RoleEntity roleEntity);
 
-    void delete(UserRoleEntity userRoleEntity);
+    void deleteByUserUuid(UUID userUuid);
 
     UserRoleEntity findByUserUuid(UUID userUuid);
 

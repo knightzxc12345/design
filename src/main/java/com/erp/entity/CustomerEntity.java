@@ -5,20 +5,23 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
 // 客戶
-@ToString(callSuper = true)
-@Data
 @Table(name = "customer", indexes = {
         @Index(name = "customer_find", columnList = "uuid, is_deleted"),
         @Index(name = "customer_find_all", columnList = "pk, is_deleted")
 })
 @Entity
+@ToString(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CustomerEntity extends BaseEntity {
 
     // 名稱
@@ -104,7 +107,7 @@ public class CustomerEntity extends BaseEntity {
             nullable = false
     )
     @NotNull
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     // 刪除時間
     @Column(

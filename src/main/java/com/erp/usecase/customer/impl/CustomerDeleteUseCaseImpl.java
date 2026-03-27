@@ -1,6 +1,5 @@
 package com.erp.usecase.customer.impl;
 
-import com.erp.entity.CustomerEntity;
 import com.erp.service.CustomerService;
 import com.erp.usecase.customer.CustomerDeleteUseCase;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,7 @@ public class CustomerDeleteUseCaseImpl implements CustomerDeleteUseCase {
     @Transactional
     @Override
     public void delete(UUID uuid) {
-        CustomerEntity customerEntity = customerService.findByUuid(uuid);
-        customerService.delete(customerEntity);
+        customerService.delete(uuid);
     }
 
 }

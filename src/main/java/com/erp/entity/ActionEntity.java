@@ -5,19 +5,22 @@ import com.erp.entity.enums.ActionStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.UUID;
 
-@ToString(callSuper = true)
-@Data
 @Table(name = "action", indexes = {
         @Index(name = "action_find", columnList = "uuid"),
         @Index(name = "action_find_all", columnList = "pk")
 })
 @Entity
+@ToString(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ActionEntity extends BaseEntity {
 
     // 權限id
@@ -71,7 +74,7 @@ public class ActionEntity extends BaseEntity {
             nullable = false
     )
     @NotNull
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 
     // 刪除時間
     @Column(

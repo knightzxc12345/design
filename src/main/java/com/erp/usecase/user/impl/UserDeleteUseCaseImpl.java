@@ -1,7 +1,5 @@
 package com.erp.usecase.user.impl;
 
-import com.erp.entity.UserEntity;
-import com.erp.entity.UserRoleEntity;
 import com.erp.service.UserRoleService;
 import com.erp.service.UserService;
 import com.erp.usecase.user.UserDeleteUseCase;
@@ -22,12 +20,10 @@ public class UserDeleteUseCaseImpl implements UserDeleteUseCase {
     @Transactional
     @Override
     public void delete(UUID uuid) {
-        UserEntity userEntity = userService.findByUuid(uuid);
-        UserRoleEntity userRoleEntity = userRoleService.findByUserUuid(userEntity.getUuid());
         // 刪除使用者
-        userService.delete(userEntity);
+        userService.delete(uuid);
         // 刪除使用者角色
-        userRoleService.delete(userRoleEntity);
+        userRoleService.deleteByUserUuid(uuid);
     }
 
 }

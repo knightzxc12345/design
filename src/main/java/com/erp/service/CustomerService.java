@@ -13,7 +13,7 @@ public interface CustomerService {
 
     void edit(CustomerEntity customerEntity);
 
-    void delete(CustomerEntity customerEntity);
+    void delete(UUID uuid);
 
     CustomerEntity findByUuid(UUID uuid);
 
