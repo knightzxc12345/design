@@ -12,11 +12,11 @@ public enum SystemCode implements Code {
 
     JWT_USER_NOT_FOUND("SYS0005", "查無使用者"),
 
-    JWT_TOKEN_EXPIRED("SYS0005", "查無使用者"),
+    JWT_TOKEN_EXPIRED("SYS0006", "token過期"),
 
-    PERMISSION_DENIED("SYS0006", "查無權限"),
+    PERMISSION_DENIED("SYS0007", "查無權限"),
 
-    TOKEN_UNDEFINED("SYS0007", "查無Token"),
+    TOKEN_UNDEFINED("SYS0008", "查無Token"),
 
     ;
 

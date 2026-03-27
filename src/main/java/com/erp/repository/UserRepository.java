@@ -23,6 +23,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByIsDeletedFalseAndUuidAndEmail(String email);
 
+    Optional<UserEntity> findByIsDeletedFalseAndAccount(String account);
+
     @Query(value =
             """
             SELECT

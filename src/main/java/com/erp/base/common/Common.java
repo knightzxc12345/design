@@ -25,7 +25,17 @@ public class Common {
 
     public final static DecimalFormat NUMBER_FORMAT = new DecimalFormat("#,###");
 
-    public final static long JWT_TOKEN_VALIDITY = 60 * 60 * 1000;
+    public final static long JWT_REFRESH_TOKEN_VALIDITY = 24 * 60 * 60 * 1000;
+
+    public final static long JWT_ACCESS_TOKEN_VALIDITY = 15 * 60 * 1000;
+
+    public final static String COOKIE_REFRESH_TOKEN_KEY = "refreshToken";
+
+    public final static int COOKIE_REFRESH_TOKEN_AGE = 60 * 60 * 24;
+
+    public final static String CLAIM_USER = "userId";
+
+    public final static String CLAIM_VERSION = "version";
 
     public final static long DAYS = 24 * 60 * 60;
 
@@ -37,20 +47,7 @@ public class Common {
 
     public final static String CONTENT_TYPE = "application/json;charset=utf-8";
 
-    public final static String SYSTEM_UUID = "23da4d7d-2f53-4fd0-abfd-9549357939eb";
-
-    public final static String IMAGE_PATH_CUSTOMER = "/uploads/customer/";
-
-    public final static String IMAGE_PATH_SUPPLIER = "/uploads/supplier/";
-
-    public final static String IMAGE_PATH_ITEM = "/uploads/item/";
-
-    public final static String IMAGE_PATH_PRODUCT = "/uploads/product/";
-
     public final static Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\{\\{(.+?)}}");
 
-    public final static String EXCEL = ".xlsx";
-
-    public final static String EXCEL_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
 }

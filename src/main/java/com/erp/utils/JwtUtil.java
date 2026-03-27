@@ -58,13 +58,24 @@ public class JwtUtil implements InitializingBean {
         return claimsResolver.apply(claims);
     }
 
-    // 產生Token
-    public static String generateToken(Map<String, Object> extraClaims, UUID UserUuid) {
+    // 產生AccessToken
+    public static String generateAccessToken(Map<String, Object> extraClaims, UUID UserUuid) {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(UserUuid.toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + Common.JWT_TOKEN_VALIDITY))
+                .setExpiration(new Date(System.currentTimeMillis() + Common.JWT_ACCESS_TOKEN_VALIDITY))
+                .signWith(key)
+                .compact();
+    }
+
+    // 產生AccessToken
+    public static String generateRefreshToken(Map<String, Object> extraClaims, UUID UserUuid) {
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(UserUuid.toString())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + Common.JWT_REFRESH_TOKEN_VALIDITY))
                 .signWith(key)
                 .compact();
     }

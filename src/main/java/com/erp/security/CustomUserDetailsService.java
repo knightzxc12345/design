@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,21 +28,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByIsDeletedFalseAndUuidAndName(username)
                 .orElseThrow(() -> new BusinessException(SystemCode.LOGIN_FAIL));
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", "");
-        claims.put("permissions", new ArrayList<>());
-        JwtUtil.generateToken(claims, userEntity.getUuid());
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        Authentication auth = new UsernamePasswordAuthenticationToken(
-                userEntity,
-                null,
-                authorities
-        );
-        SecurityContextHolder.getContext().setAuthentication(auth);
         return new CustomUserDetails(userEntity);
     }
 

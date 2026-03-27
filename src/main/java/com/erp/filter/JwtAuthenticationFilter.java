@@ -4,7 +4,6 @@ import com.erp.base.common.Common;
 import com.erp.base.response.enums.SystemCode;
 import com.erp.utils.HttpUtil;
 import com.erp.utils.JwtUtil;
-import io.jsonwebtoken.Claims;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

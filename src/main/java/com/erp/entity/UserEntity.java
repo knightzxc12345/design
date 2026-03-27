@@ -75,6 +75,12 @@ public class UserEntity extends BaseEntity {
     )
     private Instant lastLoginTime;
 
+    @Column(
+            name = "token_version",
+            nullable = false
+    )
+    private long tokenVersion;
+
     // 狀態
     @Column(
             name = "status",

@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
         });
         userEntity.setPassword(bCryptPasswordEncoder.encode(userEntity.getPassword()));
         userEntity.setStatus(UserStatus.ENABLE);
+        userEntity.setTokenVersion(1);
         userEntity.setIsDeleted(false);
         userEntity.setCreateTime(Instant.now());
         userEntity.setCreateUser(UserUtil.getUserUuid());
@@ -93,6 +94,12 @@ public class UserServiceImpl implements UserService {
         userEntity.setDeletedTime(Instant.now());
         userEntity.setDeletedUser(UserUtil.getUserUuid());
         userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserEntity login(String account) {
+        return userRepository.findByIsDeletedFalseAndUuidAndAccount(account)
+                .orElseThrow(() -> new BusinessException(UserCode.NOT_EXISTS));
     }
 
     @Override

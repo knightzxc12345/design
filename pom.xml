@@ -18,6 +18,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<jwt.version>0.11.5</jwt.version>
+		<redis.version>3.22.0</redis.version>
 		<poi.version>5.2.3</poi.version>
 		<mysql.version>8.0.33</mysql.version>
 		<springdoc.version>2.0.0</springdoc.version>
@@ -32,6 +33,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -72,22 +78,12 @@
 			<version>${jwt.version}</version>
 		</dependency>
 
-		<!-- Thymeleaf -->
+		<!-- Redis -->
+		<!-- https://mvnrepository.com/artifact/org.redisson/redisson -->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
-		<!-- Thymeleaf -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>nz.net.ultraq.thymeleaf</groupId>
-			<artifactId>thymeleaf-layout-dialect</artifactId>
-			<version>3.2.0</version>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson</artifactId>
+			<version>${redis.version}</version>
 		</dependency>
 
 		<!-- H2 -->

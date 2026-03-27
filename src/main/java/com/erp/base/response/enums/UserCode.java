@@ -10,6 +10,8 @@ public enum UserCode implements Code {
 
     DUPLICATE_EMAIL("USE0004", "使用者信箱重複"),
 
+    LOGIN_FAIL("USE0005", "帳號或密碼錯誤"),
+
     ;
 
     private final String code;

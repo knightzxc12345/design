@@ -1,9 +1,10 @@
 package com.erp.utils;
 
+import com.erp.base.common.Common;
 import com.erp.base.response.enums.Code;
 import com.erp.base.response.enums.SystemCode;
-import com.erp.base.common.Common;
 import com.erp.handler.BusinessException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -37,6 +38,34 @@ public class HttpUtil {
             ex.printStackTrace();
             throw new BusinessException(SystemCode.SYSTEM_ERROR);
         }
+    }
+
+    public static void addRefreshToken(String refreshToken) {
+        HttpServletResponse response = getResponse();
+        Cookie cookie = new Cookie(Common.COOKIE_REFRESH_TOKEN_KEY, refreshToken);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(Common.COOKIE_REFRESH_TOKEN_AGE);
+        response.addCookie(cookie);
+        // 如果要支援 SameSite，需用 header
+        response.addHeader("Set-Cookie",
+                String.format(
+                        "refreshToken=%s; Path=/; Max-Age=%d; HttpOnly; Secure; SameSite=Strict",
+                        refreshToken,
+                        Common.COOKIE_REFRESH_TOKEN_AGE
+                )
+        );
+    }
+
+    public static void clearRefreshToken() {
+        HttpServletResponse response = getResponse();
+        Cookie cookie = new Cookie(Common.COOKIE_REFRESH_TOKEN_KEY, null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
     }
 
     private static ServletRequestAttributes getAttribute(){

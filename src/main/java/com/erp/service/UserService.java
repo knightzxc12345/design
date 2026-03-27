@@ -15,6 +15,8 @@ public interface UserService {
 
     void delete(UUID uuid);
 
+    UserEntity login(String account);
+
     UserEntity findByUuid(UUID uuid);
 
     List<UserEntity> findAll(String keyword);
