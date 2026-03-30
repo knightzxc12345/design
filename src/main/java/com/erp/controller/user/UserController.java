@@ -1,5 +1,6 @@
 package com.erp.controller.user;
 
+import com.erp.aop.annotation.Permission;
 import com.erp.base.response.CustomResponse;
 import com.erp.base.response.PageResponse;
 import com.erp.base.response.enums.SystemCode;
@@ -43,6 +44,7 @@ public class UserController {
 
     private final UserFindUseCase userFindUseCase;
 
+    @Permission("USER:CREATE")
     @Operation(summary = "建立")
     @PostMapping(
             value = "v1"
@@ -53,6 +55,7 @@ public class UserController {
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
+    @Permission("USER:EDIT")
     @Operation(summary = "編輯")
     @PutMapping(
             value = "v1/{uuid}"
@@ -64,6 +67,7 @@ public class UserController {
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
+    @Permission("USER:DELETE")
     @Operation(summary = "刪除")
     @DeleteMapping(
             value = "v1/{uuid}"
@@ -74,6 +78,7 @@ public class UserController {
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
+    @Permission("USER:READ")
     @Operation(summary = "透過Id取得")
     @GetMapping(
             value = "v1/{uuid}"
@@ -87,6 +92,7 @@ public class UserController {
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 
+    @Permission("USER:READ")
     @Operation(summary = "取得清單")
     @GetMapping(
             value = "v1"
@@ -102,6 +108,7 @@ public class UserController {
         return new CustomResponse(SystemCode.SUCCESS, responses);
     }
 
+    @Permission("USER:READ")
     @Operation(summary = "取得分頁")
     @GetMapping(
             value = "v1/page"

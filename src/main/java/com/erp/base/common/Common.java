@@ -25,7 +25,7 @@ public class Common {
 
     public final static DecimalFormat NUMBER_FORMAT = new DecimalFormat("#,###");
 
-    public final static long JWT_REFRESH_TOKEN_VALIDITY = 24 * 60 * 60 * 1000;
+    public final static long JWT_REFRESH_TOKEN_VALIDITY = 7 * 24 * 60 * 60 * 1000;
 
     public final static long JWT_ACCESS_TOKEN_VALIDITY = 15 * 60 * 1000;
 
@@ -36,6 +36,12 @@ public class Common {
     public final static String CLAIM_USER = "userId";
 
     public final static String CLAIM_VERSION = "version";
+
+    public final static String CLAIM_TYPE = "type";
+
+    public final static String CLAIM_TYPE_ACCESS = "access";
+
+    public final static String CLAIM_TYPE_REFRESH = "refresh";
 
     public final static long DAYS = 24 * 60 * 60;
 
@@ -49,5 +55,8 @@ public class Common {
 
     public final static Pattern PLACEHOLDER_PATTERN = Pattern.compile("\\{\\{(.+?)}}");
 
+    public final static String REDIS_REFRESH_KEY = "refresh";
+
+    public final static String REDIS_PERMISSION_KEY = "permission";
 
 }

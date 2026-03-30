@@ -4,9 +4,11 @@ import com.erp.base.common.Common;
 import com.erp.base.response.enums.UserCode;
 import com.erp.controller.index.request.LoginRequest;
 import com.erp.controller.index.response.LoginResponse;
+import com.erp.entity.PermissionEntity;
+import com.erp.entity.RolePermissionEntity;
 import com.erp.entity.UserEntity;
+import com.erp.entity.UserRoleEntity;
 import com.erp.handler.BusinessException;
-import com.erp.security.CustomUserDetailsService;
 import com.erp.service.*;
 import com.erp.usecase.auth.AuthLoginUseCase;
 import com.erp.utils.HttpUtil;
@@ -15,8 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,15 +29,13 @@ public class AuthLoginUseCaseImpl implements AuthLoginUseCase {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    private final RedisService redisService;
-
     private final UserRoleService userRoleService;
 
-    private final RoleService roleService;
+    private final RedisService redisService;
+
+    private final PermissionService permissionService;
 
     private final RolePermissionService rolePermissionService;
-
-    private final CustomUserDetailsService customUserDetailsService;
 
     @Override
     public LoginResponse login(LoginRequest request) {
@@ -42,14 +43,33 @@ public class AuthLoginUseCaseImpl implements AuthLoginUseCase {
         if(!bCryptPasswordEncoder.matches(request.password(), userEntity.getPassword())){
             throw new BusinessException(UserCode.LOGIN_FAIL);
         }
-        // 產生 JWT
-        Map<String, Object> claims = new HashMap<>();
-        claims.put(Common.CLAIM_USER, userEntity.getUuid());
-        claims.put(Common.CLAIM_VERSION, userEntity.getTokenVersion());
-        String accessToken = JwtUtil.generateAccessToken(claims, userEntity.getUuid());
-        String refreshToken = JwtUtil.generateRefreshToken(claims, userEntity.getUuid());
+        UserRoleEntity userRoleEntity = userRoleService.findByUserUuid(userEntity.getUuid());
+        List<RolePermissionEntity> rolePermissionEntities = rolePermissionService.findAllByRoleUuid(userRoleEntity.getRoleUuid());
+        List<UUID> permissions = rolePermissionEntities.stream()
+                .map(RolePermissionEntity::getPermissionUuid)
+                .toList();
+        List<PermissionEntity> permissionEntities = permissionService.findAllByUuids(permissions);
+        String redisPermissionKey = String.format("%s:%s", Common.REDIS_PERMISSION_KEY, userEntity.getUuid());
+        Set<String> permissionCodes = permissionEntities.stream()
+                .map(PermissionEntity::getCode)
+                .collect(Collectors.toSet());
         // 放入redis
-        redisService.saveRefreshToken(userEntity.getUuid(), refreshToken);
+        redisService.saveAll(redisPermissionKey, permissionCodes, 7, TimeUnit.DAYS);
+        // 產生 JWT
+        Map<String, Object> accessClaims = new HashMap<>();
+        accessClaims.put(Common.CLAIM_USER, userEntity.getUuid());
+        accessClaims.put(Common.CLAIM_VERSION, userEntity.getTokenVersion());
+        accessClaims.put(Common.CLAIM_TYPE, Common.CLAIM_TYPE_ACCESS);
+        Map<String, Object> refreshClaims = new HashMap<>();
+        refreshClaims.put(Common.CLAIM_USER, userEntity.getUuid());
+        refreshClaims.put(Common.CLAIM_VERSION, userEntity.getTokenVersion());
+        refreshClaims.put(Common.CLAIM_TYPE, Common.CLAIM_TYPE_REFRESH);
+        String accessToken = JwtUtil.generateAccessToken(accessClaims, userEntity.getUuid());
+        String refreshToken = JwtUtil.generateRefreshToken(refreshClaims, userEntity.getUuid());
+        String redisRefreshKey = String.format("%s:%s", Common.REDIS_REFRESH_KEY, userEntity.getUuid().toString());
+        String redisRefreshValue = String.format("%s:%s", refreshToken, userEntity.getTokenVersion());
+        // 放入redis
+        redisService.save(redisRefreshKey, redisRefreshValue, 7, TimeUnit.DAYS);
         // 放入cookie
         HttpUtil.addRefreshToken(refreshToken);
         return new LoginResponse(

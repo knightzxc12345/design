@@ -1,5 +1,6 @@
 package com.erp.controller.permission;
 
+import com.erp.aop.annotation.Permission;
 import com.erp.base.response.CustomResponse;
 import com.erp.base.response.enums.SystemCode;
 import com.erp.controller.permission.request.PermissionBindRequest;
@@ -41,6 +42,7 @@ public class PermissionController {
 
     private final PermissionFindUseCase permissionFindUseCase;
 
+    @Permission("PERMISSION:CREATE")
     @Operation(summary = "建立")
     @PostMapping(
             value = "v1"
@@ -51,6 +53,7 @@ public class PermissionController {
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
+    @Permission("PERMISSION:EDIT")
     @Operation(summary = "編輯")
     @PatchMapping(
             value = "v1/{uuid}"
@@ -62,6 +65,7 @@ public class PermissionController {
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
+    @Permission("PERMISSION:BIND")
     @Operation(summary = "綁定")
     @PatchMapping(
             value = "v1/{roleUuid}/bind"
@@ -73,6 +77,7 @@ public class PermissionController {
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
+    @Permission("PERMISSION:DELETE")
     @Operation(summary = "刪除")
     @DeleteMapping(
             value = "v1/{uuid}"
@@ -83,6 +88,7 @@ public class PermissionController {
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
+    @Permission("PERMISSION:READ")
     @Operation(summary = "取得清單")
     @GetMapping(
             value = "v1"

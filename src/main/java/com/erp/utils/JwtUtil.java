@@ -69,7 +69,7 @@ public class JwtUtil implements InitializingBean {
                 .compact();
     }
 
-    // 產生AccessToken
+    // 產生RefreshToken
     public static String generateRefreshToken(Map<String, Object> extraClaims, UUID UserUuid) {
         return Jwts.builder()
                 .setClaims(extraClaims)
