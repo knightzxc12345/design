@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
 public class Common {
 
-    public final static String TOKEN_HEADER = "Volvo-CV-Token";
+    public final static String TOKEN_HEADER = "Authorization";
 
     public final static String TOKEN_PREFIX = "Bearer ";
 

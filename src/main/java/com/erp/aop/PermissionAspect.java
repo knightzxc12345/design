@@ -4,22 +4,24 @@ import com.erp.aop.annotation.Permission;
 import com.erp.base.common.Common;
 import com.erp.base.response.enums.SystemCode;
 import com.erp.handler.BusinessException;
-import com.erp.utils.JwtUtil;
-import io.micrometer.common.util.StringUtils;
-import jakarta.servlet.http.HttpServletRequest;
+import com.erp.service.RedisService;
+import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import java.util.List;
+import java.util.Set;
 
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class PermissionAspect {
+
+    private final RedisService redisService;
 
     @Pointcut("@annotation(permission)")
     public void permissionPointcut(Permission permission) {
@@ -28,15 +30,11 @@ public class PermissionAspect {
 
     @Around("permissionPointcut(permission)")
     public Object checkPermission(ProceedingJoinPoint joinPoint, Permission permission) throws Throwable {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-        String token = request.getHeader(Common.TOKEN_HEADER);
-        if (StringUtils.isBlank(token) || !token.startsWith(Common.TOKEN_PREFIX)) {
-            throw new BusinessException(SystemCode.TOKEN_UNDEFINED);
-        }
-        token = token.substring(7);
-        List<String> permissions = JwtUtil.getPermissionsFromToken(token);
-        if (!permissions.contains(permission.value())) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userName = (String) auth.getPrincipal();
+        String redisKey = String.format("%s:%s", Common.REDIS_PERMISSION_KEY, userName);
+        Set<String> permissions = redisService.getAll(redisKey, String.class);
+        if (permissions == null || !permissions.contains(permission.value())) {
             throw new BusinessException(SystemCode.PERMISSION_DENIED);
         }
         return joinPoint.proceed();
