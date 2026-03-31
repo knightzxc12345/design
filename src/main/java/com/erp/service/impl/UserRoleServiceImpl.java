@@ -1,8 +1,7 @@
 package com.erp.service.impl;
 
+import com.erp.base.response.enums.CustomerCode;
 import com.erp.base.response.enums.UserRoleCode;
-import com.erp.entity.RoleEntity;
-import com.erp.entity.UserEntity;
 import com.erp.entity.UserRoleEntity;
 import com.erp.handler.BusinessException;
 import com.erp.repository.UserRoleRepository;
@@ -21,23 +20,25 @@ public class UserRoleServiceImpl implements UserRoleService {
     private final UserRoleRepository userRoleRepository;
 
     @Override
-    public void create(UserEntity userEntity, RoleEntity roleEntity) {
-        UserRoleEntity userRoleEntity = new UserRoleEntity();
-        userRoleEntity.setUserUuid(userEntity.getUuid());
-        userRoleEntity.setRoleUuid(roleEntity.getUuid());
+    public UserRoleEntity create(UserRoleEntity userRoleEntity) {
+        userRoleRepository.findByIsDeletedFalseAndUserUuid(
+                userRoleEntity.getUserUuid()
+        ).ifPresent(u ->{
+            throw new BusinessException(UserRoleCode.ALREADY_EXISTS);
+        });
         userRoleEntity.setIsDeleted(false);
         userRoleEntity.setCreateTime(Instant.now());
         userRoleEntity.setCreateUser(UserUtil.getUserUuid());
-        userRoleRepository.save(userRoleEntity);
+        return userRoleRepository.save(userRoleEntity);
     }
 
     @Override
-    public void deleteByUserUuid(UUID userUuid) {
+    public UserRoleEntity deleteByUserUuid(UUID userUuid) {
         UserRoleEntity userRoleEntity = findByUserUuid(userUuid);
         userRoleEntity.setIsDeleted(true);
         userRoleEntity.setDeletedTime(Instant.now());
         userRoleEntity.setDeletedUser(UserUtil.getUserUuid());
-        userRoleRepository.save(userRoleEntity);
+        return userRoleRepository.save(userRoleEntity);
     }
 
     @Override

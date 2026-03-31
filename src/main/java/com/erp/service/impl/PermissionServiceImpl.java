@@ -21,7 +21,7 @@ public class PermissionServiceImpl implements PermissionService {
     private final PermissionRepository permissionRepository;
 
     @Override
-    public void create(PermissionEntity permissionEntity) {
+    public PermissionEntity create(PermissionEntity permissionEntity) {
         permissionRepository.findByIsDeletedFalseAndName(
                 permissionEntity.getName()
         ).ifPresent(r -> {
@@ -31,29 +31,34 @@ public class PermissionServiceImpl implements PermissionService {
         permissionEntity.setIsDeleted(false);
         permissionEntity.setCreateTime(Instant.now());
         permissionEntity.setCreateUser(UserUtil.getUserUuid());
-        permissionRepository.save(permissionEntity);
+        return permissionRepository.save(permissionEntity);
     }
 
     @Override
-    public void edit(PermissionEntity permissionEntity) {
+    public PermissionEntity edit(PermissionEntity permissionEntity) {
         permissionEntity.setModifiedTime(Instant.now());
         permissionEntity.setModifiedUser(UserUtil.getUserUuid());
-        permissionRepository.save(permissionEntity);
+        return permissionRepository.save(permissionEntity);
     }
 
     @Override
-    public void delete(UUID uuid) {
+    public PermissionEntity delete(UUID uuid) {
         PermissionEntity permissionEntity = findByUuid(uuid);
         permissionEntity.setIsDeleted(true);
         permissionEntity.setDeletedTime(Instant.now());
         permissionEntity.setDeletedUser(UserUtil.getUserUuid());
-        permissionRepository.save(permissionEntity);
+        return permissionRepository.save(permissionEntity);
     }
 
     @Override
     public PermissionEntity findByUuid(UUID uuid) {
         return permissionRepository.findByIsDeletedFalseAndUuid(uuid)
                 .orElseThrow(() -> new BusinessException(PermissionCode.NOT_EXISTS));
+    }
+
+    @Override
+    public PermissionEntity findByCode(String code) {
+        return permissionRepository.findByIsDeletedFalseAndCode(code).orElse(null);
     }
 
     @Override

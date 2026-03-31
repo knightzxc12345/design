@@ -7,11 +7,15 @@ import java.util.UUID;
 
 public interface RolePermissionService {
 
+    RolePermissionEntity create(RolePermissionEntity rolePermissionEntity);
+
     void createAll(List<RolePermissionEntity> rolePermissionActionEntities);
 
     void deleteAllByPermissionUuid(UUID permissionUuid);
 
     void deleteAllByRoleUuid(UUID roleUuid);
+
+    RolePermissionEntity findByPermissionUuid(UUID roleUuid, UUID permissionUud);
 
     List<RolePermissionEntity> findAllByRoleUuid(UUID roleUuid);
 

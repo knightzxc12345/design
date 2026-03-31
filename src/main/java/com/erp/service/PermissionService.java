@@ -7,13 +7,15 @@ import java.util.UUID;
 
 public interface PermissionService {
 
-    void create(PermissionEntity permissionEntity);
+    PermissionEntity create(PermissionEntity permissionEntity);
 
-    void edit(PermissionEntity permissionEntity);
+    PermissionEntity edit(PermissionEntity permissionEntity);
 
-    void delete(UUID uuid);
+    PermissionEntity delete(UUID uuid);
 
     PermissionEntity findByUuid(UUID uuid);
+
+    PermissionEntity findByCode(String code);
 
     List<PermissionEntity> findAll();
 

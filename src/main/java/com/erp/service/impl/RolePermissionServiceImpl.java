@@ -18,6 +18,14 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     private final RolePermissionRepository rolePermissionRepository;
 
     @Override
+    public RolePermissionEntity create(RolePermissionEntity rolePermissionEntity) {
+        rolePermissionEntity.setIsDeleted(false);
+        rolePermissionEntity.setCreateTime(Instant.now());
+        rolePermissionEntity.setCreateUser(UserUtil.getUserUuid());
+        return rolePermissionRepository.save(rolePermissionEntity);
+    }
+
+    @Override
     public void createAll(List<RolePermissionEntity> rolePermissionActionEntities) {
         if(null == rolePermissionActionEntities || rolePermissionActionEntities.isEmpty()){
             return;
@@ -56,6 +64,11 @@ public class RolePermissionServiceImpl implements RolePermissionService {
             rolePermissionEntity.setDeletedUser(UserUtil.getUserUuid());
         }
         rolePermissionRepository.saveAll(rolePermissionActionEntities);
+    }
+
+    @Override
+    public RolePermissionEntity findByPermissionUuid(UUID roleUuid, UUID permissionUud) {
+        return rolePermissionRepository.findByIsDeletedFalseAndRoleUuidAndPermissionUuid(roleUuid, permissionUud).orElse(null);
     }
 
     @Override

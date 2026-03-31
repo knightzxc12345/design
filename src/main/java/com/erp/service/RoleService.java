@@ -7,13 +7,15 @@ import java.util.UUID;
 
 public interface RoleService {
 
-    void create(RoleEntity roleEntity);
+    RoleEntity create(RoleEntity roleEntity);
 
-    void edit(RoleEntity roleEntity);
+    RoleEntity edit(RoleEntity roleEntity);
 
-    void delete(UUID uuid);
+    RoleEntity delete(UUID uuid);
 
     RoleEntity findByUuid(UUID uuid);
+
+    RoleEntity findByName(String name);
 
     List<RoleEntity> findAll();
 

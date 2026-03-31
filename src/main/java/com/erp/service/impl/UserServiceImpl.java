@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public void create(UserEntity userEntity) {
+    public UserEntity create(UserEntity userEntity) {
         // 檢查帳號
         userRepository.findByIsDeletedFalseAndUuidAndAccount(
                 userEntity.getAccount()
@@ -51,11 +51,11 @@ public class UserServiceImpl implements UserService {
         userEntity.setIsDeleted(false);
         userEntity.setCreateTime(Instant.now());
         userEntity.setCreateUser(UserUtil.getUserUuid());
-        userRepository.save(userEntity);
+        return userRepository.save(userEntity);
     }
 
     @Override
-    public void edit(UserEntity userEntity) {
+    public UserEntity edit(UserEntity userEntity) {
         // 檢查帳號
         userRepository.findByIsDeletedFalseAndUuidAndAccount(
                 userEntity.getAccount()
@@ -82,18 +82,18 @@ public class UserServiceImpl implements UserService {
         });
         userEntity.setModifiedTime(Instant.now());
         userEntity.setModifiedUser(UserUtil.getUserUuid());
-        userRepository.save(userEntity);
+        return userRepository.save(userEntity);
     }
 
     @Override
-    public void delete(UUID uuid) {
+    public UserEntity delete(UUID uuid) {
         UserEntity userEntity = findByUuid(uuid);
         userEntity.setModifiedTime(Instant.now());
         userEntity.setModifiedUser(UserUtil.getUserUuid());
         userEntity.setIsDeleted(true);
         userEntity.setDeletedTime(Instant.now());
         userEntity.setDeletedUser(UserUtil.getUserUuid());
-        userRepository.save(userEntity);
+        return userRepository.save(userEntity);
     }
 
     @Override

@@ -9,11 +9,11 @@ import java.util.UUID;
 
 public interface UserService {
 
-    void create(UserEntity userEntity);
+    UserEntity create(UserEntity userEntity);
 
-    void edit(UserEntity userEntity);
+    UserEntity edit(UserEntity userEntity);
 
-    void delete(UUID uuid);
+    UserEntity delete(UUID uuid);
 
     UserEntity login(String account);
 

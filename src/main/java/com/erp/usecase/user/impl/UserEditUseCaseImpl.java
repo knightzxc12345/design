@@ -3,6 +3,7 @@ package com.erp.usecase.user.impl;
 import com.erp.controller.user.request.UserEditRequest;
 import com.erp.entity.RoleEntity;
 import com.erp.entity.UserEntity;
+import com.erp.entity.UserRoleEntity;
 import com.erp.service.RoleService;
 import com.erp.service.UserRoleService;
 import com.erp.service.UserService;
@@ -33,8 +34,12 @@ public class UserEditUseCaseImpl implements UserEditUseCase {
         userService.edit(userEntity);
         // 刪除使用者角色
         userRoleService.deleteByUserUuid(userEntity.getUuid());
+        UserRoleEntity userRoleEntity = UserRoleEntity.builder()
+                .userUuid(userEntity.getUuid())
+                .roleUuid(roleEntity.getUuid())
+                .build();
         // 新增使用者角色
-        userRoleService.create(userEntity, roleEntity);
+        userRoleService.create(userRoleEntity);
     }
 
     private UserEntity init(UserEntity userEntity, UserEditRequest request){

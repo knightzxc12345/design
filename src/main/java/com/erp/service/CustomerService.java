@@ -9,11 +9,11 @@ import java.util.UUID;
 
 public interface CustomerService {
 
-    void create(CustomerEntity customerEntity);
+    CustomerEntity create(CustomerEntity customerEntity);
 
-    void edit(CustomerEntity customerEntity);
+    CustomerEntity edit(CustomerEntity customerEntity);
 
-    void delete(UUID uuid);
+    CustomerEntity delete(UUID uuid);
 
     CustomerEntity findByUuid(UUID uuid);
 

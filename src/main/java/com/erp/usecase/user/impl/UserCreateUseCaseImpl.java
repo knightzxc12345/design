@@ -3,6 +3,7 @@ package com.erp.usecase.user.impl;
 import com.erp.controller.user.request.UserCreateRequest;
 import com.erp.entity.RoleEntity;
 import com.erp.entity.UserEntity;
+import com.erp.entity.UserRoleEntity;
 import com.erp.service.RoleService;
 import com.erp.service.UserRoleService;
 import com.erp.service.UserService;
@@ -35,7 +36,11 @@ public class UserCreateUseCaseImpl implements UserCreateUseCase {
         // 新增使用者
         userService.create(userEntity);
         // 新增使用者角色
-        userRoleService.create(userEntity, roleEntity);
+        UserRoleEntity userRoleEntity = UserRoleEntity.builder()
+                .userUuid(userEntity.getUuid())
+                .roleUuid(roleEntity.getUuid())
+                .build();
+        userRoleService.create(userRoleEntity);
     }
 
 }

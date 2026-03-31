@@ -16,6 +16,8 @@ public interface PermissionRepository extends JpaRepository<PermissionEntity, Lo
 
     Optional<PermissionEntity> findByIsDeletedFalseAndUuid(UUID uuid);
 
+    Optional<PermissionEntity> findByIsDeletedFalseAndCode(String code);
+
     List<PermissionEntity> findByIsDeletedFalse();
 
     List<PermissionEntity> findByIsDeletedFalseAndUuidIn(List<UUID> uuids);

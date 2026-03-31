@@ -23,7 +23,7 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
 
     @Override
-    public void create(CustomerEntity customerEntity) {
+    public CustomerEntity create(CustomerEntity customerEntity) {
         // 檢查姓名
         customerRepository.findByIsDeletedFalseAndName(
                 customerEntity.getName()
@@ -40,11 +40,11 @@ public class CustomerServiceImpl implements CustomerService {
         customerEntity.setCreateTime(Instant.now());
         customerEntity.setCreateUser(UserUtil.getUserUuid());
         customerEntity.setIsDeleted(false);
-        customerRepository.save(customerEntity);
+        return customerRepository.save(customerEntity);
     }
 
     @Override
-    public void edit(CustomerEntity customerEntity) {
+    public CustomerEntity edit(CustomerEntity customerEntity) {
         // 檢查姓名
         customerRepository.findByIsDeletedFalseAndName(
                 customerEntity.getName()
@@ -63,18 +63,18 @@ public class CustomerServiceImpl implements CustomerService {
         });
         customerEntity.setModifiedTime(Instant.now());
         customerEntity.setModifiedUser(UserUtil.getUserUuid());
-        customerRepository.save(customerEntity);
+        return customerRepository.save(customerEntity);
     }
 
     @Override
-    public void delete(UUID uuid) {
+    public CustomerEntity delete(UUID uuid) {
         CustomerEntity customerEntity = findByUuid(uuid);
         customerEntity.setModifiedTime(Instant.now());
         customerEntity.setModifiedUser(UserUtil.getUserUuid());
         customerEntity.setIsDeleted(true);
         customerEntity.setDeletedTime(Instant.now());
         customerEntity.setDeletedUser(UserUtil.getUserUuid());
-        customerRepository.save(customerEntity);
+        return customerRepository.save(customerEntity);
     }
 
     @Override

@@ -21,7 +21,7 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
     @Override
-    public void create(RoleEntity roleEntity) {
+    public RoleEntity create(RoleEntity roleEntity) {
         roleRepository.findByIsDeletedFalseAndName(
                 roleEntity.getName()
         ).ifPresent(r -> {
@@ -31,11 +31,11 @@ public class RoleServiceImpl implements RoleService {
         roleEntity.setIsDeleted(false);
         roleEntity.setDeletedTime(Instant.now());
         roleEntity.setDeletedUser(UserUtil.getUserUuid());
-        roleRepository.save(roleEntity);
+        return roleRepository.save(roleEntity);
     }
 
     @Override
-    public void edit(RoleEntity roleEntity) {
+    public RoleEntity edit(RoleEntity roleEntity) {
         roleRepository.findByIsDeletedFalseAndName(
                 roleEntity.getName()
         ).ifPresent(r -> {
@@ -45,22 +45,27 @@ public class RoleServiceImpl implements RoleService {
         });
         roleEntity.setModifiedTime(Instant.now());
         roleEntity.setModifiedUser(UserUtil.getUserUuid());
-        roleRepository.save(roleEntity);
+        return roleRepository.save(roleEntity);
     }
 
     @Override
-    public void delete(UUID uuid) {
+    public RoleEntity delete(UUID uuid) {
         RoleEntity roleEntity = findByUuid(uuid);
         roleEntity.setIsDeleted(true);
         roleEntity.setDeletedTime(Instant.now());
         roleEntity.setDeletedUser(UserUtil.getUserUuid());
-        roleRepository.save(roleEntity);
+        return roleRepository.save(roleEntity);
     }
 
     @Override
     public RoleEntity findByUuid(UUID uuid) {
         return roleRepository.findByIsDeletedFalseAndUuid(uuid)
                 .orElseThrow(() -> new BusinessException(RoleCode.NOT_EXISTS));
+    }
+
+    @Override
+    public RoleEntity findByName(String name) {
+        return roleRepository.findByIsDeletedFalseAndName(name).orElse(null);
     }
 
     @Override

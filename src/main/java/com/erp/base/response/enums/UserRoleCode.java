@@ -4,6 +4,8 @@ public enum UserRoleCode implements Code {
 
     NOT_EXISTS("USR0001", "查無使用者角色"),
 
+    ALREADY_EXISTS("USR0002", "使用者已有綁定角色"),
+
     ;
 
     private final String code;
