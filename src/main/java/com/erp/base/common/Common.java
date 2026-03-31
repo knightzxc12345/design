@@ -3,6 +3,7 @@ package com.erp.base.common;
 import java.text.DecimalFormat;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 public class Common {
@@ -58,5 +59,7 @@ public class Common {
     public final static String REDIS_REFRESH_KEY = "refresh";
 
     public final static String REDIS_PERMISSION_KEY = "permission";
+
+    public final static UUID SYSTEM_USER = UUID.fromString("6cf181c0-2a13-4287-820f-1249f93d624f");
 
 }

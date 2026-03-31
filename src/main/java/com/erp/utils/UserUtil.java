@@ -1,5 +1,6 @@
 package com.erp.utils;
 
+import com.erp.base.common.Common;
 import com.erp.service.impl.CustomUserDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,7 +23,7 @@ public class UserUtil {
 
     public static UUID getUserUuid() {
         CustomUserDetails user = getCurrentUser();
-        return user != null ? user.getUuid() : null;
+        return user != null ? user.getUuid() : Common.SYSTEM_USER;
     }
 
 }
