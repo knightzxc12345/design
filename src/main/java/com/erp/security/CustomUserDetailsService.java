@@ -19,7 +19,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity userEntity = userRepository.findByIsDeletedFalseAndUuidAndName(username)
+        UserEntity userEntity = userRepository.findByIsDeletedFalseAndName(username)
                 .orElseThrow(() -> new BusinessException(SystemCode.LOGIN_FAIL));
         return new CustomUserDetails(userEntity);
     }

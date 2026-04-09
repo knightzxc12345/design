@@ -23,8 +23,6 @@ public class PermissionFindUseCaseImpl implements PermissionFindUseCase {
 
     private final RoleService roleService;
 
-    private final ActionService actionService;
-
     private final RolePermissionService rolePermissionService;
 
     @Transactional(readOnly = true)
@@ -33,7 +31,6 @@ public class PermissionFindUseCaseImpl implements PermissionFindUseCase {
         RoleEntity roleEntity = roleService.findByUuid(request.roleUuid());
         List<RolePermissionEntity> rolePermissionActionEntities = rolePermissionService.findAllByRoleUuid(request.roleUuid());
         List<PermissionEntity> permissionEntities = permissionService.findAll();
-        List<ActionEntity> actionEntities = actionService.findAll();
         return null;
     }
 

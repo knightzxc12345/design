@@ -6,12 +6,13 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 import java.util.UUID;
 
 // 使用者
-@Table(name = "user", indexes = {
+@Table(name = "[user]", indexes = {
         @Index(name = "user_find", columnList = "uuid, is_deleted"),
 })
 @Entity
@@ -20,7 +21,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class UserEntity extends BaseEntity {
 
     // 名稱
@@ -64,7 +65,6 @@ public class UserEntity extends BaseEntity {
     // 手機
     @Column(
             name = "mobile",
-            nullable = false,
             length = 10
     )
     private String mobile;

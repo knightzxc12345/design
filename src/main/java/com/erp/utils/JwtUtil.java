@@ -13,9 +13,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.*;
+import java.util.Date;
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -82,29 +83,7 @@ public class JwtUtil implements InitializingBean {
 
     // 驗證Token是否過期
     public static boolean validateToken(String token){
-        return extractExpiration(token).before(new Date());
-    }
-
-    // 取得角色
-    public static String getRoleFromToken(String token) {
-        Claims claims = extractAllClaims(token);
-        Object role = claims.get(Common.CLAIM_ROLE);
-        if (role instanceof String) {
-            return (String) role;
-        }
-        return null;
-    }
-
-    // 取得權限
-    public static List<String> getPermissionsFromToken(String token) {
-        Claims claims = extractAllClaims(token);
-        Object permissions = claims.get(Common.CLAIM_PERMISSION);
-        if (permissions instanceof List) {
-            return ((List<?>) permissions).stream()
-                    .map(Object::toString)
-                    .collect(Collectors.toList());
-        }
-        return Collections.emptyList();
+        return extractExpiration(token).after(new Date());
     }
 
     // 取得Token過期時間

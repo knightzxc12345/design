@@ -48,7 +48,6 @@ public class HttpUtil {
         cookie.setPath("/");
         cookie.setMaxAge(Common.COOKIE_REFRESH_TOKEN_AGE);
         response.addCookie(cookie);
-        // 如果要支援 SameSite，需用 header
         response.addHeader("Set-Cookie",
                 String.format(
                         "refreshToken=%s; Path=/; Max-Age=%d; HttpOnly; Secure; SameSite=Strict",
@@ -56,6 +55,19 @@ public class HttpUtil {
                         Common.COOKIE_REFRESH_TOKEN_AGE
                 )
         );
+    }
+
+    public static String getRefreshToken() {
+        HttpServletRequest request = getRequest();
+        if (request.getCookies() == null) {
+            return null;
+        }
+        for (Cookie cookie : request.getCookies()) {
+            if (Common.COOKIE_REFRESH_TOKEN_KEY.equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+        return null;
     }
 
     public static void clearRefreshToken() {

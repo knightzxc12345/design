@@ -2,8 +2,8 @@ package com.erp.usecase.auth.impl;
 
 import com.erp.base.common.Common;
 import com.erp.base.response.enums.UserCode;
-import com.erp.controller.index.request.LoginRequest;
-import com.erp.controller.index.response.LoginResponse;
+import com.erp.controller.auth.request.LoginRequest;
+import com.erp.controller.auth.response.LoginResponse;
 import com.erp.entity.PermissionEntity;
 import com.erp.entity.RolePermissionEntity;
 import com.erp.entity.UserEntity;

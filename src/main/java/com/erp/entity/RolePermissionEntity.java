@@ -6,13 +6,13 @@ import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.time.Instant;
 import java.util.UUID;
 
 // 角色權限動作
 @Table(name = "role_permission", indexes = {
-        @Index(name = "role_permission_find", columnList = "action_uuid, is_deleted"),
         @Index(name = "role_permission_find_all", columnList = "pk, is_deleted"),
         @Index(name = "role_permission_find_all_by_role", columnList = "pk, role_uuid, is_deleted")
 })
@@ -22,7 +22,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class RolePermissionEntity extends BaseEntity {
 
     // 角色Uuid

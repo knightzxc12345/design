@@ -76,6 +76,9 @@ public class RedisServiceImpl implements RedisService {
             if (jsonSet == null || jsonSet.isEmpty()) {
                 return Set.of();
             }
+            if (type instanceof Class<?> clazz && clazz == String.class) {
+                return (Set<T>) jsonSet;
+            }
             Set<T> result = new java.util.HashSet<>();
             for (String json : jsonSet) {
                 T obj = objectMapper.readValue(json, objectMapper.constructType(type));

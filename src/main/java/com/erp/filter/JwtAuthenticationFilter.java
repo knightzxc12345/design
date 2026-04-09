@@ -33,12 +33,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader("Authorization");
+        String header = request.getHeader(Common.TOKEN_HEADER);
         if(StringUtils.isBlank(header)){
             filterChain.doFilter(request, response);
             return;
         }
-        if(header == null && !header.startsWith("Bearer ")){
+        if(header == null && !header.startsWith(Common.TOKEN_PREFIX)){
             filterChain.doFilter(request, response);
             return;
         }

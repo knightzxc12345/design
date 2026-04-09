@@ -28,19 +28,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity create(UserEntity userEntity) {
         // 檢查帳號
-        userRepository.findByIsDeletedFalseAndUuidAndAccount(
+        userRepository.findByIsDeletedFalseAndAccount(
                 userEntity.getAccount()
         ).ifPresent(u -> {
             throw new BusinessException(UserCode.DUPLICATE_ACCOUNT);
         });
         // 檢查姓名
-        userRepository.findByIsDeletedFalseAndUuidAndName(
+        userRepository.findByIsDeletedFalseAndName(
                 userEntity.getName()
         ).ifPresent(u -> {
             throw new BusinessException(UserCode.DUPLICATE_NAME);
         });
         // 檢查信箱
-        userRepository.findByIsDeletedFalseAndUuidAndEmail(
+        userRepository.findByIsDeletedFalseAndEmail(
                 userEntity.getName()
         ).ifPresent(u -> {
             throw new BusinessException(UserCode.DUPLICATE_EMAIL);
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity edit(UserEntity userEntity) {
         // 檢查帳號
-        userRepository.findByIsDeletedFalseAndUuidAndAccount(
+        userRepository.findByIsDeletedFalseAndAccount(
                 userEntity.getAccount()
         ).ifPresent(u -> {
             if(!u.getUuid().equals(userEntity.getUuid())){
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
             }
         });
         // 檢查姓名
-        userRepository.findByIsDeletedFalseAndUuidAndName(
+        userRepository.findByIsDeletedFalseAndName(
                 userEntity.getName()
         ).ifPresent(u -> {
             if(!u.getUuid().equals(userEntity.getUuid())){
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
             }
         });
         // 檢查信箱
-        userRepository.findByIsDeletedFalseAndUuidAndEmail(
+        userRepository.findByIsDeletedFalseAndEmail(
                 userEntity.getEmail()
         ).ifPresent(u -> {
             if(!u.getUuid().equals(userEntity.getUuid())){
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity login(String account) {
-        return userRepository.findByIsDeletedFalseAndUuidAndAccount(account)
+        return userRepository.findByIsDeletedFalseAndAccount(account)
                 .orElseThrow(() -> new BusinessException(UserCode.NOT_EXISTS));
     }
 
@@ -106,6 +106,11 @@ public class UserServiceImpl implements UserService {
     public UserEntity findByUuid(UUID uuid) {
         return userRepository.findByIsDeletedFalseAndUuid(uuid)
                 .orElseThrow(() -> new BusinessException(UserCode.NOT_EXISTS));
+    }
+
+    @Override
+    public UserEntity findByAccount(String account) {
+        return userRepository.findByIsDeletedFalseAndAccount(account).orElse(null);
     }
 
     @Override

@@ -12,4 +12,6 @@ public interface UserRoleService {
 
     UserRoleEntity findByUserUuid(UUID userUuid);
 
+    UserRoleEntity findByUserUuidInit(UUID userUuid);
+
 }

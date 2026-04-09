@@ -29,8 +29,8 @@ public class RoleServiceImpl implements RoleService {
         });
         roleEntity.setStatus(RoleStatus.ENABLE);
         roleEntity.setIsDeleted(false);
-        roleEntity.setDeletedTime(Instant.now());
-        roleEntity.setDeletedUser(UserUtil.getUserUuid());
+        roleEntity.setCreateTime(Instant.now());
+        roleEntity.setCreateUser(UserUtil.getUserUuid());
         return roleRepository.save(roleEntity);
     }
 

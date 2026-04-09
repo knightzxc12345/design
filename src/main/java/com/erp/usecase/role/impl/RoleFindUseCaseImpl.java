@@ -3,11 +3,8 @@ package com.erp.usecase.role.impl;
 import com.erp.controller.role.request.RoleFindRequest;
 import com.erp.controller.role.response.RoleFindAllResponse;
 import com.erp.controller.role.response.RoleFindResponse;
-import com.erp.controller.user.response.UserFindAllResponse;
 import com.erp.entity.RoleEntity;
-import com.erp.entity.UserEntity;
 import com.erp.service.RoleService;
-import com.erp.usecase.role.RoleEditUseCase;
 import com.erp.usecase.role.RoleFindUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,6 +24,7 @@ public class RoleFindUseCaseImpl implements RoleFindUseCase {
     public RoleFindResponse findDetail(UUID uuid) {
         RoleEntity roleEntity = roleService.findByUuid(uuid);
         return new RoleFindResponse(
+                roleEntity.getUuid(),
                 roleEntity.getName(),
                 roleEntity.getStatus()
         );

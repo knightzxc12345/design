@@ -17,13 +17,11 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 
     Optional<UserEntity> findByIsDeletedFalseAndUuid(UUID uuid);
 
-    Optional<UserEntity> findByIsDeletedFalseAndUuidAndAccount(String account);
-
-    Optional<UserEntity> findByIsDeletedFalseAndUuidAndName(String name);
-
-    Optional<UserEntity> findByIsDeletedFalseAndUuidAndEmail(String email);
-
     Optional<UserEntity> findByIsDeletedFalseAndAccount(String account);
+
+    Optional<UserEntity> findByIsDeletedFalseAndName(String name);
+
+    Optional<UserEntity> findByIsDeletedFalseAndEmail(String email);
 
     @Query(value =
             """

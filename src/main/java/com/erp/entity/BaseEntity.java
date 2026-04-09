@@ -3,7 +3,7 @@ package com.erp.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -11,14 +11,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.Instant;
 import java.util.UUID;
 
-@MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @ToString(callSuper = true)
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@MappedSuperclass
+@SuperBuilder
 public class BaseEntity {
 
     @Id
@@ -32,11 +32,6 @@ public class BaseEntity {
     private Long pk;
 
     // 唯一值
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
     @Column(
             name = "uuid",
             nullable = false,
@@ -44,8 +39,9 @@ public class BaseEntity {
             unique = true,
             length = 36
     )
+    @Builder.Default
     @NotNull
-    private UUID uuid;
+    private UUID uuid = UUID.randomUUID();
 
     // 創建時間
     @CreatedDate

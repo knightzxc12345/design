@@ -19,6 +19,8 @@ public interface UserService {
 
     UserEntity findByUuid(UUID uuid);
 
+    UserEntity findByAccount(String account);
+
     List<UserEntity> findAll(String keyword);
 
     Page<UserEntity> findByPage(Pageable pageable, String keyword);

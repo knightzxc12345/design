@@ -1,6 +1,5 @@
 package com.erp.service.impl;
 
-import com.erp.base.response.enums.CustomerCode;
 import com.erp.base.response.enums.UserRoleCode;
 import com.erp.entity.UserRoleEntity;
 import com.erp.handler.BusinessException;
@@ -45,6 +44,11 @@ public class UserRoleServiceImpl implements UserRoleService {
     public UserRoleEntity findByUserUuid(UUID userUuid) {
         return userRoleRepository.findByIsDeletedFalseAndUserUuid(userUuid)
                 .orElseThrow(() -> new BusinessException(UserRoleCode.NOT_EXISTS));
+    }
+
+    @Override
+    public UserRoleEntity findByUserUuidInit(UUID userUuid) {
+        return userRoleRepository.findByIsDeletedFalseAndUserUuid(userUuid).orElse(null);
     }
 
 }

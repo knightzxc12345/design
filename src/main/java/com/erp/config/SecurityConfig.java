@@ -25,7 +25,7 @@ public class SecurityConfig {
     private final static String[] PERMIT_ALL = {
             "/v3/**",
             "/swagger-ui/**",
-            "/login/**",
+            "/auth/login/v1",
     };
 
     @Bean

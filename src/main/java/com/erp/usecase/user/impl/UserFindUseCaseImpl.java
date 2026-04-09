@@ -28,6 +28,7 @@ public class UserFindUseCaseImpl implements UserFindUseCase {
     public UserFindResponse findDetail(UUID uuid) {
         UserEntity userEntity = userService.findByUuid(uuid);
         return new UserFindResponse(
+                userEntity.getUuid(),
                 userEntity.getAccount(),
                 userEntity.getName(),
                 userEntity.getEmail(),

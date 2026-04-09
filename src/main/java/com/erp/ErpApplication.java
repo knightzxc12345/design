@@ -1,6 +1,7 @@
 package com.erp;
 
 import com.erp.service.InitRoleService;
+import com.erp.service.InitUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,8 @@ public class ErpApplication extends SpringBootServletInitializer implements Comm
 
     private final InitRoleService initRoleService;
 
+    private final InitUserService initUserService;
+
     public static void main(String[] args) {
         SpringApplication.run(ErpApplication.class, args);
     }
@@ -28,6 +31,7 @@ public class ErpApplication extends SpringBootServletInitializer implements Comm
     @Override
     public void run(String... args) {
         initRoleService.init();
+        initUserService.init();
     }
 
 }

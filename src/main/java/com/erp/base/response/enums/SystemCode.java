@@ -18,7 +18,9 @@ public enum SystemCode implements Code {
 
     TOKEN_UNDEFINED("SYS0008", "查無Token"),
 
-    TOKEN_INVALID_TYPE("SYS009", "Token型別錯誤")
+    TOKEN_INVALID_TYPE("SYS009", "Token型別錯誤"),
+
+    TOKEN_UNAUTHORIZED("SYS010", "無權限"),
 
     ;
 
