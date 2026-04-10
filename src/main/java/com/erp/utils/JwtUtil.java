@@ -33,11 +33,6 @@ public class JwtUtil implements InitializingBean {
         key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public static String extractUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName();
-    }
-
     // 取得使用者名稱
     public static String extractUsername(String token) {
         return extractClaims(token, Claims::getSubject);

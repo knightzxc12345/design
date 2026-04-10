@@ -1,11 +1,11 @@
-package com.erp.controller.user.request;
+package com.erp.controller.supplier.request;
 
-import com.erp.entity.enums.UserStatus;
+import com.erp.entity.enums.SupplierStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-public record UserPageRequest(
+public record SupplierPageRequest(
 
         @Min(value = 0, message = "頁數不得小於0")
         @NotNull(message = "頁數不得為空")
@@ -19,7 +19,7 @@ public record UserPageRequest(
         String keyword,
 
         @Schema(description = "狀態", example = "ENABLE")
-        UserStatus status
+        SupplierStatus status
 
 ) {
 }

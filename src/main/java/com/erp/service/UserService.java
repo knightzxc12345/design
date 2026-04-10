@@ -1,6 +1,7 @@
 package com.erp.service;
 
 import com.erp.entity.UserEntity;
+import com.erp.entity.enums.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -21,8 +22,8 @@ public interface UserService {
 
     UserEntity findByAccount(String account);
 
-    List<UserEntity> findAll(String keyword);
+    List<UserEntity> findAll(String keyword, UserStatus status);
 
-    Page<UserEntity> findByPage(Pageable pageable, String keyword);
+    Page<UserEntity> findByPage(Pageable pageable, String keyword, UserStatus status);
 
 }

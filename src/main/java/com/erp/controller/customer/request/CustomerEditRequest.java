@@ -16,7 +16,7 @@ public record CustomerEditRequest(
         String name,
 
         @Schema(description = "電話", example = "02-22222222")
-        @Length(min = 0, max = 20, message = "電話長度必須為0~20")
+        @Length(min = 0, max = 32, message = "電話長度必須為0~32")
         String phone,
 
         @Schema(description = "傳真", example = "02-22222222")

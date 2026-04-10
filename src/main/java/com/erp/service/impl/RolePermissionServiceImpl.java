@@ -30,11 +30,13 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         if(null == rolePermissionActionEntities || rolePermissionActionEntities.isEmpty()){
             return;
         }
-        for(RolePermissionEntity rolePermissionEntity : rolePermissionActionEntities){
-            rolePermissionEntity.setIsDeleted(false);
-            rolePermissionEntity.setCreateTime(Instant.now());
-            rolePermissionEntity.setCreateUser(UserUtil.getUserUuid());
-        }
+        Instant now = Instant.now();
+        UUID userUuid = UserUtil.getUserUuid();
+        rolePermissionActionEntities.forEach(entity -> {
+            entity.setIsDeleted(false);
+            entity.setCreateTime(now);
+            entity.setCreateUser(userUuid);
+        });
         rolePermissionRepository.saveAll(rolePermissionActionEntities);
     }
 
@@ -44,11 +46,13 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         if(null == rolePermissionActionEntities || rolePermissionActionEntities.isEmpty()){
             return;
         }
-        for(RolePermissionEntity rolePermissionEntity : rolePermissionActionEntities){
-            rolePermissionEntity.setIsDeleted(true);
-            rolePermissionEntity.setDeletedTime(Instant.now());
-            rolePermissionEntity.setDeletedUser(UserUtil.getUserUuid());
-        }
+        Instant now = Instant.now();
+        UUID userUuid = UserUtil.getUserUuid();
+        rolePermissionActionEntities.forEach(entity -> {
+            entity.setIsDeleted(true);
+            entity.setDeletedTime(now);
+            entity.setDeletedUser(userUuid);
+        });
         rolePermissionRepository.saveAll(rolePermissionActionEntities);
     }
 
@@ -58,11 +62,13 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         if(null == rolePermissionActionEntities || rolePermissionActionEntities.isEmpty()){
             return;
         }
-        for(RolePermissionEntity rolePermissionEntity : rolePermissionActionEntities){
-            rolePermissionEntity.setIsDeleted(true);
-            rolePermissionEntity.setDeletedTime(Instant.now());
-            rolePermissionEntity.setDeletedUser(UserUtil.getUserUuid());
-        }
+        Instant now = Instant.now();
+        UUID userUuid = UserUtil.getUserUuid();
+        rolePermissionActionEntities.forEach(entity -> {
+            entity.setIsDeleted(true);
+            entity.setDeletedTime(now);
+            entity.setDeletedUser(userUuid);
+        });
         rolePermissionRepository.saveAll(rolePermissionActionEntities);
     }
 

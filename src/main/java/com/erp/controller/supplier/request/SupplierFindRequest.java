@@ -1,15 +1,15 @@
-package com.erp.controller.user.request;
+package com.erp.controller.supplier.request;
 
-import com.erp.entity.enums.UserStatus;
+import com.erp.entity.enums.SupplierStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-public record UserFindRequest(
+public record SupplierFindRequest(
 
         @Schema(description = "關鍵字", example = "test")
         String keyword,
 
         @Schema(description = "狀態", example = "ENABLE")
-        UserStatus status
+        SupplierStatus status
 
 ) {
 }

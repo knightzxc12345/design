@@ -40,7 +40,7 @@ public class UserFindUseCaseImpl implements UserFindUseCase {
     @Transactional(readOnly = true)
     @Override
     public List<UserFindAllResponse> findAll(UserFindRequest request) {
-        List<UserEntity> userEntities = userService.findAll(request.keyword());
+        List<UserEntity> userEntities = userService.findAll(request.keyword(), request.status());
         return formatList(userEntities);
     }
 
@@ -49,7 +49,8 @@ public class UserFindUseCaseImpl implements UserFindUseCase {
     public PageResponse findByPage(UserPageRequest request) {
         Page<UserEntity> userEntityPage = userService.findByPage(
                 PageRequest.of(request.page(), request.size()),
-                request.keyword()
+                request.keyword(),
+                request.status()
         );
         return formatPage(userEntityPage);
     }

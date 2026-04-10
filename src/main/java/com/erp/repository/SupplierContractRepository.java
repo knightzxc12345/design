@@ -1,0 +1,20 @@
+package com.erp.repository;
+
+import com.erp.entity.SupplierContractEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public interface SupplierContractRepository extends JpaRepository<SupplierContractEntity, Long> {
+
+    Optional<SupplierContractEntity> findByIsDeletedFalseAndUuid(UUID uuid);
+
+    List<SupplierContractEntity> findByIsDeletedFalseOrderByNameAsc();
+
+    List<SupplierContractEntity> findByIsDeletedFalseAndSupplierUuidOrderByNameAsc(UUID supplierUuid);
+
+}

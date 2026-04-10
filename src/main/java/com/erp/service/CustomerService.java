@@ -1,6 +1,7 @@
 package com.erp.service;
 
 import com.erp.entity.CustomerEntity;
+import com.erp.entity.enums.CustomerStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -17,8 +18,8 @@ public interface CustomerService {
 
     CustomerEntity findByUuid(UUID uuid);
 
-    List<CustomerEntity> findAll(String keyword);
+    List<CustomerEntity> findAll(String keyword, CustomerStatus status);
 
-    Page<CustomerEntity> findByPage(Pageable pageable, String keyword);
+    Page<CustomerEntity> findByPage(Pageable pageable, String keyword, CustomerStatus status);
 
 }

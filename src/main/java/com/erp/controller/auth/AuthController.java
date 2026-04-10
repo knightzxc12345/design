@@ -28,7 +28,7 @@ public class AuthController {
 
     private final AuthLogoutUseCase authLogoutUseCase;
 
-    @Operation(summary = "建立")
+    @Operation(summary = "登入")
     @PostMapping(
             value = "/login/v1"
     )
@@ -45,6 +45,15 @@ public class AuthController {
     public CustomResponse refresh() {
         LoginRefreshResponse response = authRefreshUseCase.refresh();
         return new CustomResponse(SystemCode.SUCCESS, response);
+    }
+
+    @Operation(summary = "登出")
+    @PostMapping(
+            value = "/logout/v1"
+    )
+    public CustomResponse logout() {
+        authLogoutUseCase.logout();
+        return new CustomResponse(SystemCode.SUCCESS);
     }
 
 }

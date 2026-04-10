@@ -84,17 +84,19 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerEntity> findAll(String keyword) {
+    public List<CustomerEntity> findAll(String keyword, CustomerStatus status) {
         return customerRepository.findAll(
-                keyword
+                keyword,
+                status
         );
     }
 
     @Override
-    public Page<CustomerEntity> findByPage(Pageable pageable, String keyword) {
+    public Page<CustomerEntity> findByPage(Pageable pageable, String keyword, CustomerStatus status) {
         return customerRepository.findByPage(
                 pageable,
-                keyword
+                keyword,
+                status
         );
     }
 

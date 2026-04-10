@@ -1,6 +1,7 @@
 package com.erp.repository;
 
 import com.erp.entity.CustomerEntity;
+import com.erp.entity.enums.CustomerStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,11 +37,13 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
                     (:keyword IS NULL OR c.vatNumber LIKE CONCAT('%', :keyword, '%')) OR
                     (:keyword IS NULL OR c.phone LIKE CONCAT('%', :keyword, '%'))
                 )
+                AND (c.status = :status)
             ORDER BY
                 c.name
             """)
     List<CustomerEntity> findAll(
-            @Param("keyword") String keyword
+            @Param("keyword") String keyword,
+            @Param("CustomerStatus") CustomerStatus status
     );
 
     @Query(value =
@@ -58,12 +61,14 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
                     (:keyword IS NULL OR c.vatNumber LIKE CONCAT('%', :keyword, '%')) OR
                     (:keyword IS NULL OR c.phone LIKE CONCAT('%', :keyword, '%'))
                 )
+                AND (c.status = :status)
             ORDER BY
                 c.name
             """)
     Page<CustomerEntity> findByPage(
             Pageable pageable,
-            @Param("keyword") String keyword
+            @Param("keyword") String keyword,
+            @Param("CustomerStatus") CustomerStatus status
     );
 
 }

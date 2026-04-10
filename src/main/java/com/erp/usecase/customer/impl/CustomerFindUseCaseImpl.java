@@ -45,7 +45,7 @@ public class CustomerFindUseCaseImpl implements CustomerFindUseCase {
     @Transactional(readOnly = true)
     @Override
     public List<CustomerFindAllResponse> findAll(CustomerFindRequest request) {
-        List<CustomerEntity> customerEntities = customerService.findAll(request.keyword());
+        List<CustomerEntity> customerEntities = customerService.findAll(request.keyword(), request.status());
         return formatList(customerEntities);
     }
 
@@ -54,7 +54,8 @@ public class CustomerFindUseCaseImpl implements CustomerFindUseCase {
     public PageResponse<CustomerFindAllResponse> findByPage(CustomerPageRequest request) {
         Page<CustomerEntity> customerEntityPage = customerService.findByPage(
                 PageRequest.of(request.page(), request.size()),
-                request.keyword()
+                request.keyword(),
+                request.status()
         );
         return formatPage(customerEntityPage);
     }

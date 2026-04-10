@@ -114,17 +114,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> findAll(String keyword) {
+    public List<UserEntity> findAll(String keyword, UserStatus status) {
         return userRepository.findAll(
-                keyword
+                keyword,
+                status
         );
     }
 
     @Override
-    public Page<UserEntity> findByPage(Pageable pageable, String keyword) {
+    public Page<UserEntity> findByPage(Pageable pageable, String keyword, UserStatus status) {
         return userRepository.findByPage(
                 pageable,
-                keyword
+                keyword,
+                status
         );
     }
 
