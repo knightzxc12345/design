@@ -1,19 +1,16 @@
-package com.erp.controller.role;
+package com.erp.controller.supplier;
 
 import com.erp.aop.annotation.Permission;
 import com.erp.base.response.CustomResponse;
 import com.erp.base.response.enums.SystemCode;
-import com.erp.controller.role.request.RoleCreateRequest;
-import com.erp.controller.role.request.RoleEditRequest;
-import com.erp.controller.role.request.RoleFindRequest;
-import com.erp.controller.role.response.RoleFindAllResponse;
-import com.erp.controller.role.response.RoleFindResponse;
-import com.erp.controller.user.request.UserFindRequest;
-import com.erp.controller.user.response.UserFindAllResponse;
-import com.erp.usecase.role.RoleCreateUseCase;
-import com.erp.usecase.role.RoleDeleteUseCase;
-import com.erp.usecase.role.RoleEditUseCase;
-import com.erp.usecase.role.RoleFindUseCase;
+import com.erp.controller.supplier.request.SupplierContractCreateRequest;
+import com.erp.controller.supplier.request.SupplierContractEditRequest;
+import com.erp.controller.supplier.response.SupplierContractFindAllResponse;
+import com.erp.controller.supplier.response.SupplierContractFindResponse;
+import com.erp.usecase.supplier.SupplierContractCreateUseCase;
+import com.erp.usecase.supplier.SupplierContractDeleteUseCase;
+import com.erp.usecase.supplier.SupplierContractEditUseCase;
+import com.erp.usecase.supplier.SupplierContractFindUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,82 +26,81 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/role")
-@Tag(name = "角色")
+@RequestMapping("/supplier_contract")
+@Tag(name = "供應商")
 @RestController
 @RequiredArgsConstructor
 @Validated
-public class RoleController {
+public class SupplierContractController {
 
-    private final RoleCreateUseCase roleCreateUseCase;
+    private final SupplierContractCreateUseCase supplierContractCreateUseCase;
 
-    private final RoleEditUseCase roleEditUseCase;
+    private final SupplierContractEditUseCase supplierContractEditUseCase;
 
-    private final RoleDeleteUseCase roleDeleteUseCase;
+    private final SupplierContractDeleteUseCase supplierContractDeleteUseCase;
 
-    private final RoleFindUseCase roleFindUseCase;
+    private final SupplierContractFindUseCase supplierContractFindUseCase;
 
-    @Permission("ROLE:CREATE")
+    @Permission("SUPPLIER:CREATE")
     @Operation(summary = "建立")
     @PostMapping(
             value = "v1"
     )
     public CustomResponse create(
-            @RequestBody @Validated @NotNull RoleCreateRequest request) {
-        roleCreateUseCase.create(request);
+            @RequestBody @Validated @NotNull SupplierContractCreateRequest request) {
+        supplierContractCreateUseCase.create(request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
-    @Permission("ROLE:EDIT")
+    @Permission("SUPPLIER:EDIT")
     @Operation(summary = "編輯")
     @PutMapping(
             value = "v1/{uuid}"
     )
     public CustomResponse edit(
             @PathVariable("uuid") @NotNull UUID uuid,
-            @RequestBody @Validated @NotNull RoleEditRequest request) {
-        roleEditUseCase.edit(uuid, request);
+            @RequestBody @Validated @NotNull SupplierContractEditRequest request) {
+        supplierContractEditUseCase.edit(uuid, request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
-    @Permission("ROLE:DELETE")
+    @Permission("SUPPLIER:DELETE")
     @Operation(summary = "刪除")
     @DeleteMapping(
             value = "v1/{uuid}"
     )
     public CustomResponse delete(
             @PathVariable("uuid") @NotNull UUID uuid) {
-        roleDeleteUseCase.delete(uuid);
+        supplierContractDeleteUseCase.delete(uuid);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
-    @Permission("ROLE:READ")
+    @Permission("SUPPLIER:READ")
     @Operation(summary = "透過Id取得")
     @GetMapping(
             value = "v1/{uuid}"
     )
     @ApiResponse(responseCode = "200", description = "OK", content = {
-            @Content(schema = @Schema(implementation = RoleFindResponse.class))
+            @Content(schema = @Schema(implementation = SupplierContractFindResponse.class))
     })
     public CustomResponse findByUuid(
             @PathVariable("uuid") @NotNull UUID uuid) {
-        RoleFindResponse response = roleFindUseCase.findDetail(uuid);
+        SupplierContractFindResponse response = supplierContractFindUseCase.findDetail(uuid);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 
-    @Permission("ROLE:READ")
+    @Permission("SUPPLIER:READ")
     @Operation(summary = "取得清單")
     @GetMapping(
-            value = "v1/all"
+            value = "v1/all/{supplierUuid}"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200 - 清單", description = "OK", content = {
-                    @Content(array = @ArraySchema(schema = @Schema(implementation = RoleFindAllResponse.class))),
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = SupplierContractFindAllResponse.class))),
             }),
     })
-    public CustomResponse findAll(
-            @Validated RoleFindRequest request) {
-        List<RoleFindAllResponse> responses = roleFindUseCase.findAll(request);
+    public CustomResponse findAll(@PathVariable("supplierUuid") @NotNull UUID supplierUuid) {
+        List<SupplierContractFindAllResponse> responses = supplierContractFindUseCase.findAll(supplierUuid);
         return new CustomResponse(SystemCode.SUCCESS, responses);
     }
 

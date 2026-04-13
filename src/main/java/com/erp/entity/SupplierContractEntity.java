@@ -40,7 +40,7 @@ public class SupplierContractEntity extends BaseEntity {
     @Column(
             name = "name",
             nullable = false,
-            length = 64
+            length = 32
     )
     @NotBlank
     private String name;

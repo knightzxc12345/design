@@ -95,7 +95,7 @@ public class UserController {
     @Permission("USER:READ")
     @Operation(summary = "取得清單")
     @GetMapping(
-            value = "v1"
+            value = "v1/all"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200 - 清單", description = "OK", content = {
