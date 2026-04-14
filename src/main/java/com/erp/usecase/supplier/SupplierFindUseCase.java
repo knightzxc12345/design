@@ -15,6 +15,6 @@ public interface SupplierFindUseCase {
 
     List<SupplierFindAllResponse> findAll(SupplierFindRequest request);
 
-    PageResponse findByPage(SupplierPageRequest request);
+    PageResponse<SupplierFindAllResponse> findByPage(SupplierPageRequest request);
 
 }

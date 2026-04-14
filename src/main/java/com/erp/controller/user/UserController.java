@@ -120,7 +120,7 @@ public class UserController {
     })
     public CustomResponse findPage(
             @Validated UserPageRequest request) {
-        PageResponse response = userFindUseCase.findByPage(request);
+        PageResponse<UserFindAllResponse> response = userFindUseCase.findByPage(request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 

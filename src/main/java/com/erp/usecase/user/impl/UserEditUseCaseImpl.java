@@ -47,6 +47,7 @@ public class UserEditUseCaseImpl implements UserEditUseCase {
         userEntity.setName(request.name());
         userEntity.setEmail(request.email());
         userEntity.setMobile(request.mobile());
+        userEntity.setStatus(request.status());
         return userEntity;
     }
 

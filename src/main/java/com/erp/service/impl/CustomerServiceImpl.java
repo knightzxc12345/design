@@ -28,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.findByIsDeletedFalseAndName(
                 customerEntity.getName()
         ).ifPresent(c ->{
-                    throw new BusinessException(CustomerCode.DUPLICATE_NAME);
+            throw new BusinessException(CustomerCode.DUPLICATE_NAME);
         });
         // 檢查信箱
         customerRepository.findByIsDeletedFalseAndEmail(

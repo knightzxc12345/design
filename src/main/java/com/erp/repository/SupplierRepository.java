@@ -30,15 +30,15 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> 
             FROM
                 SupplierEntity s
             WHERE
-                1 = 1
-                AND s.isDeleted = false
+                s.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR s.name LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR s.code LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR s.taxId LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR s.phone LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR s.fax LIKE CONCAT('%', :keyword, '%'))
+                    :keyword IS NULL OR
+                    s.name LIKE CONCAT('%', :keyword, '%') OR
+                    s.code LIKE CONCAT('%', :keyword, '%') OR
+                    s.taxId LIKE CONCAT('%', :keyword, '%') OR
+                    s.phone LIKE CONCAT('%', :keyword, '%') OR
+                    s.fax LIKE CONCAT('%', :keyword, '%')
                 )
                 AND (s.status = :status)
             ORDER BY
@@ -56,15 +56,15 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> 
             FROM
                 SupplierEntity s
             WHERE
-                1 = 1
-                AND s.isDeleted = false
+                s.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR s.name LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR s.code LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR s.taxId LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR s.phone LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR s.fax LIKE CONCAT('%', :keyword, '%'))
+                    :keyword IS NULL OR
+                    s.name LIKE CONCAT('%', :keyword, '%') OR
+                    s.code LIKE CONCAT('%', :keyword, '%') OR
+                    s.taxId LIKE CONCAT('%', :keyword, '%') OR
+                    s.phone LIKE CONCAT('%', :keyword, '%') OR
+                    s.fax LIKE CONCAT('%', :keyword, '%')
                 )
                 AND (s.status = :status)
             ORDER BY

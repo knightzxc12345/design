@@ -1,7 +1,7 @@
 package com.erp.repository;
 
-import com.erp.entity.CustomerEntity;
-import com.erp.entity.enums.CustomerStatus;
+import com.erp.entity.CategoryEntity;
+import com.erp.entity.enums.CategoryStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,36 +14,35 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> {
+public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
-    Optional<CustomerEntity> findByUuidAndIsDeletedFalse(UUID uuid);
+    Optional<CategoryEntity> findByIsDeletedFalseAndName(String name);
 
-    Optional<CustomerEntity> findByIsDeletedFalseAndName(String name);
+    Optional<CategoryEntity> findByIsDeletedFalseAndCode(String code);
 
-    Optional<CustomerEntity> findByIsDeletedFalseAndEmail(String email);
+    Optional<CategoryEntity> findByIsDeletedFalseAndUuid(UUID uuid);
 
     @Query(value =
             """
             SELECT
                 c
             FROM
-                CustomerEntity c
+                CategoryEntity c
             WHERE
                 c.isDeleted = false
                 AND
                 (
                     :keyword IS NULL OR
                     c.name LIKE CONCAT('%', :keyword, '%') OR
-                    c.vatNumber LIKE CONCAT('%', :keyword, '%') OR
-                    c.phone LIKE CONCAT('%', :keyword, '%')
+                    c.code LIKE CONCAT('%', :keyword, '%')
                 )
                 AND (c.status = :status)
             ORDER BY
-                c.name
+                c.pk
             """)
-    List<CustomerEntity> findAll(
+    List<CategoryEntity> findAll(
             @Param("keyword") String keyword,
-            @Param("CustomerStatus") CustomerStatus status
+            @Param("status") CategoryStatus status
     );
 
     @Query(value =
@@ -51,24 +50,23 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
             SELECT
                 c
             FROM
-                CustomerEntity c
+                CategoryEntity c
             WHERE
                 c.isDeleted = false
                 AND
                 (
                     :keyword IS NULL OR
                     c.name LIKE CONCAT('%', :keyword, '%') OR
-                    c.vatNumber LIKE CONCAT('%', :keyword, '%') OR
-                    c.phone LIKE CONCAT('%', :keyword, '%')
+                    c.code LIKE CONCAT('%', :keyword, '%')
                 )
                 AND (c.status = :status)
             ORDER BY
-                c.name
+                c.pk
             """)
-    Page<CustomerEntity> findByPage(
+    Page<CategoryEntity> findByPage(
             Pageable pageable,
             @Param("keyword") String keyword,
-            @Param("CustomerStatus") CustomerStatus status
+            @Param("status") CategoryStatus status
     );
 
 }

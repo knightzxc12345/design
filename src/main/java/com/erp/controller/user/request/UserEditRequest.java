@@ -39,6 +39,7 @@ public record UserEditRequest(
         UUID roleUuid,
 
         @Schema(description = "狀態", example = "ENABLE")
+        @NotNull(message = "狀態不得為空")
         UserStatus status
 
 ) {

@@ -32,12 +32,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             FROM
                 UserEntity u
             WHERE
-                1 = 1
-                AND u.isDeleted = false
+                u.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR u.name LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR u.email LIKE CONCAT('%', :keyword, '%'))
+                    :keyword IS NULL OR
+                    u.name LIKE CONCAT('%', :keyword, '%') OR
+                    u.email LIKE CONCAT('%', :keyword, '%')
                 )
                 AND (u.status = :status)
             ORDER BY
@@ -45,7 +45,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             """)
     List<UserEntity> findAll(
             @Param("keyword") String keyword,
-            @Param("UserStatus") UserStatus status
+            @Param("status") UserStatus status
     );
 
     @Query(value =
@@ -55,12 +55,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             FROM
                 UserEntity u
             WHERE
-                1 = 1
-                AND u.isDeleted = false
+                u.isDeleted = false
                 AND
                 (
-                    (:keyword IS NULL OR u.name LIKE CONCAT('%', :keyword, '%')) OR
-                    (:keyword IS NULL OR u.email LIKE CONCAT('%', :keyword, '%'))
+                    :keyword IS NULL OR
+                    u.name LIKE CONCAT('%', :keyword, '%') OR
+                    u.email LIKE CONCAT('%', :keyword, '%')
                 )
                 AND (u.status = :status)
             ORDER BY
@@ -69,7 +69,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Page<UserEntity> findByPage(
             Pageable pageable,
             @Param("keyword") String keyword,
-            @Param("UserStatus") UserStatus status
+            @Param("status") UserStatus status
     );
 
 }

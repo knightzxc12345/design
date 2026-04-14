@@ -46,7 +46,7 @@ public class UserFindUseCaseImpl implements UserFindUseCase {
 
     @Transactional(readOnly = true)
     @Override
-    public PageResponse findByPage(UserPageRequest request) {
+    public PageResponse<UserFindAllResponse> findByPage(UserPageRequest request) {
         Page<UserEntity> userEntityPage = userService.findByPage(
                 PageRequest.of(request.page(), request.size()),
                 request.keyword(),
@@ -71,7 +71,7 @@ public class UserFindUseCaseImpl implements UserFindUseCase {
                 .toList();
     }
 
-    private PageResponse formatPage(Page<UserEntity> userEntityPage){
+    private PageResponse<UserFindAllResponse> formatPage(Page<UserEntity> userEntityPage){
         List<UserFindAllResponse> responses = formatList(userEntityPage.getContent());
         return new PageResponse(
                 userEntityPage.getNumber(),

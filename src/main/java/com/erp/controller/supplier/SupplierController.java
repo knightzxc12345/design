@@ -120,7 +120,7 @@ public class SupplierController {
     })
     public CustomResponse findPage(
             @Validated SupplierPageRequest request) {
-        PageResponse response = supplierFindUseCase.findByPage(request);
+        PageResponse<SupplierFindAllResponse> response = supplierFindUseCase.findByPage(request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 

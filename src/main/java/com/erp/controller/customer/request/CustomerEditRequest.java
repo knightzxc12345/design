@@ -5,6 +5,7 @@ import com.erp.entity.enums.CustomerStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
@@ -47,6 +48,7 @@ public record CustomerEditRequest(
         String remark,
 
         @Schema(description = "狀態", example = "ENABLE")
+        @NotNull(message = "狀態不得為空")
         CustomerStatus status
 
 ) {
