@@ -18,8 +18,15 @@ public interface BrandService {
 
     BrandEntity findByUuid(UUID uuid);
 
-    List<BrandEntity> findAll(String keyword, BrandStatus brandStatus);
+    List<BrandEntity> findAll(
+            String keyword,
+            BrandStatus brandStatus
+    );
 
-    Page<BrandEntity> findByPage(Pageable pageable, String keyword, BrandStatus brandStatus);
+    Page<BrandEntity> findPage(
+            Pageable pageable,
+            String keyword,
+            BrandStatus brandStatus
+    );
 
 }

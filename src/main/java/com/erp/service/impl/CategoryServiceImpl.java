@@ -37,9 +37,9 @@ public class CategoryServiceImpl implements CategoryService {
             throw new BusinessException(CategoryCode.DUPLICATE_CODE);
         });
         categoryEntity.setStatus(CategoryStatus.ENABLE);
+        categoryEntity.setIsDeleted(false);
         categoryEntity.setDeletedTime(Instant.now());
         categoryEntity.setDeletedUser(UserUtil.getUserUuid());
-        categoryEntity.setIsDeleted(false);
         return categoryRepository.save(categoryEntity);
     }
 
@@ -98,6 +98,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<CategoryEntity> findAllByBrandUuid(UUID brandUuid) {
+        return categoryRepository.findByIsDeletedFalseAndBrandUuid(brandUuid);
+    }
+
+    @Override
     public List<CategoryEntity> findAll(
             UUID brandUuid,
             String keyword,
@@ -110,12 +115,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryEntity> findAllByBrandUuid(UUID brandUuid) {
-        return categoryRepository.findByIsDeletedFalseAndBrandUuid(brandUuid);
-    }
-
-    @Override
-    public Page<CategoryEntity> findByPage(
+    public Page<CategoryEntity> findPageByBrandUuid(
             Pageable pageable,
             UUID brandUuid,
             String keyword,

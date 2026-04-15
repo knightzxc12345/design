@@ -38,9 +38,9 @@ public class SupplierServiceImpl implements SupplierService {
             throw new BusinessException(SupplierCode.DUPLICATE_CODE);
         });
         supplierEntity.setStatus(SupplierStatus.ENABLE);
+        supplierEntity.setIsDeleted(false);
         supplierEntity.setCreateTime(Instant.now());
         supplierEntity.setCreateUser(UserUtil.getUserUuid());
-        supplierEntity.setIsDeleted(false);
         return supplierRepository.save(supplierEntity);
     }
 
@@ -88,7 +88,7 @@ public class SupplierServiceImpl implements SupplierService {
     }
 
     @Override
-    public Page<SupplierEntity> findByPage(Pageable pageable, String keyword, SupplierStatus status) {
+    public Page<SupplierEntity> findPage(Pageable pageable, String keyword, SupplierStatus status) {
         return supplierRepository.findByPage(pageable, keyword, status);
     }
 

@@ -20,15 +20,15 @@ public interface CategoryService {
 
     CategoryEntity findByUuid(UUID uuid);
 
+    List<CategoryEntity> findAllByBrandUuid(UUID brandUuid);
+
     List<CategoryEntity> findAll(
             UUID brandUuid,
             String keyword,
             CategoryStatus categoryStatus
     );
 
-    List<CategoryEntity> findAllByBrandUuid(UUID brandUuid);
-
-    Page<CategoryEntity> findByPage(
+    Page<CategoryEntity> findPageByBrandUuid(
             Pageable pageable,
             UUID brandUuid,
             String keyword,

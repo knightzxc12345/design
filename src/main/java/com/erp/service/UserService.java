@@ -22,8 +22,15 @@ public interface UserService {
 
     UserEntity findByAccount(String account);
 
-    List<UserEntity> findAll(String keyword, UserStatus status);
+    List<UserEntity> findAll(
+            String keyword,
+            UserStatus status
+    );
 
-    Page<UserEntity> findByPage(Pageable pageable, String keyword, UserStatus status);
+    Page<UserEntity> findPage(
+            Pageable pageable,
+            String keyword,
+            UserStatus status
+    );
 
 }

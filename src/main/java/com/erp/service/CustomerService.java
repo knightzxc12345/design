@@ -18,8 +18,15 @@ public interface CustomerService {
 
     CustomerEntity findByUuid(UUID uuid);
 
-    List<CustomerEntity> findAll(String keyword, CustomerStatus status);
+    List<CustomerEntity> findAll(
+            String keyword,
+            CustomerStatus status
+    );
 
-    Page<CustomerEntity> findByPage(Pageable pageable, String keyword, CustomerStatus status);
+    Page<CustomerEntity> findPage(
+            Pageable pageable,
+            String keyword,
+            CustomerStatus status
+    );
 
 }

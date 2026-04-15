@@ -47,7 +47,7 @@ public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
 
     @Override
     public PageResponse<CategoryFindAllResponse> findByPage(UUID brandUuid, CategoryPageRequest request) {
-        Page<CategoryEntity> categoryEntityPage = categoryService.findByPage(
+        Page<CategoryEntity> categoryEntityPage = categoryService.findPageByBrandUuid(
                 PageRequest.of(request.page(), request.size()),
                 brandUuid,
                 request.keyword(),

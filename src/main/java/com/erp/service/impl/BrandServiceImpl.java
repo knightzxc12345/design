@@ -37,9 +37,9 @@ public class BrandServiceImpl implements BrandService {
             throw new BusinessException(BrandCode.DUPLICATE_CODE);
         });
         brandEntity.setStatus(BrandStatus.ENABLE);
+        brandEntity.setIsDeleted(false);
         brandEntity.setDeletedTime(Instant.now());
         brandEntity.setDeletedUser(UserUtil.getUserUuid());
-        brandEntity.setIsDeleted(false);
         return brandRepository.save(brandEntity);
     }
 
@@ -90,7 +90,7 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
-    public Page<BrandEntity> findByPage(Pageable pageable, String keyword, BrandStatus brandStatus) {
+    public Page<BrandEntity> findPage(Pageable pageable, String keyword, BrandStatus brandStatus) {
         return brandRepository.findByPage(
                 pageable,
                 keyword,

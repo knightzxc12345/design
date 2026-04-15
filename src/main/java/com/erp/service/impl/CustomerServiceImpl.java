@@ -37,9 +37,9 @@ public class CustomerServiceImpl implements CustomerService {
             throw new BusinessException(CustomerCode.DUPLICATE_EMAIL);
         });
         customerEntity.setStatus(CustomerStatus.ENABLE);
+        customerEntity.setIsDeleted(false);
         customerEntity.setCreateTime(Instant.now());
         customerEntity.setCreateUser(UserUtil.getUserUuid());
-        customerEntity.setIsDeleted(false);
         return customerRepository.save(customerEntity);
     }
 
@@ -69,8 +69,6 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerEntity delete(UUID uuid) {
         CustomerEntity customerEntity = findByUuid(uuid);
-        customerEntity.setModifiedTime(Instant.now());
-        customerEntity.setModifiedUser(UserUtil.getUserUuid());
         customerEntity.setIsDeleted(true);
         customerEntity.setDeletedTime(Instant.now());
         customerEntity.setDeletedUser(UserUtil.getUserUuid());
@@ -92,7 +90,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Page<CustomerEntity> findByPage(Pageable pageable, String keyword, CustomerStatus status) {
+    public Page<CustomerEntity> findPage(Pageable pageable, String keyword, CustomerStatus status) {
         return customerRepository.findByPage(
                 pageable,
                 keyword,

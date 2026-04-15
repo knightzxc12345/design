@@ -52,7 +52,7 @@ public class PermissionEditUseCaseImpl implements PermissionEditUseCase {
         collectPermissionUuids(request.permissions(), permissionUuids);
         // 驗證 permission 是否存在
         Map<UUID, PermissionEntity> permissionMap =
-                permissionService.findAllByUuids(permissionUuids)
+                permissionService.findAllInUuids(permissionUuids)
                         .stream()
                         .collect(Collectors.toMap(PermissionEntity::getUuid, Function.identity()));
         if (permissionMap.size() != permissionUuids.size()) {

@@ -18,8 +18,15 @@ public interface SupplierService {
 
     SupplierEntity findByUuid(UUID uuid);
 
-    List<SupplierEntity> findAll(String keyword, SupplierStatus status);
+    List<SupplierEntity> findAll(
+            String keyword,
+            SupplierStatus status
+    );
 
-    Page<SupplierEntity> findByPage(Pageable pageable, String keyword, SupplierStatus status);
+    Page<SupplierEntity> findPage(
+            Pageable pageable,
+            String keyword,
+            SupplierStatus status
+    );
 
 }

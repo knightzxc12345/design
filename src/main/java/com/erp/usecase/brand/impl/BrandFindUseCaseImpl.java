@@ -42,7 +42,7 @@ public class BrandFindUseCaseImpl implements BrandFindUseCase {
 
     @Override
     public PageResponse<BrandFindAllResponse> findByPage(BrandPageRequest request) {
-        Page<BrandEntity> brandEntityPage = brandService.findByPage(
+        Page<BrandEntity> brandEntityPage = brandService.findPage(
                 PageRequest.of(request.page(), request.size()),
                 request.keyword(),
                 request.status()

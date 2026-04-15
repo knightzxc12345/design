@@ -88,8 +88,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity delete(UUID uuid) {
         UserEntity userEntity = findByUuid(uuid);
-        userEntity.setModifiedTime(Instant.now());
-        userEntity.setModifiedUser(UserUtil.getUserUuid());
         userEntity.setIsDeleted(true);
         userEntity.setDeletedTime(Instant.now());
         userEntity.setDeletedUser(UserUtil.getUserUuid());
@@ -122,7 +120,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserEntity> findByPage(Pageable pageable, String keyword, UserStatus status) {
+    public Page<UserEntity> findPage(Pageable pageable, String keyword, UserStatus status) {
         return userRepository.findByPage(
                 pageable,
                 keyword,

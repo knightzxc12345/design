@@ -21,9 +21,9 @@ public class SupplierContractServiceImpl implements SupplierContractService {
 
     @Override
     public SupplierContractEntity create(SupplierContractEntity supplierContractEntity) {
+        supplierContractEntity.setIsDeleted(false);
         supplierContractEntity.setCreateTime(Instant.now());
         supplierContractEntity.setCreateUser(UserUtil.getUserUuid());
-        supplierContractEntity.setIsDeleted(false);
         return supplierContractRepository.save(supplierContractEntity);
     }
 

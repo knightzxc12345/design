@@ -47,7 +47,7 @@ public class UserFindUseCaseImpl implements UserFindUseCase {
     @Transactional(readOnly = true)
     @Override
     public PageResponse<UserFindAllResponse> findByPage(UserPageRequest request) {
-        Page<UserEntity> userEntityPage = userService.findByPage(
+        Page<UserEntity> userEntityPage = userService.findPage(
                 PageRequest.of(request.page(), request.size()),
                 request.keyword(),
                 request.status()

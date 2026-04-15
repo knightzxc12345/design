@@ -67,7 +67,7 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<PermissionEntity> findAllByUuids(List<UUID> uuids) {
+    public List<PermissionEntity> findAllInUuids(List<UUID> uuids) {
         return permissionRepository.findByIsDeletedFalseAndUuidIn(uuids);
     }
 

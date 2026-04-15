@@ -19,6 +19,6 @@ public interface PermissionService {
 
     List<PermissionEntity> findAll();
 
-    List<PermissionEntity> findAllByUuids(List<UUID> uuids);
+    List<PermissionEntity> findAllInUuids(List<UUID> uuids);
 
 }

@@ -48,7 +48,7 @@ public class AuthLoginUseCaseImpl implements AuthLoginUseCase {
         List<UUID> permissions = rolePermissionEntities.stream()
                 .map(RolePermissionEntity::getPermissionUuid)
                 .toList();
-        List<PermissionEntity> permissionEntities = permissionService.findAllByUuids(permissions);
+        List<PermissionEntity> permissionEntities = permissionService.findAllInUuids(permissions);
         String redisPermissionKey = String.format("%s:%s", Common.REDIS_PERMISSION_KEY, userEntity.getUuid());
         Set<String> permissionCodes = permissionEntities.stream()
                 .map(PermissionEntity::getCode)

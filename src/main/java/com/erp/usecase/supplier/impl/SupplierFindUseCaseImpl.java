@@ -15,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -60,7 +59,7 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
 
     @Override
     public PageResponse<SupplierFindAllResponse> findByPage(SupplierPageRequest request) {
-        Page<SupplierEntity> supplierEntityPage = supplierService.findByPage(
+        Page<SupplierEntity> supplierEntityPage = supplierService.findPage(
                 PageRequest.of(request.page(), request.size()),
                 request.keyword(),
                 request.status()
