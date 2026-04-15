@@ -13,8 +13,6 @@ public interface SupplierContractRepository extends JpaRepository<SupplierContra
 
     Optional<SupplierContractEntity> findByIsDeletedFalseAndUuid(UUID uuid);
 
-    List<SupplierContractEntity> findByIsDeletedFalseOrderByNameAsc();
-
-    List<SupplierContractEntity> findByIsDeletedFalseAndSupplierUuidOrderByNameAsc(UUID supplierUuid);
+    List<SupplierContractEntity> findByIsDeletedFalseAndSupplierUuid(UUID supplierUuid);
 
 }

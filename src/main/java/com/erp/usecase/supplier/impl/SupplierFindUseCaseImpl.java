@@ -87,7 +87,7 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
 
     private PageResponse<SupplierFindAllResponse> formatPage(Page<SupplierEntity> supplierEntityPage){
         List<SupplierFindAllResponse> responses = formatList(supplierEntityPage.getContent());
-        return new PageResponse(
+        return new PageResponse<SupplierFindAllResponse>(
                 supplierEntityPage.getNumber(),
                 supplierEntityPage.getSize(),
                 supplierEntityPage.getTotalElements(),

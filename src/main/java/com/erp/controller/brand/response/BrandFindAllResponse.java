@@ -1,19 +1,14 @@
-package com.erp.controller.category.response;
+package com.erp.controller.brand.response;
 
-import com.erp.entity.enums.CategoryStatus;
+import com.erp.entity.enums.BrandStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
-public record CategoryFindResponse(
+public record BrandFindAllResponse(
 
         @Schema(description = "uuid", example = "319e7e1d-ca74-4500-b2f9-d3d2d2a6ffbe")
         UUID uuid,
-
-        @Schema(description = "品牌Uuid", example = "319e7e1d-ca74-4500-b2f9-d3d2d2a6ffbe")
-        @NotNull(message = "品牌uuid不得為空")
-        UUID brandUuid,
 
         @Schema(description = "名稱", example = "test")
         String name,
@@ -25,7 +20,7 @@ public record CategoryFindResponse(
         String description,
 
         @Schema(description = "狀態", example = "ENABLE")
-        CategoryStatus status
+        BrandStatus status
 
 ) {
 }

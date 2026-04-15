@@ -13,10 +13,10 @@ public interface SupplierContractService {
 
     SupplierContractEntity delete(UUID uuid);
 
-    void deleteAll(List<SupplierContractEntity> supplierContractEntities);
+    void deleteAll(UUID supplierUuid);
 
     SupplierContractEntity findByUuid(UUID uuid);
 
-    List<SupplierContractEntity> findAll(UUID supplierUuid);
+    List<SupplierContractEntity> findAllBySupplierUuid(UUID supplierUuid);
 
 }

@@ -13,8 +13,8 @@ public interface CategoryFindUseCase {
 
     CategoryFindResponse findDetail(UUID uuid);
 
-    List<CategoryFindAllResponse> findAll(CategoryFindRequest request);
+    List<CategoryFindAllResponse> findAll(UUID brandUuid, CategoryFindRequest request);
 
-    PageResponse<CategoryFindAllResponse> findByPage(CategoryPageRequest request);
+    PageResponse<CategoryFindAllResponse> findByPage(UUID brandUuid, CategoryPageRequest request);
 
 }

@@ -44,7 +44,8 @@ public class SupplierContractServiceImpl implements SupplierContractService {
     }
 
     @Override
-    public void deleteAll(List<SupplierContractEntity> supplierContractEntities) {
+    public void deleteAll(UUID supplierUuid) {
+        List<SupplierContractEntity> supplierContractEntities = supplierContractRepository.findByIsDeletedFalseAndSupplierUuid(supplierUuid);
         if(null == supplierContractEntities || supplierContractEntities.isEmpty()){
             return;
         }
@@ -65,11 +66,8 @@ public class SupplierContractServiceImpl implements SupplierContractService {
     }
 
     @Override
-    public List<SupplierContractEntity> findAll(UUID supplierUuid) {
-        if(null == supplierUuid){
-            return supplierContractRepository.findByIsDeletedFalseOrderByNameAsc();
-        }
-        return supplierContractRepository.findByIsDeletedFalseAndSupplierUuidOrderByNameAsc(supplierUuid);
+    public List<SupplierContractEntity> findAllBySupplierUuid(UUID supplierUuid) {
+        return supplierContractRepository.findByIsDeletedFalseAndSupplierUuid(supplierUuid);
     }
 
 }

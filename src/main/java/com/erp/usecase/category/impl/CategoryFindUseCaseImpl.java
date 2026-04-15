@@ -27,6 +27,7 @@ public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
         CategoryEntity categoryEntity = categoryService.findByUuid(uuid);
         return new CategoryFindResponse(
                 categoryEntity.getUuid(),
+                categoryEntity.getBrandUuid(),
                 categoryEntity.getName(),
                 categoryEntity.getCode(),
                 categoryEntity.getDescription(),
@@ -35,15 +36,20 @@ public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
     }
 
     @Override
-    public List<CategoryFindAllResponse> findAll(CategoryFindRequest request) {
-        List<CategoryEntity> categoryEntities = categoryService.findAll(request.keyword(), request.status());
+    public List<CategoryFindAllResponse> findAll(UUID brandUuid, CategoryFindRequest request) {
+        List<CategoryEntity> categoryEntities = categoryService.findAll(
+                brandUuid,
+                request.keyword(),
+                request.status()
+        );
         return formatList(categoryEntities);
     }
 
     @Override
-    public PageResponse<CategoryFindAllResponse> findByPage(CategoryPageRequest request) {
+    public PageResponse<CategoryFindAllResponse> findByPage(UUID brandUuid, CategoryPageRequest request) {
         Page<CategoryEntity> categoryEntityPage = categoryService.findByPage(
                 PageRequest.of(request.page(), request.size()),
+                brandUuid,
                 request.keyword(),
                 request.status()
         );
@@ -57,6 +63,7 @@ public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
         return categoryEntities.stream()
                 .map(categoryEntity -> new CategoryFindAllResponse(
                     categoryEntity.getUuid(),
+                    categoryEntity.getBrandUuid(),
                     categoryEntity.getName(),
                     categoryEntity.getCode(),
                     categoryEntity.getDescription(),
@@ -67,7 +74,7 @@ public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
 
     private PageResponse<CategoryFindAllResponse> formatPage(Page<CategoryEntity> categoryEntityPage){
         List<CategoryFindAllResponse> responses = formatList(categoryEntityPage.getContent());
-        return new PageResponse<>(
+        return new PageResponse<CategoryFindAllResponse>(
                 categoryEntityPage.getNumber(),
                 categoryEntityPage.getSize(),
                 categoryEntityPage.getTotalElements(),

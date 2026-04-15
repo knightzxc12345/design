@@ -31,7 +31,7 @@ public class SupplierContractFindUseCaseImpl implements SupplierContractFindUseC
 
     @Override
     public List<SupplierContractFindAllResponse> findAll(UUID supplierUuid) {
-        List<SupplierContractEntity> supplierContractEntities = supplierContractService.findAll(supplierUuid);
+        List<SupplierContractEntity> supplierContractEntities = supplierContractService.findAllBySupplierUuid(supplierUuid);
         return formatList(supplierContractEntities);
     }
 

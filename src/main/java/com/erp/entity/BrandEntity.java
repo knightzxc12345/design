@@ -1,6 +1,6 @@
 package com.erp.entity;
 
-import com.erp.entity.enums.CategoryStatus;
+import com.erp.entity.enums.BrandStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,10 +10,10 @@ import lombok.experimental.SuperBuilder;
 import java.time.Instant;
 import java.util.UUID;
 
-// 種類
-@Table(name = "category", indexes = {
-        @Index(name = "category_find", columnList = "uuid, is_deleted"),
-        @Index(name = "category_find_all", columnList = "pk, is_deleted")
+// 品牌
+@Table(name = "brand", indexes = {
+        @Index(name = "brand_find", columnList = "uuid, is_deleted"),
+        @Index(name = "brand_find_all", columnList = "pk, is_deleted")
 })
 @Entity
 @ToString(callSuper = true)
@@ -22,16 +22,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class CategoryEntity extends BaseEntity {
-
-    // 品牌id
-    @Column(
-            name = "brand_uuid",
-            nullable = false,
-            length = 36
-    )
-    @NotNull
-    private UUID brandUuid;
+public class BrandEntity extends BaseEntity {
 
     // 名稱
     @Column(
@@ -66,7 +57,7 @@ public class CategoryEntity extends BaseEntity {
     )
     @Enumerated(EnumType.STRING)
     @NotNull
-    private CategoryStatus status;
+    private BrandStatus status;
 
     // 是否刪除
     @Column(

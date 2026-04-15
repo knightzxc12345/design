@@ -22,6 +22,8 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
 
     Optional<CategoryEntity> findByIsDeletedFalseAndUuid(UUID uuid);
 
+    List<CategoryEntity> findByIsDeletedFalseAndBrandUuid(UUID brandUuid);
+
     @Query(value =
             """
             SELECT
@@ -30,6 +32,7 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
                 CategoryEntity c
             WHERE
                 c.isDeleted = false
+                AND (c.brandUuid = :brandUuid)
                 AND
                 (
                     :keyword IS NULL OR
@@ -41,6 +44,7 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
                 c.pk
             """)
     List<CategoryEntity> findAll(
+            @Param("brandUuid") UUID brandUuid,
             @Param("keyword") String keyword,
             @Param("status") CategoryStatus status
     );
@@ -53,6 +57,7 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
                 CategoryEntity c
             WHERE
                 c.isDeleted = false
+                AND (c.brandUuid = :brandUuid)
                 AND
                 (
                     :keyword IS NULL OR
@@ -65,6 +70,7 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
             """)
     Page<CategoryEntity> findByPage(
             Pageable pageable,
+            @Param("brandUuid") UUID brandUuid,
             @Param("keyword") String keyword,
             @Param("status") CategoryStatus status
     );

@@ -81,7 +81,7 @@ public class CustomerFindUseCaseImpl implements CustomerFindUseCase {
 
     private PageResponse<CustomerFindAllResponse> formatPage(Page<CustomerEntity> customerEntityPage){
         List<CustomerFindAllResponse> responses = formatList(customerEntityPage.getContent());
-        return new PageResponse(
+        return new PageResponse<CustomerFindAllResponse>(
                 customerEntityPage.getNumber(),
                 customerEntityPage.getSize(),
                 customerEntityPage.getTotalElements(),

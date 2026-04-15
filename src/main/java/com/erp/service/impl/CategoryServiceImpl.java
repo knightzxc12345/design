@@ -76,23 +76,53 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public List<CategoryEntity> deleteAllByBrandUuid(UUID brandUuid) {
+        List<CategoryEntity> categoryEntities = findAllByBrandUuid(brandUuid);
+        if(null == categoryEntities || categoryEntities.isEmpty()){
+            return List.of();
+        }
+        Instant now = Instant.now();
+        UUID userUuid = UserUtil.getUserUuid();
+        categoryEntities.forEach(entity -> {
+            entity.setIsDeleted(true);
+            entity.setDeletedTime(now);
+            entity.setDeletedUser(userUuid);
+        });
+        return categoryRepository.saveAll(categoryEntities);
+    }
+
+    @Override
     public CategoryEntity findByUuid(UUID uuid) {
         return categoryRepository.findByIsDeletedFalseAndUuid(uuid)
                 .orElseThrow(() -> new BusinessException(CategoryCode.NOT_EXISTS));
     }
 
     @Override
-    public List<CategoryEntity> findAll(String keyword, CategoryStatus categoryStatus) {
+    public List<CategoryEntity> findAll(
+            UUID brandUuid,
+            String keyword,
+            CategoryStatus categoryStatus) {
         return categoryRepository.findAll(
+                brandUuid,
                 keyword,
                 categoryStatus
         );
     }
 
     @Override
-    public Page<CategoryEntity> findByPage(Pageable pageable, String keyword, CategoryStatus categoryStatus) {
+    public List<CategoryEntity> findAllByBrandUuid(UUID brandUuid) {
+        return categoryRepository.findByIsDeletedFalseAndBrandUuid(brandUuid);
+    }
+
+    @Override
+    public Page<CategoryEntity> findByPage(
+            Pageable pageable,
+            UUID brandUuid,
+            String keyword,
+            CategoryStatus categoryStatus) {
         return categoryRepository.findByPage(
                 pageable,
+                brandUuid,
                 keyword,
                 categoryStatus
         );
