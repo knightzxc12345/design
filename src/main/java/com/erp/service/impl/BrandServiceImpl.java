@@ -91,7 +91,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override
     public Page<BrandEntity> findPage(Pageable pageable, String keyword, BrandStatus brandStatus) {
-        return brandRepository.findByPage(
+        return brandRepository.findPage(
                 pageable,
                 keyword,
                 brandStatus

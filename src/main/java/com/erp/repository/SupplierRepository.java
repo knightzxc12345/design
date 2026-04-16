@@ -1,6 +1,5 @@
 package com.erp.repository;
 
-import com.erp.entity.CustomerEntity;
 import com.erp.entity.SupplierEntity;
 import com.erp.entity.enums.SupplierStatus;
 import org.springframework.data.domain.Page;
@@ -70,7 +69,7 @@ public interface SupplierRepository extends JpaRepository<SupplierEntity, Long> 
             ORDER BY
                 s.name
             """)
-    Page<SupplierEntity> findByPage(
+    Page<SupplierEntity> findPage(
             Pageable pageable,
             @Param("keyword") String keyword,
             @Param("SupplierStatus") SupplierStatus status

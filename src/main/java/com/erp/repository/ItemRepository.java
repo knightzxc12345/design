@@ -17,7 +17,7 @@ import java.util.UUID;
 @Repository
 public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
-    Optional<ItemEntity> findByIsDeletedFalseAndSkuCode(String skuCode);
+    Optional<ItemEntity> findByIsDeletedFalseAndProductUuidAndSkuCode(UUID productUuid, String skuCode);
 
     Optional<ItemEntity> findByIsDeletedFalseAndUuid(UUID uuid);
 
@@ -29,6 +29,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 ItemEntity i
             WHERE
                 i.isDeleted = false
+                AND (c.productUuid = :productUuid)
                 AND
                 (
                     :keyword IS NULL OR
@@ -39,6 +40,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 i.pk
             """)
     List<ItemEntity> findAll(
+            @Param("productUuid") UUID productUuid,
             @Param("keyword") String keyword,
             @Param("status") ItemStatus status
     );
@@ -51,6 +53,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 ItemEntity i
             WHERE
                 i.isDeleted = false
+                AND (c.productUuid = :productUuid)
                 AND
                 (
                     :keyword IS NULL OR
@@ -60,8 +63,9 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
             ORDER BY
                 i.pk
             """)
-    Page<ItemEntity> findByPage(
+    Page<ItemEntity> findPage(
             Pageable pageable,
+            @Param("productUuid") UUID productUuid,
             @Param("keyword") String keyword,
             @Param("status") ItemStatus status
     );

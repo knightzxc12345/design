@@ -25,13 +25,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryEntity create(CategoryEntity categoryEntity) {
         // 檢查名稱
-        categoryRepository.findByIsDeletedFalseAndName(
+        categoryRepository.findByIsDeletedFalseAndBrandUuidAndName(
+                categoryEntity.getBrandUuid(),
                 categoryEntity.getName()
         ).ifPresent(c -> {
             throw new BusinessException(CategoryCode.DUPLICATE_NAME);
         });
         // 檢查代碼
-        categoryRepository.findByIsDeletedFalseAndCode(
+        categoryRepository.findByIsDeletedFalseAndBrandUuidAndCode(
+                categoryEntity.getBrandUuid(),
                 categoryEntity.getCode()
         ).ifPresent(c -> {
             throw new BusinessException(CategoryCode.DUPLICATE_CODE);
@@ -46,7 +48,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryEntity edit(CategoryEntity categoryEntity) {
         // 檢查名稱
-        categoryRepository.findByIsDeletedFalseAndName(
+        categoryRepository.findByIsDeletedFalseAndBrandUuidAndName(
+                categoryEntity.getBrandUuid(),
                 categoryEntity.getName()
         ).ifPresent(c -> {
             if(!c.getUuid().equals(categoryEntity.getUuid())){
@@ -54,7 +57,8 @@ public class CategoryServiceImpl implements CategoryService {
             }
         });
         // 檢查代碼
-        categoryRepository.findByIsDeletedFalseAndCode(
+        categoryRepository.findByIsDeletedFalseAndBrandUuidAndCode(
+                categoryEntity.getBrandUuid(),
                 categoryEntity.getCode()
         ).ifPresent(c -> {
             if(!c.getUuid().equals(categoryEntity.getUuid())){
@@ -120,7 +124,7 @@ public class CategoryServiceImpl implements CategoryService {
             UUID brandUuid,
             String keyword,
             CategoryStatus categoryStatus) {
-        return categoryRepository.findByPage(
+        return categoryRepository.findPage(
                 pageable,
                 brandUuid,
                 keyword,

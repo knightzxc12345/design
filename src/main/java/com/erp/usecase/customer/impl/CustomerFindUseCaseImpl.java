@@ -51,7 +51,7 @@ public class CustomerFindUseCaseImpl implements CustomerFindUseCase {
 
     @Transactional(readOnly = true)
     @Override
-    public PageResponse<CustomerFindAllResponse> findByPage(CustomerPageRequest request) {
+    public PageResponse<CustomerFindAllResponse> findPage(CustomerPageRequest request) {
         Page<CustomerEntity> customerEntityPage = customerService.findPage(
                 PageRequest.of(request.page(), request.size()),
                 request.keyword(),

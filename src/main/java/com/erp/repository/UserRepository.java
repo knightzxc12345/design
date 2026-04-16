@@ -1,7 +1,6 @@
 package com.erp.repository;
 
 import com.erp.entity.UserEntity;
-import com.erp.entity.enums.SupplierStatus;
 import com.erp.entity.enums.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,7 +65,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             ORDER BY
                 u.pk
             """)
-    Page<UserEntity> findByPage(
+    Page<UserEntity> findPage(
             Pageable pageable,
             @Param("keyword") String keyword,
             @Param("status") UserStatus status

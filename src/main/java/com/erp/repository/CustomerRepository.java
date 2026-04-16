@@ -65,7 +65,7 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long> 
             ORDER BY
                 c.name
             """)
-    Page<CustomerEntity> findByPage(
+    Page<CustomerEntity> findPage(
             Pageable pageable,
             @Param("keyword") String keyword,
             @Param("CustomerStatus") CustomerStatus status

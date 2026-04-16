@@ -120,7 +120,7 @@ public class CustomerController {
     })
     public CustomResponse findPage(
             @Validated CustomerPageRequest request) {
-        PageResponse<CustomerFindAllResponse> response = customerFindUseCase.findByPage(request);
+        PageResponse<CustomerFindAllResponse> response = customerFindUseCase.findPage(request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 

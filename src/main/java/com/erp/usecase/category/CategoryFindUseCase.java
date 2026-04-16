@@ -15,6 +15,6 @@ public interface CategoryFindUseCase {
 
     List<CategoryFindAllResponse> findAll(UUID brandUuid, CategoryFindRequest request);
 
-    PageResponse<CategoryFindAllResponse> findByPage(UUID brandUuid, CategoryPageRequest request);
+    PageResponse<CategoryFindAllResponse> findPage(UUID brandUuid, CategoryPageRequest request);
 
 }

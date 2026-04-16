@@ -15,6 +15,6 @@ public interface BrandFindUseCase {
 
     List<BrandFindAllResponse> findAll(BrandFindRequest request);
 
-    PageResponse<BrandFindAllResponse> findByPage(BrandPageRequest request);
+    PageResponse<BrandFindAllResponse> findPage(BrandPageRequest request);
 
 }

@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -26,10 +27,11 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
 
     private final SupplierContractService supplierContractService;
 
+    @Transactional(readOnly = true)
     @Override
     public SupplierFindResponse findDetail(UUID uuid) {
         SupplierEntity supplierEntity = supplierService.findByUuid(uuid);
-        List<SupplierContractEntity> supplierContractEntities = supplierContractService.findAll(supplierEntity.getUuid());
+        List<SupplierContractEntity> supplierContractEntities = supplierContractService.findAllBySupplierUuid(supplierEntity.getUuid());
         return new SupplierFindResponse(
                 supplierEntity.getUuid(),
                 supplierEntity.getName(),
@@ -51,14 +53,16 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<SupplierFindAllResponse> findAll(SupplierFindRequest request) {
         List<SupplierEntity> supplierEntities = supplierService.findAll(request.keyword(), request.status());
         return formatList(supplierEntities);
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public PageResponse<SupplierFindAllResponse> findByPage(SupplierPageRequest request) {
+    public PageResponse<SupplierFindAllResponse> findPage(SupplierPageRequest request) {
         Page<SupplierEntity> supplierEntityPage = supplierService.findPage(
                 PageRequest.of(request.page(), request.size()),
                 request.keyword(),

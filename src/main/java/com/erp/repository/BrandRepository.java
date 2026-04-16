@@ -63,7 +63,7 @@ public interface BrandRepository extends JpaRepository<BrandEntity, Long> {
             ORDER BY
                 b.pk
             """)
-    Page<BrandEntity> findByPage(
+    Page<BrandEntity> findPage(
             Pageable pageable,
             @Param("keyword") String keyword,
             @Param("status") BrandStatus status

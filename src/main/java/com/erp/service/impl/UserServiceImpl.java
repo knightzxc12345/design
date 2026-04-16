@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<UserEntity> findPage(Pageable pageable, String keyword, UserStatus status) {
-        return userRepository.findByPage(
+        return userRepository.findPage(
                 pageable,
                 keyword,
                 status

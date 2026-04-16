@@ -15,6 +15,6 @@ public interface CustomerFindUseCase {
 
     List<CustomerFindAllResponse> findAll(CustomerFindRequest request);
 
-    PageResponse<CustomerFindAllResponse> findByPage(CustomerPageRequest request);
+    PageResponse<CustomerFindAllResponse> findPage(CustomerPageRequest request);
 
 }

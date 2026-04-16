@@ -122,7 +122,7 @@ public class CategoryController {
     public CustomResponse findPage(
             @PathVariable("uuid") @NotNull UUID brandUuid,
             @Validated CategoryPageRequest request) {
-        PageResponse<CategoryFindAllResponse> response = categoryFindUseCase.findByPage(brandUuid, request);
+        PageResponse<CategoryFindAllResponse> response = categoryFindUseCase.findPage(brandUuid, request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 

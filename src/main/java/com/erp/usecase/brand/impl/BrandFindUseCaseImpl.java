@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,6 +23,7 @@ public class BrandFindUseCaseImpl implements BrandFindUseCase {
 
     private final BrandService brandService;
 
+    @Transactional(readOnly = true)
     @Override
     public BrandFindResponse findDetail(UUID uuid) {
         BrandEntity brandEntity = brandService.findByUuid(uuid);
@@ -34,14 +36,16 @@ public class BrandFindUseCaseImpl implements BrandFindUseCase {
         );
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<BrandFindAllResponse> findAll(BrandFindRequest request) {
         List<BrandEntity> brandEntities = brandService.findAll(request.keyword(), request.status());
         return formatList(brandEntities);
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public PageResponse<BrandFindAllResponse> findByPage(BrandPageRequest request) {
+    public PageResponse<BrandFindAllResponse> findPage(BrandPageRequest request) {
         Page<BrandEntity> brandEntityPage = brandService.findPage(
                 PageRequest.of(request.page(), request.size()),
                 request.keyword(),

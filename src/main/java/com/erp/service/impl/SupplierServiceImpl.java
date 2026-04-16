@@ -1,7 +1,6 @@
 package com.erp.service.impl;
 
 import com.erp.base.response.enums.SupplierCode;
-import com.erp.base.response.enums.UserCode;
 import com.erp.entity.SupplierEntity;
 import com.erp.entity.enums.SupplierStatus;
 import com.erp.handler.BusinessException;
@@ -89,7 +88,7 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     public Page<SupplierEntity> findPage(Pageable pageable, String keyword, SupplierStatus status) {
-        return supplierRepository.findByPage(pageable, keyword, status);
+        return supplierRepository.findPage(pageable, keyword, status);
     }
 
 }

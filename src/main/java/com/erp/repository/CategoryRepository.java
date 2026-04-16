@@ -16,9 +16,9 @@ import java.util.UUID;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
 
-    Optional<CategoryEntity> findByIsDeletedFalseAndName(String name);
+    Optional<CategoryEntity> findByIsDeletedFalseAndBrandUuidAndName(UUID brandUuid, String name);
 
-    Optional<CategoryEntity> findByIsDeletedFalseAndCode(String code);
+    Optional<CategoryEntity> findByIsDeletedFalseAndBrandUuidAndCode(UUID brandUuid, String code);
 
     Optional<CategoryEntity> findByIsDeletedFalseAndUuid(UUID uuid);
 
@@ -68,7 +68,7 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> 
             ORDER BY
                 c.pk
             """)
-    Page<CategoryEntity> findByPage(
+    Page<CategoryEntity> findPage(
             Pageable pageable,
             @Param("brandUuid") UUID brandUuid,
             @Param("keyword") String keyword,

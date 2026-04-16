@@ -120,7 +120,7 @@ public class BrandController {
     })
     public CustomResponse findPage(
             @Validated BrandPageRequest request) {
-        PageResponse<BrandFindAllResponse> response = brandFindUseCase.findByPage(request);
+        PageResponse<BrandFindAllResponse> response = brandFindUseCase.findPage(request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 

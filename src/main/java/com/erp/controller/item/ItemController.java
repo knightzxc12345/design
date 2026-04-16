@@ -1,19 +1,19 @@
-package com.erp.controller.supplier;
+package com.erp.controller.item;
 
 import com.erp.aop.annotation.Permission;
 import com.erp.base.response.CustomResponse;
 import com.erp.base.response.PageResponse;
 import com.erp.base.response.enums.SystemCode;
-import com.erp.controller.supplier.request.SupplierCreateRequest;
-import com.erp.controller.supplier.request.SupplierEditRequest;
-import com.erp.controller.supplier.request.SupplierFindRequest;
-import com.erp.controller.supplier.request.SupplierPageRequest;
-import com.erp.controller.supplier.response.SupplierFindAllResponse;
-import com.erp.controller.supplier.response.SupplierFindResponse;
-import com.erp.usecase.supplier.SupplierCreateUseCase;
-import com.erp.usecase.supplier.SupplierDeleteUseCase;
-import com.erp.usecase.supplier.SupplierEditUseCase;
-import com.erp.usecase.supplier.SupplierFindUseCase;
+import com.erp.controller.item.request.ItemCreateRequest;
+import com.erp.controller.item.request.ItemEditRequest;
+import com.erp.controller.item.request.ItemFindRequest;
+import com.erp.controller.item.request.ItemPageRequest;
+import com.erp.controller.item.response.ItemFindAllResponse;
+import com.erp.controller.item.response.ItemFindResponse;
+import com.erp.usecase.item.ItemCreateUseCase;
+import com.erp.usecase.item.ItemDeleteUseCase;
+import com.erp.usecase.item.ItemEditUseCase;
+import com.erp.usecase.item.ItemFindUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,89 +29,90 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/supplier")
-@Tag(name = "供應商")
+@RequestMapping("/item")
+@Tag(name = "品項")
 @RestController
 @RequiredArgsConstructor
 @Validated
-public class SupplierController {
+public class ItemController {
 
-    private final SupplierCreateUseCase supplierCreateUseCase;
+    private final ItemCreateUseCase itemCreateUseCase;
 
-    private final SupplierEditUseCase supplierEditUseCase;
+    private final ItemEditUseCase itemEditUseCase;
 
-    private final SupplierDeleteUseCase supplierDeleteUseCase;
+    private final ItemDeleteUseCase itemDeleteUseCase;
 
-    private final SupplierFindUseCase supplierFindUseCase;
+    private final ItemFindUseCase itemFindUseCase;
 
-    @Permission("SUPPLIER:CREATE")
+    @Permission("ITEM:CREATE")
     @Operation(summary = "建立")
     @PostMapping(
             value = "v1"
     )
     public CustomResponse create(
-            @RequestBody @Validated @NotNull SupplierCreateRequest request) {
-        supplierCreateUseCase.create(request);
+            @RequestBody @Validated @NotNull ItemCreateRequest request) {
+        itemCreateUseCase.create(request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
-    @Permission("SUPPLIER:EDIT")
+    @Permission("ITEM:EDIT")
     @Operation(summary = "編輯")
     @PutMapping(
             value = "v1/{uuid}"
     )
     public CustomResponse edit(
             @PathVariable("uuid") @NotNull UUID uuid,
-            @RequestBody @Validated @NotNull SupplierEditRequest request) {
-        supplierEditUseCase.edit(uuid, request);
+            @RequestBody @Validated @NotNull ItemEditRequest request) {
+        itemEditUseCase.edit(uuid, request);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
-    @Permission("SUPPLIER:DELETE")
+    @Permission("ITEM:DELETE")
     @Operation(summary = "刪除")
     @DeleteMapping(
             value = "v1/{uuid}"
     )
     public CustomResponse delete(
             @PathVariable("uuid") @NotNull UUID uuid) {
-        supplierDeleteUseCase.delete(uuid);
+        itemDeleteUseCase.delete(uuid);
         return new CustomResponse(SystemCode.SUCCESS);
     }
 
-    @Permission("SUPPLIER:READ")
+    @Permission("ITEM:READ")
     @Operation(summary = "透過Id取得")
     @GetMapping(
             value = "v1/{uuid}"
     )
     @ApiResponse(responseCode = "200", description = "OK", content = {
-            @Content(schema = @Schema(implementation = SupplierFindResponse.class))
+            @Content(schema = @Schema(implementation = ItemFindResponse.class))
     })
     public CustomResponse findByUuid(
             @PathVariable("uuid") @NotNull UUID uuid) {
-        SupplierFindResponse response = supplierFindUseCase.findDetail(uuid);
+        ItemFindResponse response = itemFindUseCase.findDetail(uuid);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 
-    @Permission("SUPPLIER:READ")
+    @Permission("ITEM:READ")
     @Operation(summary = "取得清單")
     @GetMapping(
-            value = "v1/all"
+            value = "v1/all/{productUuid}"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200 - 清單", description = "OK", content = {
-                    @Content(array = @ArraySchema(schema = @Schema(implementation = SupplierFindAllResponse.class))),
+                    @Content(array = @ArraySchema(schema = @Schema(implementation = ItemFindAllResponse.class))),
             }),
     })
     public CustomResponse findAll(
-            @Validated SupplierFindRequest request) {
-        List<SupplierFindAllResponse> responses = supplierFindUseCase.findAll(request);
+            @PathVariable("uuid") @NotNull UUID brandUuid,
+            @Validated ItemFindRequest request) {
+        List<ItemFindAllResponse> responses = itemFindUseCase.findAll(brandUuid, request);
         return new CustomResponse(SystemCode.SUCCESS, responses);
     }
 
-    @Permission("SUPPLIER:READ")
+    @Permission("ITEM:READ")
     @Operation(summary = "取得分頁")
     @GetMapping(
-            value = "v1/page"
+            value = "v1/page/{productUuid}"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200 - 清單", description = "OK", content = {
@@ -119,8 +120,9 @@ public class SupplierController {
             }),
     })
     public CustomResponse findPage(
-            @Validated SupplierPageRequest request) {
-        PageResponse<SupplierFindAllResponse> response = supplierFindUseCase.findPage(request);
+            @PathVariable("uuid") @NotNull UUID brandUuid,
+            @Validated ItemPageRequest request) {
+        PageResponse<ItemFindAllResponse> response = itemFindUseCase.findPage(brandUuid, request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 

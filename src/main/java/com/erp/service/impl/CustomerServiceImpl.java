@@ -91,7 +91,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Page<CustomerEntity> findPage(Pageable pageable, String keyword, CustomerStatus status) {
-        return customerRepository.findByPage(
+        return customerRepository.findPage(
                 pageable,
                 keyword,
                 status

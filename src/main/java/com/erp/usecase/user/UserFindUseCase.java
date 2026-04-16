@@ -15,6 +15,6 @@ public interface UserFindUseCase {
 
     List<UserFindAllResponse> findAll(UserFindRequest request);
 
-    PageResponse<UserFindAllResponse> findByPage(UserPageRequest request);
+    PageResponse<UserFindAllResponse> findPage(UserPageRequest request);
 
 }
