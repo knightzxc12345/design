@@ -28,7 +28,7 @@ public class ProductEntity extends BaseEntity {
     @Column(
             name = "name",
             nullable = false,
-            length = 128
+            length = 64
     )
     @NotBlank
     private String name;

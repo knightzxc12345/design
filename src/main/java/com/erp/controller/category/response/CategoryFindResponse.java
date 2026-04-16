@@ -2,7 +2,6 @@ package com.erp.controller.category.response;
 
 import com.erp.entity.enums.CategoryStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
@@ -10,10 +9,6 @@ public record CategoryFindResponse(
 
         @Schema(description = "uuid", example = "319e7e1d-ca74-4500-b2f9-d3d2d2a6ffbe")
         UUID uuid,
-
-        @Schema(description = "品牌Uuid", example = "319e7e1d-ca74-4500-b2f9-d3d2d2a6ffbe")
-        @NotNull(message = "品牌uuid不得為空")
-        UUID brandUuid,
 
         @Schema(description = "名稱", example = "test")
         String name,

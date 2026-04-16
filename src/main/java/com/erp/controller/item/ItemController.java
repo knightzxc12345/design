@@ -103,9 +103,9 @@ public class ItemController {
             }),
     })
     public CustomResponse findAll(
-            @PathVariable("uuid") @NotNull UUID brandUuid,
+            @PathVariable("uuid") @NotNull UUID productUuid,
             @Validated ItemFindRequest request) {
-        List<ItemFindAllResponse> responses = itemFindUseCase.findAll(brandUuid, request);
+        List<ItemFindAllResponse> responses = itemFindUseCase.findAll(productUuid, request);
         return new CustomResponse(SystemCode.SUCCESS, responses);
     }
 
@@ -120,9 +120,9 @@ public class ItemController {
             }),
     })
     public CustomResponse findPage(
-            @PathVariable("uuid") @NotNull UUID brandUuid,
+            @PathVariable("uuid") @NotNull UUID productUuid,
             @Validated ItemPageRequest request) {
-        PageResponse<ItemFindAllResponse> response = itemFindUseCase.findPage(brandUuid, request);
+        PageResponse<ItemFindAllResponse> response = itemFindUseCase.findPage(productUuid, request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 

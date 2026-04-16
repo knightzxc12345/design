@@ -24,15 +24,6 @@ import java.util.UUID;
 @SuperBuilder
 public class CategoryEntity extends BaseEntity {
 
-    // 品牌id
-    @Column(
-            name = "brand_uuid",
-            nullable = false,
-            length = 36
-    )
-    @NotNull
-    private UUID brandUuid;
-
     // 名稱
     @Column(
             name = "name",

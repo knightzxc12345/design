@@ -2,16 +2,9 @@ package com.erp.controller.category.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.UUID;
-
 public record CategoryCreateRequest(
-
-        @Schema(description = "品牌Uuid", example = "319e7e1d-ca74-4500-b2f9-d3d2d2a6ffbe")
-        @NotNull(message = "品牌uuid不得為空")
-        UUID brandUuid,
 
         @Schema(description = "名稱", example = "test")
         @Length(min = 1, max = 64, message = "名稱長度必須為1~64")

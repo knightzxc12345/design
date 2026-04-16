@@ -5,9 +5,7 @@ import com.erp.controller.category.request.CategoryFindRequest;
 import com.erp.controller.category.request.CategoryPageRequest;
 import com.erp.controller.category.response.CategoryFindAllResponse;
 import com.erp.controller.category.response.CategoryFindResponse;
-import com.erp.entity.BrandEntity;
 import com.erp.entity.CategoryEntity;
-import com.erp.service.BrandService;
 import com.erp.service.CategoryService;
 import com.erp.usecase.category.CategoryFindUseCase;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +21,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
 
-    private final BrandService brandService;
-
     private final CategoryService categoryService;
 
     @Transactional(readOnly = true)
@@ -33,7 +29,6 @@ public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
         CategoryEntity categoryEntity = categoryService.findByUuid(uuid);
         return new CategoryFindResponse(
                 categoryEntity.getUuid(),
-                categoryEntity.getBrandUuid(),
                 categoryEntity.getName(),
                 categoryEntity.getCode(),
                 categoryEntity.getDescription(),
@@ -43,11 +38,8 @@ public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
 
     @Transactional(readOnly = true)
     @Override
-    public List<CategoryFindAllResponse> findAll(UUID brandUuid, CategoryFindRequest request) {
-        // 檢查品牌
-        BrandEntity brandEntity = brandService.findByUuid(brandUuid);
+    public List<CategoryFindAllResponse> findAll(CategoryFindRequest request) {
         List<CategoryEntity> categoryEntities = categoryService.findAll(
-                brandUuid,
                 request.keyword(),
                 request.status()
         );
@@ -56,10 +48,9 @@ public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
 
     @Transactional(readOnly = true)
     @Override
-    public PageResponse<CategoryFindAllResponse> findPage(UUID brandUuid, CategoryPageRequest request) {
+    public PageResponse<CategoryFindAllResponse> findPage(CategoryPageRequest request) {
         Page<CategoryEntity> categoryEntityPage = categoryService.findPageByBrandUuid(
                 PageRequest.of(request.page(), request.size()),
-                brandUuid,
                 request.keyword(),
                 request.status()
         );
@@ -73,7 +64,6 @@ public class CategoryFindUseCaseImpl implements CategoryFindUseCase {
         return categoryEntities.stream()
                 .map(categoryEntity -> new CategoryFindAllResponse(
                     categoryEntity.getUuid(),
-                    categoryEntity.getBrandUuid(),
                     categoryEntity.getName(),
                     categoryEntity.getCode(),
                     categoryEntity.getDescription(),

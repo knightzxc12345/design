@@ -16,21 +16,15 @@ public interface CategoryService {
 
     CategoryEntity delete(UUID uuid);
 
-    List<CategoryEntity> deleteAllByBrandUuid(UUID brandUuid);
-
     CategoryEntity findByUuid(UUID uuid);
 
-    List<CategoryEntity> findAllByBrandUuid(UUID brandUuid);
-
     List<CategoryEntity> findAll(
-            UUID brandUuid,
             String keyword,
             CategoryStatus categoryStatus
     );
 
     Page<CategoryEntity> findPageByBrandUuid(
             Pageable pageable,
-            UUID brandUuid,
             String keyword,
             CategoryStatus categoryStatus
     );

@@ -25,15 +25,13 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryEntity create(CategoryEntity categoryEntity) {
         // 檢查名稱
-        categoryRepository.findByIsDeletedFalseAndBrandUuidAndName(
-                categoryEntity.getBrandUuid(),
+        categoryRepository.findByIsDeletedFalseAndName(
                 categoryEntity.getName()
         ).ifPresent(c -> {
             throw new BusinessException(CategoryCode.DUPLICATE_NAME);
         });
         // 檢查代碼
-        categoryRepository.findByIsDeletedFalseAndBrandUuidAndCode(
-                categoryEntity.getBrandUuid(),
+        categoryRepository.findByIsDeletedFalseAndCode(
                 categoryEntity.getCode()
         ).ifPresent(c -> {
             throw new BusinessException(CategoryCode.DUPLICATE_CODE);
@@ -48,8 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryEntity edit(CategoryEntity categoryEntity) {
         // 檢查名稱
-        categoryRepository.findByIsDeletedFalseAndBrandUuidAndName(
-                categoryEntity.getBrandUuid(),
+        categoryRepository.findByIsDeletedFalseAndName(
                 categoryEntity.getName()
         ).ifPresent(c -> {
             if(!c.getUuid().equals(categoryEntity.getUuid())){
@@ -57,8 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
             }
         });
         // 檢查代碼
-        categoryRepository.findByIsDeletedFalseAndBrandUuidAndCode(
-                categoryEntity.getBrandUuid(),
+        categoryRepository.findByIsDeletedFalseAndCode(
                 categoryEntity.getCode()
         ).ifPresent(c -> {
             if(!c.getUuid().equals(categoryEntity.getUuid())){
@@ -80,39 +76,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryEntity> deleteAllByBrandUuid(UUID brandUuid) {
-        List<CategoryEntity> categoryEntities = findAllByBrandUuid(brandUuid);
-        if(null == categoryEntities || categoryEntities.isEmpty()){
-            return List.of();
-        }
-        Instant now = Instant.now();
-        UUID userUuid = UserUtil.getUserUuid();
-        categoryEntities.forEach(entity -> {
-            entity.setIsDeleted(true);
-            entity.setDeletedTime(now);
-            entity.setDeletedUser(userUuid);
-        });
-        return categoryRepository.saveAll(categoryEntities);
-    }
-
-    @Override
     public CategoryEntity findByUuid(UUID uuid) {
         return categoryRepository.findByIsDeletedFalseAndUuid(uuid)
                 .orElseThrow(() -> new BusinessException(CategoryCode.NOT_EXISTS));
     }
 
     @Override
-    public List<CategoryEntity> findAllByBrandUuid(UUID brandUuid) {
-        return categoryRepository.findByIsDeletedFalseAndBrandUuid(brandUuid);
-    }
-
-    @Override
     public List<CategoryEntity> findAll(
-            UUID brandUuid,
             String keyword,
             CategoryStatus categoryStatus) {
         return categoryRepository.findAll(
-                brandUuid,
                 keyword,
                 categoryStatus
         );
@@ -121,12 +94,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<CategoryEntity> findPageByBrandUuid(
             Pageable pageable,
-            UUID brandUuid,
             String keyword,
             CategoryStatus categoryStatus) {
         return categoryRepository.findPage(
                 pageable,
-                brandUuid,
                 keyword,
                 categoryStatus
         );
