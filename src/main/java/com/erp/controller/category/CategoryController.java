@@ -95,7 +95,7 @@ public class CategoryController {
     @Permission("CATEGORY:READ")
     @Operation(summary = "取得清單")
     @GetMapping(
-            value = "v1/all/{brandUuid}"
+            value = "v1/all"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200 - 清單", description = "OK", content = {
@@ -103,16 +103,15 @@ public class CategoryController {
             }),
     })
     public CustomResponse findAll(
-            @PathVariable("uuid") @NotNull UUID brandUuid,
             @Validated CategoryFindRequest request) {
-        List<CategoryFindAllResponse> responses = categoryFindUseCase.findAll(brandUuid, request);
+        List<CategoryFindAllResponse> responses = categoryFindUseCase.findAll(request);
         return new CustomResponse(SystemCode.SUCCESS, responses);
     }
 
     @Permission("CATEGORY:READ")
     @Operation(summary = "取得分頁")
     @GetMapping(
-            value = "v1/page/{brandUuid}"
+            value = "v1/page"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200 - 清單", description = "OK", content = {
@@ -120,9 +119,8 @@ public class CategoryController {
             }),
     })
     public CustomResponse findPage(
-            @PathVariable("uuid") @NotNull UUID brandUuid,
             @Validated CategoryPageRequest request) {
-        PageResponse<CategoryFindAllResponse> response = categoryFindUseCase.findPage(brandUuid, request);
+        PageResponse<CategoryFindAllResponse> response = categoryFindUseCase.findPage(request);
         return new CustomResponse(SystemCode.SUCCESS, response);
     }
 
