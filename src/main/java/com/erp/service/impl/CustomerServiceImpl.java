@@ -40,6 +40,8 @@ public class CustomerServiceImpl implements CustomerService {
         customerEntity.setIsDeleted(false);
         customerEntity.setCreateTime(Instant.now());
         customerEntity.setCreateUser(UserUtil.getUserUuid());
+        customerEntity.setModifiedTime(Instant.now());
+        customerEntity.setModifiedUser(UserUtil.getUserUuid());
         return customerRepository.save(customerEntity);
     }
 

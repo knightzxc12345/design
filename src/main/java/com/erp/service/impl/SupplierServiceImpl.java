@@ -40,6 +40,8 @@ public class SupplierServiceImpl implements SupplierService {
         supplierEntity.setIsDeleted(false);
         supplierEntity.setCreateTime(Instant.now());
         supplierEntity.setCreateUser(UserUtil.getUserUuid());
+        supplierEntity.setModifiedTime(Instant.now());
+        supplierEntity.setModifiedUser(UserUtil.getUserUuid());
         return supplierRepository.save(supplierEntity);
     }
 

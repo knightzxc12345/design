@@ -34,6 +34,8 @@ public class BomServiceImpl implements BomService {
         bomEntity.setIsDeleted(false);
         bomEntity.setCreateTime(Instant.now());
         bomEntity.setCreateUser(UserUtil.getUserUuid());
+        bomEntity.setModifiedTime(Instant.now());
+        bomEntity.setModifiedUser(UserUtil.getUserUuid());
         return bomRepository.save(bomEntity);
     }
 

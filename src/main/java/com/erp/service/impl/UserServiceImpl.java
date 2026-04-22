@@ -51,6 +51,8 @@ public class UserServiceImpl implements UserService {
         userEntity.setIsDeleted(false);
         userEntity.setCreateTime(Instant.now());
         userEntity.setCreateUser(UserUtil.getUserUuid());
+        userEntity.setModifiedTime(Instant.now());
+        userEntity.setModifiedUser(UserUtil.getUserUuid());
         return userRepository.save(userEntity);
     }
 

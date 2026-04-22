@@ -38,8 +38,10 @@ public class CategoryServiceImpl implements CategoryService {
         });
         categoryEntity.setStatus(CategoryStatus.ENABLE);
         categoryEntity.setIsDeleted(false);
-        categoryEntity.setDeletedTime(Instant.now());
-        categoryEntity.setDeletedUser(UserUtil.getUserUuid());
+        categoryEntity.setCreateTime(Instant.now());
+        categoryEntity.setCreateUser(UserUtil.getUserUuid());
+        categoryEntity.setModifiedTime(Instant.now());
+        categoryEntity.setModifiedUser(UserUtil.getUserUuid());
         return categoryRepository.save(categoryEntity);
     }
 

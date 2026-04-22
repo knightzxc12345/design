@@ -24,6 +24,8 @@ public class SupplierContractServiceImpl implements SupplierContractService {
         supplierContractEntity.setIsDeleted(false);
         supplierContractEntity.setCreateTime(Instant.now());
         supplierContractEntity.setCreateUser(UserUtil.getUserUuid());
+        supplierContractEntity.setModifiedTime(Instant.now());
+        supplierContractEntity.setModifiedUser(UserUtil.getUserUuid());
         return supplierContractRepository.save(supplierContractEntity);
     }
 

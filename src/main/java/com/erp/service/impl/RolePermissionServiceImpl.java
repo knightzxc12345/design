@@ -22,6 +22,8 @@ public class RolePermissionServiceImpl implements RolePermissionService {
         rolePermissionEntity.setIsDeleted(false);
         rolePermissionEntity.setCreateTime(Instant.now());
         rolePermissionEntity.setCreateUser(UserUtil.getUserUuid());
+        rolePermissionEntity.setModifiedTime(Instant.now());
+        rolePermissionEntity.setModifiedUser(UserUtil.getUserUuid());
         return rolePermissionRepository.save(rolePermissionEntity);
     }
 

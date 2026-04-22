@@ -38,8 +38,10 @@ public class BrandServiceImpl implements BrandService {
         });
         brandEntity.setStatus(BrandStatus.ENABLE);
         brandEntity.setIsDeleted(false);
-        brandEntity.setDeletedTime(Instant.now());
-        brandEntity.setDeletedUser(UserUtil.getUserUuid());
+        brandEntity.setCreateTime(Instant.now());
+        brandEntity.setCreateUser(UserUtil.getUserUuid());
+        brandEntity.setModifiedTime(Instant.now());
+        brandEntity.setModifiedUser(UserUtil.getUserUuid());
         return brandRepository.save(brandEntity);
     }
 

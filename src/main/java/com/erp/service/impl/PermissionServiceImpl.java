@@ -31,6 +31,8 @@ public class PermissionServiceImpl implements PermissionService {
         permissionEntity.setIsDeleted(false);
         permissionEntity.setCreateTime(Instant.now());
         permissionEntity.setCreateUser(UserUtil.getUserUuid());
+        permissionEntity.setModifiedTime(Instant.now());
+        permissionEntity.setModifiedUser(UserUtil.getUserUuid());
         return permissionRepository.save(permissionEntity);
     }
 

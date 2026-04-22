@@ -42,6 +42,8 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setIsDeleted(false);
         productEntity.setCreateTime(Instant.now());
         productEntity.setCreateUser(UserUtil.getUserUuid());
+        productEntity.setModifiedTime(Instant.now());
+        productEntity.setModifiedUser(UserUtil.getUserUuid());
         return productRepository.save(productEntity);
     }
 

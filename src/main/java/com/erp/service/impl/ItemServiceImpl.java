@@ -32,8 +32,10 @@ public class ItemServiceImpl implements ItemService {
         });
         itemEntity.setStatus(ItemStatus.ENABLE);
         itemEntity.setIsDeleted(false);
-        itemEntity.setDeletedTime(Instant.now());
-        itemEntity.setDeletedUser(UserUtil.getUserUuid());
+        itemEntity.setCreateTime(Instant.now());
+        itemEntity.setCreateUser(UserUtil.getUserUuid());
+        itemEntity.setModifiedTime(Instant.now());
+        itemEntity.setModifiedUser(UserUtil.getUserUuid());
         return itemRepository.save(itemEntity);
     }
 

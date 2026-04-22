@@ -29,7 +29,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 ItemEntity i
             WHERE
                 i.isDeleted = false
-                AND (c.productUuid = :productUuid)
+                AND (i.productUuid = :productUuid)
                 AND
                 (
                     :keyword IS NULL OR
@@ -53,7 +53,7 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
                 ItemEntity i
             WHERE
                 i.isDeleted = false
-                AND (c.productUuid = :productUuid)
+                AND (i.productUuid = :productUuid)
                 AND
                 (
                     :keyword IS NULL OR

@@ -30,6 +30,8 @@ public class BomItemServiceImpl implements BomItemService {
         bomItemEntity.setIsDeleted(false);
         bomItemEntity.setCreateTime(Instant.now());
         bomItemEntity.setCreateUser(UserUtil.getUserUuid());
+        bomItemEntity.setModifiedTime(Instant.now());
+        bomItemEntity.setModifiedUser(UserUtil.getUserUuid());
         return bomItemRepository.save(bomItemEntity);
     }
 

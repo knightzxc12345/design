@@ -28,6 +28,8 @@ public class UserRoleServiceImpl implements UserRoleService {
         userRoleEntity.setIsDeleted(false);
         userRoleEntity.setCreateTime(Instant.now());
         userRoleEntity.setCreateUser(UserUtil.getUserUuid());
+        userRoleEntity.setModifiedTime(Instant.now());
+        userRoleEntity.setModifiedUser(UserUtil.getUserUuid());
         return userRoleRepository.save(userRoleEntity);
     }
 
