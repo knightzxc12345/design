@@ -44,7 +44,7 @@ public class SupplierFindUseCaseImpl implements SupplierFindUseCase {
                 supplierEntity.getStatus(),
                 supplierContractEntities.stream()
                         .map(supplierContractEntity -> new SupplierFindResponse.Contract(
-                                supplierContractEntity.getSupplierUuid(),
+                                supplierContractEntity.getUuid(),
                                 supplierContractEntity.getName(),
                                 supplierContractEntity.getPhone(),
                                 supplierContractEntity.getEmail(),

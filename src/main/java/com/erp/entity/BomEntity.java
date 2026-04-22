@@ -1,6 +1,6 @@
 package com.erp.entity;
 
-import com.erp.entity.enums.ProductStatus;
+import com.erp.entity.enums.BomStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,10 +10,10 @@ import lombok.experimental.SuperBuilder;
 import java.time.Instant;
 import java.util.UUID;
 
-// 產品
-@Table(name = "product", indexes = {
-        @Index(name = "product_find", columnList = "uuid, is_deleted"),
-        @Index(name = "product_find_all", columnList = "pk, is_deleted")
+// BOM
+@Table(name = "bom", indexes = {
+        @Index(name = "bom_find", columnList = "uuid, is_deleted"),
+        @Index(name = "bom_find_all", columnList = "pk, is_deleted")
 })
 @Entity
 @ToString(callSuper = true)
@@ -22,50 +22,25 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class ProductEntity extends BaseEntity {
+public class BomEntity extends BaseEntity {
 
-    // 名稱
+    // 項目id
     @Column(
-            name = "name",
-            nullable = false,
-            length = 64
-    )
-    @NotBlank
-    private String name;
-
-    // 代號
-    @Column(
-            name = "code",
-            nullable = false,
-            length = 64
-    )
-    @NotBlank
-    private String code;
-
-    // 說明
-    @Column(
-            name = "description",
-            columnDefinition = "TEXT"
-    )
-    private String description;
-
-    // 種類id
-    @Column(
-            name = "category_uuid",
+            name = "item_uuid",
             nullable = false,
             length = 36
     )
     @NotNull
-    private UUID categoryUuid;
+    private UUID itemUuid;
 
-    // 品牌id
+    // 版本
     @Column(
-            name = "brand_uuid",
+            name = "version",
             nullable = false,
-            length = 36
+            length = 5
     )
-    @NotNull
-    private UUID brandUuid;
+    @NotBlank
+    private String version;
 
     // 狀態
     @Column(
@@ -75,7 +50,7 @@ public class ProductEntity extends BaseEntity {
     )
     @Enumerated(EnumType.STRING)
     @NotNull
-    private ProductStatus status;
+    private BomStatus status;
 
     // 是否刪除
     @Column(

@@ -6,7 +6,9 @@ import com.erp.controller.item.request.ItemPageRequest;
 import com.erp.controller.item.response.ItemFindAllResponse;
 import com.erp.controller.item.response.ItemFindResponse;
 import com.erp.entity.ItemEntity;
+import com.erp.entity.ProductEntity;
 import com.erp.service.ItemService;
+import com.erp.service.ProductService;
 import com.erp.usecase.item.ItemFindUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +24,8 @@ import java.util.UUID;
 public class ItemFindUseCaseImpl implements ItemFindUseCase {
 
     private final ItemService itemService;
+
+    private final ProductService productService;
 
     @Transactional(readOnly = true)
     @Override
@@ -41,7 +45,8 @@ public class ItemFindUseCaseImpl implements ItemFindUseCase {
     @Transactional(readOnly = true)
     @Override
     public List<ItemFindAllResponse> findAll(UUID productUuid, ItemFindRequest request) {
-        // TODO 檢查產品
+        // 檢查產品
+        ProductEntity productEntity = productService.findByUuid(productUuid);
         List<ItemEntity> itemEntities = itemService.findAllByProductUuid(
                 productUuid,
                 request.keyword(),
