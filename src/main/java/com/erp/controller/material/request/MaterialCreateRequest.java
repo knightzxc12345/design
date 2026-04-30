@@ -29,6 +29,10 @@ public record MaterialCreateRequest(
         @Length(min = 1, max = 128, message = "規格長度必須為1~64")
         String spec,
 
+        @Schema(description = "單位", example = "test")
+        @Length(min = 1, max = 10, message = "單位長度必須為1~10")
+        String unit,
+
         @Schema(description = "成本", example = "100")
         @Min(value = 0, message = "成本不得小於0")
         @NotNull(message = "成本不得為空")

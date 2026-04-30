@@ -28,7 +28,7 @@ public interface MaterialRepository extends JpaRepository<MaterialEntity, Long> 
                 MaterialEntity m
             WHERE
                 m.isDeleted = false
-                AND (m.supplierUuid = :supplierUuid)
+                AND (:supplierUuid IS NULL OR m.supplierUuid = :supplierUuid)
                 AND
                 (
                     :keyword IS NULL OR
@@ -53,7 +53,7 @@ public interface MaterialRepository extends JpaRepository<MaterialEntity, Long> 
                 MaterialEntity m
             WHERE
                 m.isDeleted = false
-                AND (m.supplierUuid = :supplierUuid)
+                AND (:supplierUuid IS NULL OR m.supplierUuid = :supplierUuid)
                 AND
                 (
                     :keyword IS NULL OR
